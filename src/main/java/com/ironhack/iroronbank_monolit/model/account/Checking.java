@@ -1,4 +1,33 @@
 package com.ironhack.iroronbank_monolit.model.account;
+import com.ironhack.iroronbank_monolit.model.enums.Status;
+import com.ironhack.iroronbank_monolit.model.user.User;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-public class Checking {
+import javax.persistence.Entity;
+import java.math.BigDecimal;
+import java.util.Date;
+
+
+@Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class Checking extends Account{
+
+    private BigDecimal MINIMAL_BALANCE = new BigDecimal("250");
+    private BigDecimal MONTHLY_MAINTENANCE_FEE = new BigDecimal("12");
+
+
+    //this gonna be charges by DTO
+    public Checking(BigDecimal balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, BigDecimal penaltyFee, Date creationDate, Date interestDate, Date transactionDate, User accounts, BigDecimal MINIMAL_BALANCE, BigDecimal MONTHLY_MAINTENANCE_FEE) {
+        super(balance, secretKey, primaryOwner, secondaryOwner, status, penaltyFee, creationDate, interestDate, transactionDate, accounts);
+        this.MINIMAL_BALANCE = MINIMAL_BALANCE;
+        this.MONTHLY_MAINTENANCE_FEE = MONTHLY_MAINTENANCE_FEE;
+    }
+
+
 }
