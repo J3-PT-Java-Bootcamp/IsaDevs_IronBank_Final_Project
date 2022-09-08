@@ -167,7 +167,7 @@ Technical Requirements
     Include authentication with Spring Security.
     Include unit and integration tests.
     Include robust error handling.
-    You must use the com.ironhack.iroronbank_monolit.model.account.Money class for all currency and BigDecimal for any other decimal or large number math.
+    You must use the com.ironhack.ironbank_monolit.model.account.Money class for all currency and BigDecimal for any other decimal or large number math.
 
 Deliverables
 
