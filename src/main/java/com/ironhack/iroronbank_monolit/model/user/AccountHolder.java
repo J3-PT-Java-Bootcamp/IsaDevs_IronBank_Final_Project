@@ -30,12 +30,17 @@ public class AccountHolder extends User {
 
     private String mailingAddress;
 
-    public Checking primaryOwnerVerified(BigDecimal balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, BigDecimal penaltyFee, Date creationDate, Date interestDate, Date transactionDate, User accounts, BigDecimal MINIMAL_BALANCE, BigDecimal MONTHLY_MAINTENANCE_FEE){
-        if(getDateOfBirth().getYear() - new Date().getYear() > 24){
+    /*
+    * THIS METHOD VERIFIED IF A STUDENTCHECKING OR NOT
+    *
+    * When creating a new Checking account, if the primaryOwner is less than 24, a StudentChecking account should be created otherwise a regular Checking Account should be created.
+    * */
+    public Account primaryOwnerVerified(BigDecimal balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, BigDecimal penaltyFee, Date creationDate, Date interestDate, Date transactionDate, User accounts, BigDecimal MINIMAL_BALANCE, BigDecimal MONTHLY_MAINTENANCE_FEE){
+        if(getDateOfBirth().getYear() - new Date().getYear() >= 24){
             return new Checking(balance, secretKey, primaryOwner, secondaryOwner, status, penaltyFee, creationDate, interestDate, transactionDate, accounts, MINIMAL_BALANCE, MONTHLY_MAINTENANCE_FEE);
         }
         else {
-            return new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status, penaltyFee, creationDate, interestDate, transactionDate, accounts);
+            return  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status, penaltyFee, creationDate, interestDate, transactionDate, accounts);
         }
     }
 }

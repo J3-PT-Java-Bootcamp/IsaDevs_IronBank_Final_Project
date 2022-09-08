@@ -18,19 +18,23 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    protected long id;
 
-    private String name;
+    protected String name;
 
     @OneToOne(mappedBy = "primaryOwner")
-    private Account owner;
+    protected Account owner;
 
     @OneToOne(mappedBy = "secondaryOwner")
-    private Account secondaryOwner;
-
+    protected Account secondaryOwner;
 
     @OneToMany(mappedBy = "accounts")
-    private List <Account> accountList;
+    protected List <Account> accountList;
 
-    
+    public User(String name, Account owner, Account secondaryOwner, List<Account> accountList) {
+        this.name = name;
+        this.owner = owner;
+        this.secondaryOwner = secondaryOwner;
+        this.accountList = accountList;
+    }
 }

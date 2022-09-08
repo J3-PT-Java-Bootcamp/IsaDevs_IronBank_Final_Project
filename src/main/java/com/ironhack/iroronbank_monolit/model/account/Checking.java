@@ -29,5 +29,7 @@ public class Checking extends Account{
         this.MONTHLY_MAINTENANCE_FEE = MONTHLY_MAINTENANCE_FEE;
     }
 
-
+    public Checking(BigDecimal balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, BigDecimal penaltyFee, Date creationDate, Date interestDate, Date transactionDate, User accounts) {
+        super(balance, secretKey, primaryOwner, secondaryOwner, status, penaltyFee, creationDate, interestDate, transactionDate, accounts);
+    }
 }

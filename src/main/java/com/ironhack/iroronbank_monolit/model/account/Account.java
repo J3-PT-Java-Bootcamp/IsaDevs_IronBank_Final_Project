@@ -23,35 +23,35 @@ public class Account {
     * BASICS Attributes of Account
     * */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id; // --- ???
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected long id; // --- ???
 
-    private BigDecimal balance;
+    protected BigDecimal balance;
 
-    private String secretKey;
+    protected String secretKey;
 
     @OneToOne
     @JoinColumn(name = "owner")
-    private User primaryOwner;
+    protected User primaryOwner;
 
     @OneToOne
     @JoinColumn(name = "secondary_owner")
-    private User secondaryOwner;
+    protected User secondaryOwner;
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    protected Status status;
 
-    private BigDecimal penaltyFee;
+    protected BigDecimal penaltyFee;
 
-    private Date creationDate;
+    protected Date creationDate;
 
-    private Date interestDate;
+    protected Date interestDate;
 
-    private Date transactionDate;  // ---> JUST FOR THE ANTIFRAUD METHOD
+    protected Date transactionDate;  // ---> JUST FOR THE ANTIFRAUD METHOD
 
     @ManyToOne
     @JoinColumn(name = "accounts")
-    private User accounts;
+    protected User accounts;
 
     public Account(BigDecimal balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, BigDecimal penaltyFee, Date creationDate, Date interestDate, Date transactionDate, User accounts) {
         this.balance = balance;
