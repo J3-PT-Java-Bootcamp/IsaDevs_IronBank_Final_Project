@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
-import java.util.Date;
 
 @Entity
 @Getter
@@ -16,7 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class StudentChecking extends Account {
 
-    public StudentChecking(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status,Date interestDate, Date transactionDate, User accounts) {
-        super(balance, secretKey, primaryOwner, secondaryOwner, status, interestDate, transactionDate, accounts);
+    public StudentChecking(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, User accounts) {
+        super(balance, secretKey, primaryOwner, secondaryOwner, status, accounts);
     }
 }

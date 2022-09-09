@@ -18,19 +18,20 @@ import java.util.Date;
 @NoArgsConstructor
 public class Checking extends Account{
 
-
+    @Transient
     private Money MINIMAL_BALANCE = new Money(new BigDecimal("250"));
+    @Transient
     private Money MONTHLY_MAINTENANCE_FEE = new Money(new BigDecimal("12"));
 
 
     //this gonna be charges by DTO
-    public Checking(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status,Date interestDate, Date transactionDate, User accounts, Money MINIMAL_BALANCE, Money MONTHLY_MAINTENANCE_FEE) {
-        super(balance, secretKey, primaryOwner, secondaryOwner, status, interestDate, transactionDate, accounts);
+    public Checking(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status,User accounts, Money MINIMAL_BALANCE, Money MONTHLY_MAINTENANCE_FEE) {
+        super(balance, secretKey, primaryOwner, secondaryOwner, status, accounts);
         this.MINIMAL_BALANCE = MINIMAL_BALANCE;
         this.MONTHLY_MAINTENANCE_FEE = MONTHLY_MAINTENANCE_FEE;
     }
 
-    public Checking(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, Date interestDate, Date transactionDate, User accounts) {
-        super(balance, secretKey, primaryOwner, secondaryOwner, status, interestDate, transactionDate, accounts);
+    public Checking(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, User accounts) {
+        super(balance, secretKey, primaryOwner, secondaryOwner, status, accounts);
     }
 }

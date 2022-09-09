@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -16,19 +17,22 @@ import java.util.Date;
 @NoArgsConstructor
 public class Saving extends Account {
 
+    @Transient
     private Money minimalBalance;
     private BigDecimal interestRate;
 
+    @Transient
     private Money MINIMUM_BALANCE = new Money(new BigDecimal("100"));
 
+    @Transient
     private Money DEFAULT_BALANCE =  new Money(new BigDecimal("1000"));
 
     private BigDecimal DEFAULT_INTEREST_RATE = new BigDecimal("0.0025");
 
     private BigDecimal MAXIMUM_INTEREST_RATE = new BigDecimal("0.5");
 
-    public Saving(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, Date interestDate, Date transactionDate, User accounts, Money minimalBalance, BigDecimal interestRate) {
-        super(balance, secretKey, primaryOwner, secondaryOwner, status,interestDate, transactionDate, accounts);
+    public Saving(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, User accounts, Money minimalBalance, BigDecimal interestRate) {
+        super(balance, secretKey, primaryOwner, secondaryOwner, status, accounts);
         setMinimalBalance(minimalBalance);
         setInterestRate(interestRate);
     }

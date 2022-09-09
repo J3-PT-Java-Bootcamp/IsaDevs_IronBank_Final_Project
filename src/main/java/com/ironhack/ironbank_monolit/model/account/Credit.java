@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -18,12 +19,15 @@ import java.util.Date;
 @NoArgsConstructor
 public class Credit extends Account {
 
-    private BigDecimal creditLimit;
+    @Transient
+    private Money creditLimit;
     private BigDecimal interestRate;
 
+    @Transient
     private Money MIN_CREDIT_LIMIT = new Money(new BigDecimal("100"));
 
-    private Money MAX_CREDIT_LIMIT = new Money(new BigDecimal(100000));
+    @Transient
+    private Money MAX_CREDIT_LIMIT = new Money(new BigDecimal("100000"));
 
     private BigDecimal MIN_INTEREST_RATE = new BigDecimal("0.1");
 
@@ -36,19 +40,19 @@ public class Credit extends Account {
         Actually compareTo returns -1(less than), 0(Equal), 1(greater than) according to values.
     * */
 
-    public Credit(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, Date interestDate, Date transactionDate, User accounts, Money creditLimit, BigDecimal interestRate) {
-        super(balance, secretKey, primaryOwner, secondaryOwner, status,interestDate, transactionDate, accounts);
+    public Credit(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, User accounts, Money creditLimit, BigDecimal interestRate) {
+        super(balance, secretKey, primaryOwner, secondaryOwner, status,accounts);
         setCreditLimit(creditLimit);
         setInterestRate(interestRate);
     }
 
     public void setCreditLimit(Money creditLimit){
         if(MIN_CREDIT_LIMIT.getAmount().compareTo(creditLimit.getAmount()) < 0){
-            this.creditLimit = MIN_CREDIT_LIMIT.getAmount();
+            this.creditLimit = MIN_CREDIT_LIMIT;
         } else if (creditLimit.getAmount().compareTo(MAX_CREDIT_LIMIT.getAmount()) < 0) {
-            this.creditLimit = creditLimit.getAmount();
+            this.creditLimit = creditLimit;
         } else {
-            this.creditLimit = creditLimit.getAmount();
+            this.creditLimit = creditLimit;
         }
     }
 

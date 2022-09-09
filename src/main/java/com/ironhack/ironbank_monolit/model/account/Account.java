@@ -59,6 +59,7 @@ public class Account {
 
     protected Date interestDate; // --> SERÁ A LIBRE ELECCION DEL ADMIN O DEL USER LA FECHA DE INTERÉS O SERÁ AUTOMÁTICA
 
+    //this must be start just when the new operation is done
     protected Date transactionDate;  // ---> JUST FOR THE ANTIFRAUD METHOD
 
     @ManyToOne
@@ -67,15 +68,14 @@ public class Account {
 
 
     //changes to money attribute
-    public Account(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, Date interestDate, Date transactionDate, User accounts) {
+    public Account(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, User accounts) {
         this.balance = balance;
         this.secretKey = secretKey;
         this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
         this.status = status;
         setCreationDate();
-        this.interestDate = interestDate;
-        this.transactionDate = transactionDate;
+        setInterestDate();
         this.accounts = accounts;
     }
 
@@ -84,6 +84,10 @@ public class Account {
     * */
     public void setCreationDate() {
         this.creationDate = new Date();
+    }
+
+    public void setInterestDate() {
+        this.interestDate = getCreationDate();
     }
 
     /*
