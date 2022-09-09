@@ -16,30 +16,32 @@ import java.util.Date;
 @NoArgsConstructor
 public class Saving extends Account {
 
-    private BigDecimal minimalBalance;
+    private Money minimalBalance;
     private BigDecimal interestRate;
 
-    private BigDecimal MINIMUM_BALANCE = new BigDecimal("100");
+    private Money MINIMUM_BALANCE = new Money(new BigDecimal("100"));
 
-    private BigDecimal DEFAULT_BALANCE =  new BigDecimal("1000");
+    private Money DEFAULT_BALANCE =  new Money(new BigDecimal("1000"));
 
     private BigDecimal DEFAULT_INTEREST_RATE = new BigDecimal("0.0025");
 
     private BigDecimal MAXIMUM_INTEREST_RATE = new BigDecimal("0.5");
 
-    public Saving(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, Money penaltyFee, Date creationDate, Date interestDate, Date transactionDate, User accounts, BigDecimal minimalBalance, BigDecimal interestRate) {
-        super(balance, secretKey, primaryOwner, secondaryOwner, status, penaltyFee, creationDate, interestDate, transactionDate, accounts);
+    public Saving(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, Date interestDate, Date transactionDate, User accounts, Money minimalBalance, BigDecimal interestRate) {
+        super(balance, secretKey, primaryOwner, secondaryOwner, status,interestDate, transactionDate, accounts);
         setMinimalBalance(minimalBalance);
         setInterestRate(interestRate);
     }
 
-    public void setMinimalBalance(BigDecimal minimalBalance){
+    public void setMinimalBalance(Money minimalBalance){
 
-        if(minimalBalance.compareTo(MINIMUM_BALANCE) < 0){
+        if(minimalBalance.getAmount().compareTo(MINIMUM_BALANCE.getAmount()) < 0){
             this.minimalBalance = MINIMUM_BALANCE;
         }
-        else{
-            this.minimalBalance = DEFAULT_BALANCE;
+        else if (minimalBalance.getAmount().compareTo(DEFAULT_BALANCE.getAmount()) == 0){
+                this.minimalBalance = DEFAULT_BALANCE;
+        } else {
+            this.minimalBalance = minimalBalance;
         }
     }
 

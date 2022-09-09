@@ -21,9 +21,9 @@ public class Credit extends Account {
     private BigDecimal creditLimit;
     private BigDecimal interestRate;
 
-    private BigDecimal MIN_CREDIT_LIMIT = new BigDecimal("100");
+    private Money MIN_CREDIT_LIMIT = new Money(new BigDecimal("100"));
 
-    private BigDecimal MAX_CREDIT_LIMIT = new BigDecimal(100000);
+    private Money MAX_CREDIT_LIMIT = new Money(new BigDecimal(100000));
 
     private BigDecimal MIN_INTEREST_RATE = new BigDecimal("0.1");
 
@@ -36,19 +36,19 @@ public class Credit extends Account {
         Actually compareTo returns -1(less than), 0(Equal), 1(greater than) according to values.
     * */
 
-    public Credit(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, Money penaltyFee, Date creationDate, Date interestDate, Date transactionDate, User accounts, BigDecimal creditLimit, BigDecimal interestRate) {
-        super(balance, secretKey, primaryOwner, secondaryOwner, status, penaltyFee, creationDate, interestDate, transactionDate, accounts);
+    public Credit(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, Date interestDate, Date transactionDate, User accounts, Money creditLimit, BigDecimal interestRate) {
+        super(balance, secretKey, primaryOwner, secondaryOwner, status,interestDate, transactionDate, accounts);
         setCreditLimit(creditLimit);
         setInterestRate(interestRate);
     }
 
-    public void setCreditLimit(BigDecimal creditLimit){
-        if(creditLimit.compareTo(MIN_CREDIT_LIMIT) < 0){
-            this.creditLimit = MIN_CREDIT_LIMIT;
-        } else if (creditLimit.compareTo(MAX_CREDIT_LIMIT) < 0) {
-            this.creditLimit = creditLimit;
+    public void setCreditLimit(Money creditLimit){
+        if(MIN_CREDIT_LIMIT.getAmount().compareTo(creditLimit.getAmount()) < 0){
+            this.creditLimit = MIN_CREDIT_LIMIT.getAmount();
+        } else if (creditLimit.getAmount().compareTo(MAX_CREDIT_LIMIT.getAmount()) < 0) {
+            this.creditLimit = creditLimit.getAmount();
         } else {
-            this.creditLimit = creditLimit;
+            this.creditLimit = creditLimit.getAmount();
         }
     }
 

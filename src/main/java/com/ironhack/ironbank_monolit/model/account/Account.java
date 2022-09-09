@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -46,16 +47,17 @@ public class Account {
     @Enumerated(EnumType.STRING)
     protected Status status;
 
-    @AttributeOverrides({
+    /*@AttributeOverrides({
             @AttributeOverride(name = "penaltyFee", column = @Column(name = "penalty_fee")),
             @AttributeOverride(name = "currency", column = @Column(name = "currency_penalty_fee"))
     })
-    @Embedded
-    protected Money penaltyFee; //need to be Money
+    @Embedded*/
+    @Transient
+    protected Money penaltyFee = new Money(new BigDecimal("40")); //need to be Money
 
     protected Date creationDate;
 
-    protected Date interestDate;
+    protected Date interestDate; // --> SERÁ A LIBRE ELECCION DEL ADMIN O DEL USER LA FECHA DE INTERÉS O SERÁ AUTOMÁTICA
 
     protected Date transactionDate;  // ---> JUST FOR THE ANTIFRAUD METHOD
 
@@ -65,18 +67,34 @@ public class Account {
 
 
     //changes to money attribute
-    public Account(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, Money penaltyFee, Date creationDate, Date interestDate, Date transactionDate, User accounts) {
+    public Account(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, Date interestDate, Date transactionDate, User accounts) {
         this.balance = balance;
         this.secretKey = secretKey;
         this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
         this.status = status;
-        this.penaltyFee = penaltyFee;
-        this.creationDate = creationDate;
+        setCreationDate();
         this.interestDate = interestDate;
         this.transactionDate = transactionDate;
         this.accounts = accounts;
     }
 
+    /*
+    * this method capture the date for every new account
+    * */
+    public void setCreationDate() {
+        this.creationDate = new Date();
+    }
 
+    /*
+    *
+    The penaltyFee for all accounts (that have this attribute) should be 40.
+    If any account drops below the minimumBalance, the penaltyFee should be deducted from the balance automatically
+
+    * */
+    /*public void penaltyFeeChecker(){
+        if(getBalance().getAmount()){
+
+        }
+    }*/
 }
