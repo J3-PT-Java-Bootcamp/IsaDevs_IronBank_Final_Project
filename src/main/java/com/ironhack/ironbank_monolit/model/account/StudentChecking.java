@@ -17,7 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class StudentChecking extends Account {
 
-    public StudentChecking(BigDecimal balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, BigDecimal penaltyFee, Date creationDate, Date interestDate, Date transactionDate, User accounts) {
+    public StudentChecking(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status,Money penaltyFee, Date creationDate, Date interestDate, Date transactionDate, User accounts) {
         super(balance, secretKey, primaryOwner, secondaryOwner, status, penaltyFee, creationDate, interestDate, transactionDate, accounts);
     }
 }

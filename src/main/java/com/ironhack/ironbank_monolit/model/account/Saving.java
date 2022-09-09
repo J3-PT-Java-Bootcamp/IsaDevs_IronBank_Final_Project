@@ -27,7 +27,7 @@ public class Saving extends Account {
 
     private BigDecimal MAXIMUM_INTEREST_RATE = new BigDecimal("0.5");
 
-    public Saving(BigDecimal balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, BigDecimal penaltyFee, Date creationDate, Date interestDate, Date transactionDate, User accounts, BigDecimal minimalBalance, BigDecimal interestRate) {
+    public Saving(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, Money penaltyFee, Date creationDate, Date interestDate, Date transactionDate, User accounts, BigDecimal minimalBalance, BigDecimal interestRate) {
         super(balance, secretKey, primaryOwner, secondaryOwner, status, penaltyFee, creationDate, interestDate, transactionDate, accounts);
         setMinimalBalance(minimalBalance);
         setInterestRate(interestRate);

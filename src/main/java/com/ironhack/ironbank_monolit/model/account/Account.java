@@ -2,13 +2,11 @@ package com.ironhack.ironbank_monolit.model.account;
 
 import com.ironhack.ironbank_monolit.model.enums.Status;
 import com.ironhack.ironbank_monolit.model.user.User;
-import com.ironhack.ironbank_monolit.model.account.Money;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.Date;
 
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -26,14 +24,14 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected long id; // --- ???
 
-    protected BigDecimal balance;
+    //protected BigDecimal balance;
 
     @AttributeOverrides({
-            @AttributeOverride(name = "amount", column = @Column(name = "monthly_maitenance_fee")),
-            @AttributeOverride(name = "currency", column = @Column(name = "monthly_maitenance_fee_currency"))
+            @AttributeOverride(name = "amount", column = @Column(name = "amount_balance")),
+            @AttributeOverride(name = "currency", column = @Column(name = "currency_balance"))
     })
     @Embedded
-    protected Money money = new Money(balance);
+    protected Money balance; //need to be Money
 
     protected String secretKey;
 
@@ -48,7 +46,12 @@ public class Account {
     @Enumerated(EnumType.STRING)
     protected Status status;
 
-    protected BigDecimal penaltyFee;
+    @AttributeOverrides({
+            @AttributeOverride(name = "penaltyFee", column = @Column(name = "penalty_fee")),
+            @AttributeOverride(name = "currency", column = @Column(name = "currency_penalty_fee"))
+    })
+    @Embedded
+    protected Money penaltyFee; //need to be Money
 
     protected Date creationDate;
 
@@ -62,8 +65,8 @@ public class Account {
 
 
     //changes to money attribute
-    public Account(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, BigDecimal penaltyFee, Date creationDate, Date interestDate, Date transactionDate, User accounts) {
-        this.money = balance;
+    public Account(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, Money penaltyFee, Date creationDate, Date interestDate, Date transactionDate, User accounts) {
+        this.balance = balance;
         this.secretKey = secretKey;
         this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
@@ -74,4 +77,6 @@ public class Account {
         this.transactionDate = transactionDate;
         this.accounts = accounts;
     }
+
+
 }

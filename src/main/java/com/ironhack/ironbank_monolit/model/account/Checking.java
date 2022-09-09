@@ -23,13 +23,13 @@ public class Checking extends Account{
 
 
     //this gonna be charges by DTO
-    public Checking(BigDecimal balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, BigDecimal penaltyFee, Date creationDate, Date interestDate, Date transactionDate, User accounts, BigDecimal MINIMAL_BALANCE, BigDecimal MONTHLY_MAINTENANCE_FEE) {
+    public Checking(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status,Money penaltyFee, Date creationDate, Date interestDate, Date transactionDate, User accounts, BigDecimal MINIMAL_BALANCE, BigDecimal MONTHLY_MAINTENANCE_FEE) {
         super(balance, secretKey, primaryOwner, secondaryOwner, status, penaltyFee, creationDate, interestDate, transactionDate, accounts);
         this.MINIMAL_BALANCE = MINIMAL_BALANCE;
         this.MONTHLY_MAINTENANCE_FEE = MONTHLY_MAINTENANCE_FEE;
     }
 
-    public Checking(BigDecimal balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, BigDecimal penaltyFee, Date creationDate, Date interestDate, Date transactionDate, User accounts) {
+    public Checking(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, Money penaltyFee, Date creationDate, Date interestDate, Date transactionDate, User accounts) {
         super(balance, secretKey, primaryOwner, secondaryOwner, status, penaltyFee, creationDate, interestDate, transactionDate, accounts);
     }
 }

@@ -36,7 +36,7 @@ public class Credit extends Account {
         Actually compareTo returns -1(less than), 0(Equal), 1(greater than) according to values.
     * */
 
-    public Credit(BigDecimal balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, BigDecimal penaltyFee, Date creationDate, Date interestDate, Date transactionDate, User accounts, BigDecimal creditLimit, BigDecimal interestRate) {
+    public Credit(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, Money penaltyFee, Date creationDate, Date interestDate, Date transactionDate, User accounts, BigDecimal creditLimit, BigDecimal interestRate) {
         super(balance, secretKey, primaryOwner, secondaryOwner, status, penaltyFee, creationDate, interestDate, transactionDate, accounts);
         setCreditLimit(creditLimit);
         setInterestRate(interestRate);
