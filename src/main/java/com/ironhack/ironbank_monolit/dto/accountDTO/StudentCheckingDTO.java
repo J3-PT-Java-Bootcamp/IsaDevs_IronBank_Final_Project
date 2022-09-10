@@ -3,7 +3,7 @@ package com.ironhack.ironbank_monolit.dto.accountDTO;
 import com.ironhack.ironbank_monolit.model.account.Money;
 import com.ironhack.ironbank_monolit.model.account.StudentChecking;
 import com.ironhack.ironbank_monolit.model.enums.Status;
-import com.ironhack.ironbank_monolit.model.user.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,31 +11,25 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class StudentCheckingDTO {
 
     private Money balance;
 
     private String secretKey;
 
-    private User primaryOwner;
+    private long primaryOwner;
 
-    private User secondaryOwner;
+    private long secondaryOwner;
 
     private Status status;
 
-    private User accounts;
+    private long accounts;
 
     //own by class
 
     public static StudentCheckingDTO byObject(StudentChecking studentChecking){
-        var dtoStudent = new StudentCheckingDTO();
-        dtoStudent.setBalance(studentChecking.getBalance());
-        dtoStudent.setSecretKey(studentChecking.getSecretKey());
-        dtoStudent.setPrimaryOwner(studentChecking.getPrimaryOwner());
-        dtoStudent.setSecondaryOwner(studentChecking.getSecondaryOwner());
-        dtoStudent.setStatus(studentChecking.getStatus());
-        dtoStudent.setAccounts(studentChecking.getAccounts());
 
-        return dtoStudent;
+        return new StudentCheckingDTO(studentChecking.getBalance(), studentChecking.getSecretKey(),studentChecking.getPrimaryOwner().getId(), studentChecking.getSecondaryOwner().getId(),studentChecking.getStatus(), studentChecking.getAccounts().getId()  );
     }
 }

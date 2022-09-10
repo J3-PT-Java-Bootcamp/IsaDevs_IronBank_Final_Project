@@ -16,10 +16,8 @@ public class AdminDTO {
     private String name;
 
     public static AdminDTO byObject(Admin admin){
-        var dtoAdmin = new AdminDTO();
-        dtoAdmin.setName(admin.getName());
 
-        return dtoAdmin;
+        return new AdminDTO(admin.getName());
     }
 
 }

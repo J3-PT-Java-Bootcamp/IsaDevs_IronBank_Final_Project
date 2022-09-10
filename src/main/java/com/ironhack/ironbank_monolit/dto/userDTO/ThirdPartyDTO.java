@@ -17,9 +17,9 @@ public class ThirdPartyDTO {
 
     private String name;
 
-    private Account owner;
+    private long owner;
 
-    private Account secondaryOwner;
+    private long secondaryOwner;
 
     private List<Account> accountList;
 
@@ -33,17 +33,11 @@ public class ThirdPartyDTO {
 
     private String secretKey;
 
+    public ThirdPartyDTO(String name, long owner, long secondaryOwner, String hashedKey, Money amount, long idAccount, String secretKey) {
+    }
+
     public static ThirdPartyDTO byObject(ThirdPartyDTO thirdPartyDTO){
-        var dtoThirdParty = new ThirdPartyDTO();
-        dtoThirdParty.setName(thirdPartyDTO.getName());
-        dtoThirdParty.setOwner(thirdPartyDTO.getOwner());
-        dtoThirdParty.setSecondaryOwner(thirdPartyDTO.getSecondaryOwner());
-        dtoThirdParty.setHashedKey(thirdPartyDTO.getHashedKey());
-        dtoThirdParty.setAmount(thirdPartyDTO.getAmount());
-        dtoThirdParty.setIdAccount(thirdPartyDTO.getIdAccount());
-        dtoThirdParty.setSecretKey(thirdPartyDTO.getSecretKey());
 
-
-        return dtoThirdParty;
+        return new ThirdPartyDTO(thirdPartyDTO.getName(),thirdPartyDTO.getOwner(), thirdPartyDTO.getSecondaryOwner(), thirdPartyDTO.getHashedKey(), thirdPartyDTO.getAmount(),thirdPartyDTO.getIdAccount(), thirdPartyDTO.getSecretKey());
     }
 }

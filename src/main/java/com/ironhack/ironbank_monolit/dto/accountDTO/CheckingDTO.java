@@ -22,13 +22,13 @@ public class CheckingDTO {
 
     private String secretKey;
 
-    private User primaryOwner;
+    private long primaryOwner;
 
-    private User secondaryOwner;
+    private long secondaryOwner;
 
     private Status status;
 
-    private User accounts;
+    private long accounts;
 
     private Money  minimalBalance;
 
@@ -36,17 +36,8 @@ public class CheckingDTO {
 
 
     public static CheckingDTO byObject(Checking checking){
-        var dtoChecker = new CheckingDTO();
-        dtoChecker.setBalance(checking.getBalance());
-        dtoChecker.setSecretKey(checking.getSecretKey());
-        dtoChecker.setPrimaryOwner(checking.getPrimaryOwner());
-        dtoChecker.setSecondaryOwner(checking.getSecondaryOwner());
-        dtoChecker.setStatus(checking.getStatus());
-        dtoChecker.setAccounts(checking.getAccounts());
-        dtoChecker.setMinimalBalance(checking.getMINIMAL_BALANCE());
-        dtoChecker.setMonthlyMaintenanceFee(checking.getMONTHLY_MAINTENANCE_FEE());
 
-        return dtoChecker;
+        return new CheckingDTO(checking.getBalance(),checking.getSecretKey(), checking.getPrimaryOwner().getId(), checking.getSecondaryOwner().getId(), checking.getStatus(), checking.getAccounts().getId(), checking.getMINIMAL_BALANCE(),checking.getMONTHLY_MAINTENANCE_FEE());
     }
 
 

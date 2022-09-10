@@ -5,6 +5,7 @@ import com.ironhack.ironbank_monolit.model.account.Money;
 import com.ironhack.ironbank_monolit.model.account.Saving;
 import com.ironhack.ironbank_monolit.model.enums.Status;
 import com.ironhack.ironbank_monolit.model.user.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,19 +16,20 @@ import java.math.BigDecimal;
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class SavingDTO {
 
     private Money balance;
 
     private String secretKey;
 
-    private User primaryOwner;
+    private long primaryOwner;
 
-    private User secondaryOwner;
+    private long secondaryOwner;
 
     private Status status;
 
-    private User accounts;
+    private long accounts;
 
     //own by class
     private Money minimalBalance;
@@ -35,17 +37,8 @@ public class SavingDTO {
     private BigDecimal interestRate;
 
     public static SavingDTO byObject(Saving saving){
-        var dtoSaving = new SavingDTO();
-        dtoSaving.setBalance(saving.getBalance());
-        dtoSaving.setSecretKey(saving.getSecretKey());
-        dtoSaving.setPrimaryOwner(saving.getPrimaryOwner());
-        dtoSaving.setSecondaryOwner(saving.getSecondaryOwner());
-        dtoSaving.setStatus(saving.getStatus());
-        dtoSaving.setAccounts(saving.getAccounts());
-        dtoSaving.setMinimalBalance(saving.getMinimalBalance());
-        dtoSaving.setInterestRate(saving.getInterestRate());
 
-        return dtoSaving;
+        return new SavingDTO(saving.getBalance(),saving.getSecretKey(), saving.getPrimaryOwner().getId(), saving.getSecondaryOwner().getId(), saving.getStatus(), saving.getAccounts().getId(), saving.getMinimalBalance(),saving.getInterestRate());
     }
 
 }

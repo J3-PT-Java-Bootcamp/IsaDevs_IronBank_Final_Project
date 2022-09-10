@@ -5,6 +5,7 @@ import com.ironhack.ironbank_monolit.model.account.Credit;
 import com.ironhack.ironbank_monolit.model.account.Money;
 import com.ironhack.ironbank_monolit.model.enums.Status;
 import com.ironhack.ironbank_monolit.model.user.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,19 +16,20 @@ import java.util.Date;
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class CreditDTO {
 
     private Money balance;
 
     private String secretKey;
 
-    private User primaryOwner;
+    private long primaryOwner;
 
-    private User secondaryOwner;
+    private long secondaryOwner;
 
     private Status status;
 
-    private User accounts;
+    private long accounts;
 
     //own by class
     private Money creditLimit;
@@ -36,16 +38,7 @@ public class CreditDTO {
 
 
     public static CreditDTO  byObject(Credit credit){
-        var dtoCredit = new CreditDTO();
-        dtoCredit.setBalance(credit.getBalance());
-        dtoCredit.setSecretKey(credit.getSecretKey());
-        dtoCredit.setPrimaryOwner(credit.getPrimaryOwner());
-        dtoCredit.setSecondaryOwner(credit.getSecondaryOwner());
-        dtoCredit.setStatus(credit.getStatus());
-        dtoCredit.setAccounts(credit.getAccounts());
-        dtoCredit.setCreditLimit(credit.getCreditLimit());
-        dtoCredit.setInterestRate(credit.getInterestRate());
 
-        return dtoCredit;
+        return new CreditDTO(credit.getBalance(),credit.getSecretKey(), credit.getPrimaryOwner().getId(), credit.getSecondaryOwner().getId(), credit.getStatus(), credit.getAccounts().getId(), credit.getCreditLimit(), credit.getInterestRate());
     }
 }
