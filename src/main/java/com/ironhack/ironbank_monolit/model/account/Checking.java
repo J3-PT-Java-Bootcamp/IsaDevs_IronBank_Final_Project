@@ -1,4 +1,5 @@
 package com.ironhack.ironbank_monolit.model.account;
+import com.ironhack.ironbank_monolit.dto.accountDTO.CheckingDTO;
 import com.ironhack.ironbank_monolit.model.enums.Status;
 import com.ironhack.ironbank_monolit.model.user.User;
 import lombok.AllArgsConstructor;
@@ -34,4 +35,11 @@ public class Checking extends Account{
     public Checking(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, User accounts) {
         super(balance, secretKey, primaryOwner, secondaryOwner, status, accounts);
     }
+
+
+
+    /*public static Checking byDTO(CheckingDTO checkingDTO, User primaryOwner, User Secondary) {
+
+        return new Checking(checkingDTO.getBalance(), checkingDTO.getSecretKey(), checkingDTO.getPrimaryOwner(), checkingDTO.getSecondaryOwner(), checkingDTO.getStatus(),checkingDTO.getAccounts(), checkingDTO.getMinimalBalance(), checkingDTO.getMonthlyMaintenanceFee());
+    }*/
 }

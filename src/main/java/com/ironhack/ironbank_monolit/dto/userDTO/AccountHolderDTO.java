@@ -2,7 +2,6 @@ package com.ironhack.ironbank_monolit.dto.userDTO;
 
 import com.ironhack.ironbank_monolit.model.account.Account;
 import com.ironhack.ironbank_monolit.model.user.AccountHolder;
-import com.ironhack.ironbank_monolit.model.user.Address;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,13 +23,10 @@ public class AccountHolderDTO {
 
     private long secondaryOwner;
 
-    private List<Account> accountList;
-
     //by class
 
     private Date dateOfBirth;
 
-    private Address address;
 
     private Integer number;
     private String road;
@@ -38,10 +34,6 @@ public class AccountHolderDTO {
     private Long postalCode;
 
     private String mailingAddress;
-
-    public AccountHolderDTO(String name, long id, long id1, Date dateOfBirth, String mailingAddress, Integer number, String road, String country, Long postalCode, List<Account> accountList) {
-    }
-
 
     public static AccountHolderDTO byObject(AccountHolder accountHolder){
 
@@ -56,6 +48,6 @@ public class AccountHolderDTO {
 
         accountHolder.setAccountList(arrayAdd);
 
-        return new AccountHolderDTO(accountHolder.getName(), accountHolder.getOwner().getId() ,accountHolder.getSecondaryOwner().getId() ,accountHolder.getDateOfBirth(), accountHolder.getMailingAddress(), accountHolder.getAddress().getNumber(), accountHolder.getAddress().getRoad(), accountHolder.getAddress().getCountry(), accountHolder.getAddress().getPostalCode(), accountHolder.getAccountList());
+        return new AccountHolderDTO(accountHolder.getName(), accountHolder.getOwner().getId() ,accountHolder.getSecondaryOwner().getId() , accountHolder.getDateOfBirth(), accountHolder.getAddress().getNumber(), accountHolder.getAddress().getRoad(), accountHolder.getAddress().getCountry(),  accountHolder.getAddress().getPostalCode(), accountHolder.getMailingAddress());
     }
 }

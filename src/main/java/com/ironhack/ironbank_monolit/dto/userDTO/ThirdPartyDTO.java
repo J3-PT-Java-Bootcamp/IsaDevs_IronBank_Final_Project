@@ -21,8 +21,6 @@ public class ThirdPartyDTO {
 
     private long secondaryOwner;
 
-    private List<Account> accountList;
-
     //by class
 
     private String hashedKey;
@@ -33,11 +31,8 @@ public class ThirdPartyDTO {
 
     private String secretKey;
 
-    public ThirdPartyDTO(String name, long owner, long secondaryOwner, String hashedKey, Money amount, long idAccount, String secretKey) {
-    }
-
     public static ThirdPartyDTO byObject(ThirdPartyDTO thirdPartyDTO){
 
-        return new ThirdPartyDTO(thirdPartyDTO.getName(),thirdPartyDTO.getOwner(), thirdPartyDTO.getSecondaryOwner(), thirdPartyDTO.getHashedKey(), thirdPartyDTO.getAmount(),thirdPartyDTO.getIdAccount(), thirdPartyDTO.getSecretKey());
+        return new ThirdPartyDTO(thirdPartyDTO.getName(),thirdPartyDTO.getOwner(), thirdPartyDTO.getSecondaryOwner(), thirdPartyDTO.getHashedKey(), thirdPartyDTO.getAmount(), thirdPartyDTO.getIdAccount(), thirdPartyDTO.getSecretKey());
     }
 }

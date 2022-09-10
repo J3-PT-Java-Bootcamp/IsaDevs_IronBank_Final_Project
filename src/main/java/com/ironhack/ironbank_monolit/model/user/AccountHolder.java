@@ -1,5 +1,6 @@
 package com.ironhack.ironbank_monolit.model.user;
 
+import com.ironhack.ironbank_monolit.dto.userDTO.AccountHolderDTO;
 import com.ironhack.ironbank_monolit.model.account.Account;
 import com.ironhack.ironbank_monolit.model.account.Checking;
 import com.ironhack.ironbank_monolit.model.account.Money;
@@ -13,6 +14,7 @@ import lombok.Setter;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,6 +31,13 @@ public class AccountHolder extends User {
 
     private String mailingAddress;
 
+    public AccountHolder(String name, Account owner, Account secondaryOwner, List<Account> accountList, Date dateOfBirth, Address address, String mailingAddress) {
+        super(name, owner, secondaryOwner, accountList);
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
+        this.mailingAddress = mailingAddress;
+    }
+
     /*
     * THIS METHOD VERIFIED IF A STUDENTCHECKING OR NOT
     *
@@ -44,5 +53,11 @@ public class AccountHolder extends User {
         */
 
         return getDateOfBirth().getYear() - new Date().getYear() >= 24 ? new Checking(balance, secretKey, primaryOwner, secondaryOwner, status, accounts, MINIMAL_BALANCE, MONTHLY_MAINTENANCE_FEE) :  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status,  accounts);
+    }
+
+
+    public static AccountHolder byDTO(AccountHolderDTO accountHolderDTO, Account primaryOwner, Account secondaryOwner ){
+        var addressa = new Address(accountHolderDTO.getNumber(), accountHolderDTO.getRoad(), accountHolderDTO.getCountry(), accountHolderDTO.getPostalCode());
+        return new AccountHolder(accountHolderDTO.getName(), primaryOwner, secondaryOwner, null, accountHolderDTO.getDateOfBirth(), addressa, accountHolderDTO.getMailingAddress());
     }
 }

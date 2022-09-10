@@ -22,7 +22,9 @@ public class CheckingController {
 
 
     @GetMapping("/status/{status}")
-    public List<Checking> getStatus(@PathVariable("status") String status){
+    public List<CheckingDTO> getStatus(@PathVariable("status") String status){
         return checkingService.getStatus(status);
     }
+
+
 }
