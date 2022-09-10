@@ -8,4 +8,10 @@ public interface CheckingService {
 
     List <CheckingDTO> getAll();
     List<CheckingDTO> getStatus(String stats);
+
+
+
+    //***************  JUST FOR TESTER RESPONSE
+
+    CheckingDTO saveObject(CheckingDTO checkingDTO);
 }

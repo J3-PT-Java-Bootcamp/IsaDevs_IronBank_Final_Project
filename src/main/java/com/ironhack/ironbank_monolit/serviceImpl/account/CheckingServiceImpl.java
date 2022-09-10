@@ -1,7 +1,6 @@
 package com.ironhack.ironbank_monolit.serviceImpl.account;
 
 import com.ironhack.ironbank_monolit.dto.accountDTO.CheckingDTO;
-import com.ironhack.ironbank_monolit.model.account.Checking;
 import com.ironhack.ironbank_monolit.model.enums.Status;
 import com.ironhack.ironbank_monolit.repository.account.CheckingRepository;
 import com.ironhack.ironbank_monolit.service.account.CheckingService;
@@ -20,7 +19,13 @@ public class CheckingServiceImpl implements CheckingService {
 
     @Override
     public List<CheckingDTO> getAll() {
-        return null;
+        var all = checkingRepository.findAll();
+
+        List <CheckingDTO> listDTO = new ArrayList<>();
+        for(var i : all){
+            listDTO.add(CheckingDTO.byObject(i));
+        }
+        return listDTO;
     }
 
     @Override
@@ -32,6 +37,11 @@ public class CheckingServiceImpl implements CheckingService {
             listDTO.add(CheckingDTO.byObject(i));
         }
         return listDTO;
+    }
+
+    @Override
+    public CheckingDTO saveObject(CheckingDTO checkingDTO) {
+        return null;
     }
 
 

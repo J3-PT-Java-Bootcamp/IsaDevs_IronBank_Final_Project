@@ -21,10 +21,16 @@ public class CheckingController {
     private CheckingServiceImpl checkingService;
 
 
+    @GetMapping("/all")
+    public List<CheckingDTO> getAll(){
+        return checkingService.getAll();
+    }
+
     @GetMapping("/status/{status}")
     public List<CheckingDTO> getStatus(@PathVariable("status") String status){
         return checkingService.getStatus(status);
     }
+
 
 
 }

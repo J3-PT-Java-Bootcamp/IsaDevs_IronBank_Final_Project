@@ -26,19 +26,18 @@ public class AccountHolderTest {
 
     @BeforeEach
     void setUp() {
-        var holder = new AccountHolderDTO("Pedro Perez", 1, 1,  new Date(), 24, "Abbey Road", "England", 4563l, "abbeyroad@fantasymail.com");
+        var holder = new AccountHolderDTO("Pedro Perez", 1, 1,  new Date(), 24, "Abbey Road", "England", 4563L, "abbeyroad@fantasymail.com");
         Account owner1 = checkingRepository.findById(holder.getOwner()).orElseThrow();
         Account owner2 = checkingRepository.findById(holder.getSecondaryOwner()).orElseThrow();
-        //var onEntity = new AccountHolder(holder.getName(), owner1, owner2, null, holder.getNumber(), holder.getRoad(), holder.getCountry(), holder.getPostalCode(), holder.getMailingAddress());
 
         var test1 = AccountHolder.byDTO(holder, owner1, owner2);
+        // var test1 = AccountHolder.byDTO(holder, null, null);
 
         accountHolderRepository.save(test1);
     }
 
     @Test
     void counter() {
-
-        Assertions.assertEquals(1, accountHolderRepository.count());
+        Assertions.assertEquals(2, accountHolderRepository.count());
     }
 }

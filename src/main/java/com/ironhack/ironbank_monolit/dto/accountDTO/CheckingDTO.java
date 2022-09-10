@@ -9,8 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-import java.util.Date;
 
 @Setter
 @Getter
@@ -18,7 +16,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class CheckingDTO {
 
-    private BigDecimal balance;
+    private Money balance;
 
     private String secretKey;
 
@@ -30,14 +28,15 @@ public class CheckingDTO {
 
     private long accounts;
 
-    private BigDecimal  minimalBalance;
+    private Money  minimalBalance;
 
-    private BigDecimal  monthlyMaintenanceFee;
+    private Money  monthlyMaintenanceFee;
+
 
 
     public static CheckingDTO byObject(Checking checking){
 
-        return new CheckingDTO(checking.getBalance().getAmount(),checking.getSecretKey(), checking.getPrimaryOwner().getId(), checking.getSecondaryOwner().getId(), checking.getStatus(), checking.getAccounts().getId(), checking.getMINIMAL_BALANCE().getAmount(),checking.getMONTHLY_MAINTENANCE_FEE().getAmount());
+        return new CheckingDTO(checking.getBalance(),checking.getSecretKey(), checking.getPrimaryOwner().getId(), checking.getSecondaryOwner().getId(), checking.getStatus(), 1, checking.getMINIMAL_BALANCE(),checking.getMONTHLY_MAINTENANCE_FEE());
     }
 
 

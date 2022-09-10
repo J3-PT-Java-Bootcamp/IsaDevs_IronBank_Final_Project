@@ -2,7 +2,9 @@ package com.ironhack.ironbank_monolit.AccountUnitaryTest;
 
 import com.ironhack.ironbank_monolit.dto.accountDTO.CheckingDTO;
 import com.ironhack.ironbank_monolit.model.account.Checking;
+import com.ironhack.ironbank_monolit.model.account.Money;
 import com.ironhack.ironbank_monolit.model.enums.Status;
+import com.ironhack.ironbank_monolit.model.user.User;
 import com.ironhack.ironbank_monolit.repository.account.CheckingRepository;
 import com.ironhack.ironbank_monolit.repository.user.AccountHolderRepository;
 import org.junit.jupiter.api.Assertions;
@@ -29,12 +31,15 @@ public class CheckingTest {
     @BeforeEach
     void setUp() {
         //var check = List.of(
-        checkingDTO = new CheckingDTO(new BigDecimal("550"), "cATYcAT", 1, 1, Status.ACTIVE, 1, new BigDecimal("600"), new BigDecimal("50"));
+        checkingDTO = new CheckingDTO(new Money(new BigDecimal("200")), "cATYcAT", 2, 2, Status.ACTIVE, 1, new Money(new BigDecimal("600")), new Money(new BigDecimal("50")));
         // );
     // findById();
 
-        //var check = Checking.byDTO(checkingDTO);
-        //checkingRepository.save(check);
+        User owner1 = accountHolderRepository.findById(checkingDTO.getPrimaryOwner()).orElseThrow();
+        User owner2 = accountHolderRepository.findById(checkingDTO.getSecondaryOwner()).orElseThrow();
+
+        var checker = Checking.byDTO(checkingDTO, owner1, owner2);
+        checkingRepository.save(checker);
     }
 
     @Test
