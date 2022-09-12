@@ -24,12 +24,12 @@ public class StudentCheckingDTO {
 
     private Status status;
 
-    private long accounts;
+    //private long accounts;
 
     //own by class
 
     public static StudentCheckingDTO byObject(StudentChecking studentChecking){
 
-        return new StudentCheckingDTO(studentChecking.getBalance(), studentChecking.getSecretKey(),studentChecking.getPrimaryOwner().getId(), studentChecking.getSecondaryOwner().getId(),studentChecking.getStatus(), studentChecking.getAccounts().getId()  );
+        return new StudentCheckingDTO(studentChecking.getBalance(), studentChecking.getSecretKey(),studentChecking.getPrimaryOwner().getId(), studentChecking.getSecondaryOwner().getId(),studentChecking.getStatus());
     }
 }

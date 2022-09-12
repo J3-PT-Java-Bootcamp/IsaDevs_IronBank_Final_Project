@@ -1,6 +1,5 @@
 package com.ironhack.ironbank_monolit.repository.account;
 
-import com.ironhack.ironbank_monolit.dto.accountDTO.CheckingDTO;
 import com.ironhack.ironbank_monolit.model.account.Checking;
 import com.ironhack.ironbank_monolit.model.enums.Status;
 import org.springframework.data.jpa.repository.JpaRepository;

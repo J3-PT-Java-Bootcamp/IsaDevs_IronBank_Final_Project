@@ -9,6 +9,8 @@ public interface CheckingService {
     List <CheckingDTO> getAll();
     List<CheckingDTO> getStatus(String stats);
 
+    CheckingDTO findById(Long id);
+
 
 
     //***************  JUST FOR TESTER RESPONSE

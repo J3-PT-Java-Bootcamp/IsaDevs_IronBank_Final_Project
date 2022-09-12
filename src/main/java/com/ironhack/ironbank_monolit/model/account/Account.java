@@ -10,10 +10,9 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 @Getter
 @Setter
-//@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Account {

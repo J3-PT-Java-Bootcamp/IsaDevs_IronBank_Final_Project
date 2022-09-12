@@ -9,7 +9,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
 
 
 @Entity
@@ -31,10 +30,6 @@ public class Checking extends Account{
         this.MINIMAL_BALANCE = MINIMAL_BALANCE;
         this.MONTHLY_MAINTENANCE_FEE = MONTHLY_MAINTENANCE_FEE;
     }
-
-    /* public Checking(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, User accounts) {
-        super(balance, secretKey, primaryOwner, secondaryOwner, status, accounts);
-    }*/
 
     public static Checking byDTO(CheckingDTO checkingDTO, User primaryOwner, User Secondary) {
 

@@ -31,7 +31,7 @@ public class CheckingTest {
     @BeforeEach
     void setUp() {
         //var check = List.of(
-        checkingDTO = new CheckingDTO(new Money(new BigDecimal("200")), "cATYcAT", 2, 2, Status.ACTIVE, 1, new Money(new BigDecimal("600")), new Money(new BigDecimal("50")));
+        checkingDTO = new CheckingDTO(new Money(new BigDecimal("200")), "cATYcAT", 1, 1, Status.ACTIVE, 1, new Money(new BigDecimal("600")), new Money(new BigDecimal("50")));
         // );
     // findById();
 
@@ -44,6 +44,6 @@ public class CheckingTest {
 
     @Test
     void count() {
-        Assertions.assertEquals(2, checkingRepository.count());
+        Assertions.assertEquals(3, checkingRepository.count());
     }
 }

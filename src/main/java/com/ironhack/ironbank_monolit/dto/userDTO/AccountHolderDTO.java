@@ -19,9 +19,9 @@ public class AccountHolderDTO {
 
     private String name;
 
-    private long owner;
+    //private long owner;
 
-    private long secondaryOwner;
+    //private long secondaryOwner;
 
     //by class
 
@@ -37,7 +37,7 @@ public class AccountHolderDTO {
 
     public static AccountHolderDTO byObject(AccountHolder accountHolder){
 
-        var list = accountHolder.getAccountList();
+        /*var list = accountHolder.getAccountList();
         List <Account> arrayAdd = new ArrayList<>();
 
         if(!list.isEmpty()){
@@ -46,8 +46,12 @@ public class AccountHolderDTO {
             }
         }
 
-        accountHolder.setAccountList(arrayAdd);
+        accountHolder.setAccountList(arrayAdd);*/
 
-        return new AccountHolderDTO(accountHolder.getName(), accountHolder.getOwner().getId() ,accountHolder.getSecondaryOwner().getId() , accountHolder.getDateOfBirth(), accountHolder.getAddress().getNumber(), accountHolder.getAddress().getRoad(), accountHolder.getAddress().getCountry(),  accountHolder.getAddress().getPostalCode(), accountHolder.getMailingAddress());
+        //return new AccountHolderDTO(accountHolder.getName(), accountHolder.getOwner().getId() ,accountHolder.getSecondaryOwner().getId() , accountHolder.getDateOfBirth(), accountHolder.getAddress().getNumber(), accountHolder.getAddress().getRoad(), accountHolder.getAddress().getCountry(),  accountHolder.getAddress().getPostalCode(), accountHolder.getMailingAddress());
+
+        return new AccountHolderDTO(accountHolder.getName(),  AccountHolder.getDateOfBirth(), accountHolder.getAddress().getNumber(), accountHolder.getAddress().getRoad(), accountHolder.getAddress().getCountry(),  accountHolder.getAddress().getPostalCode(), accountHolder.getMailingAddress());
     }
+
+
 }
