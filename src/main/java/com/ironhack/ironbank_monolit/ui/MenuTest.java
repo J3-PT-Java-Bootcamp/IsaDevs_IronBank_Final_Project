@@ -85,7 +85,7 @@ public class MenuTest {
         //"owner", "secondary Owner", "accounts",
         //List <Object> values = getAttributes("Name", "date of birth", "street number", "road", "country", "postal code", "mailingaddress");
         List <Object> values = getAttributes("Name", "date of birth", "street number", "road", "country", "postal code", "mailingaddress");
-        var holder = new AccountHolderDTO((String) values.get(0), new Date(1978), Integer.parseInt((String) values.get(2)), (String) values.get(3), (String) values.get(4), Long.valueOf((String) values.get(5)), (String) values.get(6));
+        var holder = new AccountHolderDTO((String) values.get(0), new Date((String) values.get(1)), Integer.parseInt((String) values.get(2)), (String) values.get(3), (String) values.get(4), Long.valueOf((String) values.get(5)), (String) values.get(6));
         accountHolderService.save(holder);
 
         System.out.println("user added");
@@ -95,7 +95,7 @@ public class MenuTest {
             case 1 -> {
                 //((String) checking.get(2)))
                 List <Object> checking = getAttributes("Balance", "Secret Key", "Status", "minimal balance", "fee");
-                var check = AccountHolder.primaryOwnerVerified(CHECKING, new Money(new BigDecimal((String) checking.get(0))), (String) checking.get(1), user1.orElseThrow(), user1.orElseThrow(), Status.ACTIVE , user1.orElseThrow(), new Money(new BigDecimal((String) checking.get(3))), new Money(new BigDecimal((String) checking.get(4))), null, null);
+                var check = AccountHolder.primaryOwnerVerified(CHECKING, new Money(new BigDecimal((String) checking.get(0))), (String) checking.get(1), user1.orElseThrow(), user1.orElseThrow(), Status.ACTIVE , user1.orElseThrow(), new Money(new BigDecimal((String) checking.get(3))), new Money(new BigDecimal((String) checking.get(4))), null, null, user1.get().getDateOfBirth());
                 var dtoChecking = CheckingDTO.byObject((Checking) check);
                 checkingService.saveObject(dtoChecking);
 
@@ -107,9 +107,9 @@ public class MenuTest {
             case 3 -> System.out.println("not yey");
             case 4 -> {
                 List <Object> student = getAttributes("Balance", "Secret Key", "Status", "minimal balance", "fee");
-                var check = AccountHolder.primaryOwnerVerified(STUDENT, new Money(new BigDecimal((String) student.get(0))), (String) student.get(1), user1.orElseThrow(), user1.orElseThrow(), Status.ACTIVE , user1.orElseThrow(), new Money(new BigDecimal((String) student.get(3))), new Money(new BigDecimal((String) student.get(4))), null, null);
-                var dtoChecking = StudentCheckingDTO.byObject((StudentChecking) check);
-                studentCheckingService.saveObject(dtoChecking);
+                //var check = AccountHolder.primaryOwnerVerified(STUDENT, new Money(new BigDecimal((String) student.get(0))), (String) student.get(1), user1.orElseThrow(), user1.orElseThrow(), Status.ACTIVE , user1.orElseThrow(), new Money(new BigDecimal((String) student.get(3))), new Money(new BigDecimal((String) student.get(4))), null, null);
+                //var dtoChecking = StudentCheckingDTO.byObject((StudentChecking) check);
+                //studentCheckingService.saveObject(dtoChecking);
 
                 System.out.println("New User and Account created");
             }

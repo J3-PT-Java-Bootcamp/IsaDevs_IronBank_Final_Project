@@ -25,7 +25,7 @@ public class AccountHolderDTO {
 
     //by class
 
-    private Date dateOfBirth;
+    private  Date dateOfBirth;
 
 
     private Integer number;
@@ -50,7 +50,7 @@ public class AccountHolderDTO {
 
         //return new AccountHolderDTO(accountHolder.getName(), accountHolder.getOwner().getId() ,accountHolder.getSecondaryOwner().getId() , accountHolder.getDateOfBirth(), accountHolder.getAddress().getNumber(), accountHolder.getAddress().getRoad(), accountHolder.getAddress().getCountry(),  accountHolder.getAddress().getPostalCode(), accountHolder.getMailingAddress());
 
-        return new AccountHolderDTO(accountHolder.getName(),  AccountHolder.getDateOfBirth(), accountHolder.getAddress().getNumber(), accountHolder.getAddress().getRoad(), accountHolder.getAddress().getCountry(),  accountHolder.getAddress().getPostalCode(), accountHolder.getMailingAddress());
+        return new AccountHolderDTO(accountHolder.getName(),  accountHolder.getDateOfBirth(), accountHolder.getAddress().getNumber(), accountHolder.getAddress().getRoad(), accountHolder.getAddress().getCountry(),  accountHolder.getAddress().getPostalCode(), accountHolder.getMailingAddress());
     }
 
 

@@ -1,8 +1,6 @@
 package com.ironhack.ironbank_monolit.serviceImpl.account;
 
-import com.ironhack.ironbank_monolit.dto.accountDTO.CheckingDTO;
 import com.ironhack.ironbank_monolit.dto.accountDTO.StudentCheckingDTO;
-import com.ironhack.ironbank_monolit.model.account.Checking;
 import com.ironhack.ironbank_monolit.model.account.StudentChecking;
 import com.ironhack.ironbank_monolit.repository.account.StudentCheckingRepository;
 import com.ironhack.ironbank_monolit.repository.user.AccountHolderRepository;
