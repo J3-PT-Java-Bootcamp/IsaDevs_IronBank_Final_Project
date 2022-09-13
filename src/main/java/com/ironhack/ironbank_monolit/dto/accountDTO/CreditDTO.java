@@ -29,7 +29,7 @@ public class CreditDTO {
 
     private Status status;
 
-    private long accounts;
+    //private long accounts;
 
     //own by class
     private Money creditLimit;
@@ -39,6 +39,6 @@ public class CreditDTO {
 
     public static CreditDTO  byObject(Credit credit){
 
-        return new CreditDTO(credit.getBalance(),credit.getSecretKey(), credit.getPrimaryOwner().getId(), credit.getSecondaryOwner().getId(), credit.getStatus(), credit.getAccounts().getId(), credit.getCreditLimit(), credit.getInterestRate());
+        return new CreditDTO(credit.getBalance(),credit.getSecretKey(), credit.getPrimaryOwner().getId(), credit.getSecondaryOwner().getId(), credit.getStatus(),  credit.getCreditLimit(), credit.getInterestRate());
     }
 }

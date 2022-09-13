@@ -1,5 +1,6 @@
 package com.ironhack.ironbank_monolit.model.account;
 
+import com.ironhack.ironbank_monolit.dto.accountDTO.CreditDTO;
 import com.ironhack.ironbank_monolit.model.enums.Status;
 import com.ironhack.ironbank_monolit.model.user.User;
 import lombok.AllArgsConstructor;
@@ -9,8 +10,9 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.Transient;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
-import java.util.Date;
 
 @Entity
 @Getter
@@ -20,16 +22,22 @@ import java.util.Date;
 public class Credit extends Account {
 
     @Transient
+    //@DecimalMin(value = "100")
+    //@DecimalMax(value = "100000")
     private Money creditLimit;
+
+    @DecimalMin(value = "0.1")
+    @DecimalMax(value = "0.2")
     private BigDecimal interestRate;
 
     @Transient
+    //@DecimalMin(value = "100.0")
     private Money MIN_CREDIT_LIMIT = new Money(new BigDecimal("100"));
 
     @Transient
     private Money MAX_CREDIT_LIMIT = new Money(new BigDecimal("100000"));
 
-    private BigDecimal MIN_INTEREST_RATE = new BigDecimal("0.1");
+    //private BigDecimal MIN_INTEREST_RATE = new BigDecimal("0.1");
 
     //private BigDecimal MAX_INTEREST_RATE = new BigDecimal("0.2");
 
@@ -46,6 +54,11 @@ public class Credit extends Account {
         setInterestRate(interestRate);
     }
 
+    public static Credit byDTO(CreditDTO creditDTO, User primaryOwner, User Secondary){
+
+        return new Credit(creditDTO.getBalance(), creditDTO.getSecretKey(), primaryOwner, Secondary, creditDTO.getStatus(),null, creditDTO.getCreditLimit(), creditDTO.getInterestRate());
+    }
+
     public void setCreditLimit(Money creditLimit){
         if(MIN_CREDIT_LIMIT.getAmount().compareTo(creditLimit.getAmount()) < 0){
             this.creditLimit = MIN_CREDIT_LIMIT;
@@ -56,7 +69,7 @@ public class Credit extends Account {
         }
     }
 
-
+/*
     public void setInterestRate(BigDecimal interestRate){
         if(interestRate.compareTo(MIN_INTEREST_RATE) < 0){
             this.interestRate = MIN_INTEREST_RATE;
@@ -64,5 +77,5 @@ public class Credit extends Account {
         else {
             this.interestRate = interestRate;
         }
-    }
+    }*/
 }

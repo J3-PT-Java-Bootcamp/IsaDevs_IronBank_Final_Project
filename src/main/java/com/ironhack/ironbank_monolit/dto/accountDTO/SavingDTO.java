@@ -29,7 +29,7 @@ public class SavingDTO {
 
     private Status status;
 
-    private long accounts;
+    //private long accounts;
 
     //own by class
     private Money minimalBalance;
@@ -38,7 +38,7 @@ public class SavingDTO {
 
     public static SavingDTO byObject(Saving saving){
 
-        return new SavingDTO(saving.getBalance(),saving.getSecretKey(), saving.getPrimaryOwner().getId(), saving.getSecondaryOwner().getId(), saving.getStatus(), saving.getAccounts().getId(), saving.getMinimalBalance(),saving.getInterestRate());
+        return new SavingDTO(saving.getBalance(),saving.getSecretKey(), saving.getPrimaryOwner().getId(), saving.getSecondaryOwner().getId(), saving.getStatus(),  saving.getMinimalBalance(),saving.getInterestRate());
     }
 
 }

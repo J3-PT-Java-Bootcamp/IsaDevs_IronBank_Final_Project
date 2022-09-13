@@ -16,8 +16,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import static com.ironhack.ironbank_monolit.model.enums.AccountsType.*;
-
 @Entity
 @Getter
 @Setter
@@ -27,8 +25,6 @@ public class AccountHolder extends User {
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date dateOfBirth;
-
-    private static Date birth;
 
     @Embedded
     private Address address;
@@ -48,34 +44,25 @@ public class AccountHolder extends User {
     *
     * When creating a new Checking account, if the primaryOwner is less than 24, a StudentChecking account should be created otherwise a regular Checking Account should be created.
     * */
-    public static Account primaryOwnerVerified(AccountsType account, Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, User accounts, Money MINIMAL_BALANCE, Money MONTHLY_MAINTENANCE_FEE,  Money creditLimit, BigDecimal interestRate, Date dateOfBirth){
-        /*if(getDateOfBirth().getYear() - new Date().getYear() >= 24){
-            return new Checking(balance, secretKey, primaryOwner, secondaryOwner, status,  accounts, MINIMAL_BALANCE, MONTHLY_MAINTENANCE_FEE);
-        }
-        else {
-            return  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status, accounts);
-        }*/
-
-        //birth = dateOfBirth;
+    public Account primaryOwnerVerified(AccountsType account, Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, User accounts, Money MINIMAL_BALANCE, Money MONTHLY_MAINTENANCE_FEE,  Money creditLimit, BigDecimal interestRate){
+        System.out.println("age of " + getDateOfBirth().getYear());
 
         switch (account){
             case CHECKING -> {
-                return dateOfBirth.getYear() - new Date().getYear() >= 24 ? new Checking(balance, secretKey, primaryOwner, secondaryOwner, status, accounts, MINIMAL_BALANCE, MONTHLY_MAINTENANCE_FEE) :  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status,  accounts);
+                return getDateOfBirth().getYear() - new Date().getYear() >= 24 ? new Checking(balance, secretKey, primaryOwner, secondaryOwner, status, accounts, MINIMAL_BALANCE, MONTHLY_MAINTENANCE_FEE) :  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status,  accounts);
             }
             case CREDIT -> {
-                //return getDateOfBirth().getYear() - new Date().getYear() >= 24 ? new Credit(balance, secretKey, primaryOwner, secondaryOwner, status, accounts, creditLimit, interestRate) :  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status,  accounts);
+                return getDateOfBirth().getYear() - new Date().getYear() >= 24 ? new Credit(balance, secretKey, primaryOwner, secondaryOwner, status, accounts, creditLimit, interestRate) :  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status,  accounts);
             }
             case SAVING -> {
-               // return getDateOfBirth().getYear() - new Date().getYear() >= 24 ? new Saving(balance, secretKey, primaryOwner, secondaryOwner, status, accounts, MINIMAL_BALANCE, interestRate) :  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status,  accounts);
+                return getDateOfBirth().getYear() - new Date().getYear() >= 24 ? new Saving(balance, secretKey, primaryOwner, secondaryOwner, status, accounts, MINIMAL_BALANCE, interestRate) :  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status,  accounts);
             }
             case STUDENT -> {
-                //return  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status,  accounts);
+                return  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status,  accounts);
             }
-
         }
         return  null;
 
-        //return getDateOfBirth().getYear() - new Date().getYear() >= 24 ? new Checking(balance, secretKey, primaryOwner, secondaryOwner, status, accounts, MINIMAL_BALANCE, MONTHLY_MAINTENANCE_FEE) :  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status,  accounts);
     }
 
 

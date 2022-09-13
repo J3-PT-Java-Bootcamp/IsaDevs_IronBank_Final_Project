@@ -1,6 +1,5 @@
 package com.ironhack.ironbank_monolit.model.account;
 
-import com.ironhack.ironbank_monolit.dto.accountDTO.CheckingDTO;
 import com.ironhack.ironbank_monolit.dto.accountDTO.StudentCheckingDTO;
 import com.ironhack.ironbank_monolit.model.enums.Status;
 import com.ironhack.ironbank_monolit.model.user.User;
@@ -13,7 +12,6 @@ import javax.persistence.Entity;
 @Entity
 @Getter
 @Setter
-//@AllArgsConstructor
 @NoArgsConstructor
 public class StudentChecking extends Account {
 

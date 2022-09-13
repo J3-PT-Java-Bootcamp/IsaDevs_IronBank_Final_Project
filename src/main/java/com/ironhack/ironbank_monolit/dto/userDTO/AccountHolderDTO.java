@@ -1,15 +1,12 @@
 package com.ironhack.ironbank_monolit.dto.userDTO;
 
-import com.ironhack.ironbank_monolit.model.account.Account;
 import com.ironhack.ironbank_monolit.model.user.AccountHolder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Setter
 @Getter
@@ -18,10 +15,6 @@ import java.util.List;
 public class AccountHolderDTO {
 
     private String name;
-
-    //private long owner;
-
-    //private long secondaryOwner;
 
     //by class
 

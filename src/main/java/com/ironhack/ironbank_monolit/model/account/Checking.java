@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
 
 
@@ -19,6 +20,7 @@ import java.math.BigDecimal;
 public class Checking extends Account{
 
     @Transient
+    @DecimalMin(value = "250")
     private Money MINIMAL_BALANCE = new Money(new BigDecimal("250"));
     @Transient
     private Money MONTHLY_MAINTENANCE_FEE = new Money(new BigDecimal("12"));

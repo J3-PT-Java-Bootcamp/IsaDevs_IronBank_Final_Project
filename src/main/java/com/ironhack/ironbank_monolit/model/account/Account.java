@@ -2,13 +2,16 @@ package com.ironhack.ironbank_monolit.model.account;
 
 import com.ironhack.ironbank_monolit.model.enums.Status;
 import com.ironhack.ironbank_monolit.model.user.User;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Inheritance(strategy = InheritanceType.JOINED)
 @Getter
@@ -24,8 +27,6 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected long id; // --- ???
 
-    //protected BigDecimal balance;
-
     @AttributeOverrides({
             @AttributeOverride(name = "amount", column = @Column(name = "amount_balance")),
             @AttributeOverride(name = "currency", column = @Column(name = "currency_balance"))
@@ -33,6 +34,7 @@ public class Account {
     @Embedded
     protected Money balance; //need to be Money
 
+    @NotBlank
     protected String secretKey;
 
     @OneToOne
@@ -46,11 +48,6 @@ public class Account {
     @Enumerated(EnumType.STRING)
     protected Status status;
 
-    /*@AttributeOverrides({
-            @AttributeOverride(name = "penaltyFee", column = @Column(name = "penalty_fee")),
-            @AttributeOverride(name = "currency", column = @Column(name = "currency_penalty_fee"))
-    })
-    @Embedded*/
     @Transient
     protected Money penaltyFee = new Money(new BigDecimal("40")); //need to be Money
 
@@ -66,13 +63,18 @@ public class Account {
     protected User accounts;
 
 
+    // 1 ACCOUNT == N OPERATIONS
+    //@OneToMany(mappedBy = "account")
+    //private List <Operation> operation;
+
+
     //changes to money attribute
     public Account(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, User accounts) {
         this.balance = balance;
         this.secretKey = secretKey;
         this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
-        this.status = status;
+        this.status = Status.ACTIVE;
         setCreationDate();
         setInterestDate();
         this.accounts = accounts;
