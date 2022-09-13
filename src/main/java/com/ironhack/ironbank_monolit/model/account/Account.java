@@ -11,7 +11,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 @Inheritance(strategy = InheritanceType.JOINED)
 @Getter

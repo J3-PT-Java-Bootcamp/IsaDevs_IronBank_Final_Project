@@ -17,4 +17,6 @@ public interface AccountHolderRepository extends JpaRepository <AccountHolder, L
             "    WHERE B.secret_key LIKE :secret AND A.name LIKE :name", nativeQuery = true)
     List<Object[]> findByPasswordAndUser(@Param("secret") String secret, @Param("name") String name);
 
+    AccountHolder findByIdAndName(long id, String name);
+
 }

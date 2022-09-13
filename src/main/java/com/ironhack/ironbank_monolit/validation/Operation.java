@@ -9,7 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-/*@Getter
+@Getter
 @Setter
 @AllArgsConstructor
 @Entity
@@ -20,14 +20,11 @@ public class Operation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idOrder;
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "id_account")
-    private Account account;
+    private Account account;*/
 
 
-    public void transfer(){
-
-    }
 
 
-}*/
+}
