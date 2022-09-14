@@ -44,7 +44,7 @@ public class AccountHolder extends User {
     *
     * When creating a new Checking account, if the primaryOwner is less than 24, a StudentChecking account should be created otherwise a regular Checking Account should be created.
     * */
-    public Account primaryOwnerVerified(AccountsType account, Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, User accounts, Money MINIMAL_BALANCE, Money MONTHLY_MAINTENANCE_FEE,  Money creditLimit, BigDecimal interestRate){
+    public Account primaryOwnerVerified(AccountsType account, Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, User accounts,  Money creditLimit, BigDecimal interestRate){
         System.out.println("age of " + getDateOfBirth().getYear());
 
         switch (account){
