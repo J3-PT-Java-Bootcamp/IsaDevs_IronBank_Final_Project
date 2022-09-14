@@ -28,7 +28,7 @@ public class CheckingDTO {
 
     //private long accounts;
 
-    private Money  minimalBalance;
+    //private Money  minimalBalance;
 
     private Money  monthlyMaintenanceFee;
 
@@ -36,7 +36,7 @@ public class CheckingDTO {
 
     public static CheckingDTO byObject(Checking checking){
 
-        return new CheckingDTO(checking.getBalance(),checking.getSecretKey(), checking.getPrimaryOwner().getId(), checking.getSecondaryOwner().getId(), checking.getStatus(), checking.getMINIMAL_BALANCE(),checking.getMONTHLY_MAINTENANCE_FEE());
+        return new CheckingDTO(checking.getBalance(),checking.getSecretKey(), checking.getPrimaryOwner().getId(), checking.getSecondaryOwner().getId(), checking.getStatus(), checking.getMONTHLY_MAINTENANCE_FEE());
     }
 
 

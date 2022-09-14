@@ -26,8 +26,8 @@ public class Credit extends Account {
     //@DecimalMax(value = "100000")
     private Money creditLimit;
 
-    @DecimalMin(value = "0.1")
-    @DecimalMax(value = "0.2")
+    //@DecimalMin(value = "0.1")
+    //@DecimalMax(value = "0.2")
     private BigDecimal interestRate;
 
     @Transient
@@ -37,9 +37,9 @@ public class Credit extends Account {
     @Transient
     private Money MAX_CREDIT_LIMIT = new Money(new BigDecimal("100000"));
 
-    //private BigDecimal MIN_INTEREST_RATE = new BigDecimal("0.1");
+    private BigDecimal MIN_INTEREST_RATE = new BigDecimal("0.1");
 
-    //private BigDecimal MAX_INTEREST_RATE = new BigDecimal("0.2");
+    private BigDecimal MAX_INTEREST_RATE = new BigDecimal("0.2");
 
     /*
     * if (a < b) {}         // For primitive double
@@ -48,10 +48,18 @@ public class Credit extends Account {
         Actually compareTo returns -1(less than), 0(Equal), 1(greater than) according to values.
     * */
 
+    // only for admin
     public Credit(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, User accounts, Money creditLimit, BigDecimal interestRate) {
         super(balance, secretKey, primaryOwner, secondaryOwner, status,accounts);
         setCreditLimit(creditLimit);
         setInterestRate(interestRate);
+    }
+
+    // only for new users not admin
+    public Credit(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, User accounts) {
+        super(balance, secretKey, primaryOwner, secondaryOwner, status, accounts);
+        this.creditLimit = MIN_CREDIT_LIMIT; //BY DEFAULT
+        this.interestRate = MAX_INTEREST_RATE;
     }
 
     public static Credit byDTO(CreditDTO creditDTO, User primaryOwner, User Secondary){
@@ -59,23 +67,31 @@ public class Credit extends Account {
         return new Credit(creditDTO.getBalance(), creditDTO.getSecretKey(), primaryOwner, Secondary, creditDTO.getStatus(),null, creditDTO.getCreditLimit(), creditDTO.getInterestRate());
     }
 
+    /*
+    * THIS METHOD CHECK AND SET THE VALUES WITH THE REQUIREMENTS
+    * */
     public void setCreditLimit(Money creditLimit){
-        if(MIN_CREDIT_LIMIT.getAmount().compareTo(creditLimit.getAmount()) < 0){
+        if(creditLimit.getAmount().compareTo(MIN_CREDIT_LIMIT.getAmount()) == -1){
             this.creditLimit = MIN_CREDIT_LIMIT;
-        } else if (creditLimit.getAmount().compareTo(MAX_CREDIT_LIMIT.getAmount()) < 0) {
-            this.creditLimit = creditLimit;
+        } else if (creditLimit.getAmount().compareTo(MAX_CREDIT_LIMIT.getAmount()) == 1) {
+            this.creditLimit = MAX_CREDIT_LIMIT;
         } else {
             this.creditLimit = creditLimit;
         }
     }
 
-/*
+    /*
+     * THIS METHOD CHECK AND SET THE VALUES WITH THE REQUIREMENTS
+     * */
     public void setInterestRate(BigDecimal interestRate){
-        if(interestRate.compareTo(MIN_INTEREST_RATE) < 0){
+        if(interestRate.compareTo(MIN_INTEREST_RATE) == -1){
             this.interestRate = MIN_INTEREST_RATE;
+        }
+        else if (interestRate.compareTo(MAX_INTEREST_RATE) == 1){
+            this.interestRate = MAX_INTEREST_RATE;
         }
         else {
             this.interestRate = interestRate;
         }
-    }*/
+    }
 }

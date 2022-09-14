@@ -32,13 +32,13 @@ public class SavingDTO {
     //private long accounts;
 
     //own by class
-    private Money minimalBalance;
+    //private Money minimalBalance;
 
     private BigDecimal interestRate;
 
     public static SavingDTO byObject(Saving saving){
 
-        return new SavingDTO(saving.getBalance(),saving.getSecretKey(), saving.getPrimaryOwner().getId(), saving.getSecondaryOwner().getId(), saving.getStatus(),  saving.getMinimalBalance(),saving.getInterestRate());
+        return new SavingDTO(saving.getBalance(),saving.getSecretKey(), saving.getPrimaryOwner().getId(), saving.getSecondaryOwner().getId(), saving.getStatus(),  saving.getInterestRate());
     }
 
 }

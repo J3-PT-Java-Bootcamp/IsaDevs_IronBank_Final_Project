@@ -2,6 +2,7 @@ package com.ironhack.ironbank_monolit.validation;
 
 
 import com.ironhack.ironbank_monolit.model.account.Account;
+import com.ironhack.ironbank_monolit.model.account.Money;
 import com.ironhack.ironbank_monolit.repository.user.AccountHolderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class OperationServiceImpl {
             throw new Exception("Not Found");
         } else {
             if(user.getOwner().getBalance().getAmount().compareTo(ammount) == 1 ){
-                user.getOwner().setBalance(user.getOwner().getBalance().decreaseAmount(ammount));
+                user.getOwner().setBalance(new Money(user.getOwner().getBalance().decreaseAmount(ammount)));
             }
         }
 

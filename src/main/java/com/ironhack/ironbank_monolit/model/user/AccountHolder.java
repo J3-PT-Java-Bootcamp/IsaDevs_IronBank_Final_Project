@@ -49,13 +49,13 @@ public class AccountHolder extends User {
 
         switch (account){
             case CHECKING -> {
-                return getDateOfBirth().getYear() - new Date().getYear() >= 24 ? new Checking(balance, secretKey, primaryOwner, secondaryOwner, status, accounts, MINIMAL_BALANCE, MONTHLY_MAINTENANCE_FEE) :  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status,  accounts);
+                return getDateOfBirth().getYear() - new Date().getYear() >= 24 ? new Checking(balance, secretKey, primaryOwner, secondaryOwner, status, accounts) :  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status,  accounts);
             }
             case CREDIT -> {
                 return getDateOfBirth().getYear() - new Date().getYear() >= 24 ? new Credit(balance, secretKey, primaryOwner, secondaryOwner, status, accounts, creditLimit, interestRate) :  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status,  accounts);
             }
             case SAVING -> {
-                return getDateOfBirth().getYear() - new Date().getYear() >= 24 ? new Saving(balance, secretKey, primaryOwner, secondaryOwner, status, accounts, MINIMAL_BALANCE, interestRate) :  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status,  accounts);
+                return getDateOfBirth().getYear() - new Date().getYear() >= 24 ? new Saving(balance, secretKey, primaryOwner, secondaryOwner, status, accounts,  interestRate) :  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status,  accounts);
             }
             case STUDENT -> {
                 return  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status,  accounts);

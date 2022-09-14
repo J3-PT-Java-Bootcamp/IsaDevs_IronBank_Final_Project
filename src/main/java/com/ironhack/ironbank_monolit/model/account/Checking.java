@@ -10,6 +10,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
+import java.util.Date;
 
 
 @Entity
@@ -24,9 +25,10 @@ public class Checking extends Account{
     private Money MINIMAL_BALANCE;
     //private Money MINIMAL_BALANCE = new Money(new BigDecimal("250"));
 
+
+    //private Money MONTHLY_MAINTENANCE_FEE;
     @Transient
-    private Money MONTHLY_MAINTENANCE_FEE;
-    //private Money MONTHLY_MAINTENANCE_FEE = new Money(new BigDecimal("12"));
+    private Money MONTHLY_MAINTENANCE_FEE = new Money(new BigDecimal("12"));
 
 
     //this gonna be charges by DTO
@@ -36,14 +38,23 @@ public class Checking extends Account{
 
     public static Checking byDTO(CheckingDTO checkingDTO, User primaryOwner, User Secondary) {
 
-        return new Checking(checkingDTO.getBalance(), checkingDTO.getSecretKey(), primaryOwner, Secondary, checkingDTO.getStatus(),null, checkingDTO.getMinimalBalance(), checkingDTO.getMonthlyMaintenanceFee());
+        return new Checking(checkingDTO.getBalance(), checkingDTO.getSecretKey(), primaryOwner, Secondary, checkingDTO.getStatus(),null);
     }
 
 
     @Override
     public void setBalance(Money balance){
-
-        //call to set the super attributte
+        //call to set the super attributte AND THE SETTING THE BALANCE WITH THE PENALTYFEE CHECKING FOR EVERY CLASS
         super.setBalance(balance);
+        super.penaltyFeeChecker(MINIMAL_BALANCE);
+        monthlyDeduction(balance);
+
     }
+    public void monthlyDeduction(Money balance){
+
+        if(super.getCreationDate().getDay() == new Date().getDay()){
+            super.setBalance(new Money(getBalance().decreaseAmount(MONTHLY_MAINTENANCE_FEE)));
+        }
+    }
+
 }
