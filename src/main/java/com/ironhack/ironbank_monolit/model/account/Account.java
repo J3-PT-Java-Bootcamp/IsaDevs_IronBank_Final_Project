@@ -96,9 +96,9 @@ public class Account {
     If any account drops below the minimumBalance, the penaltyFee should be deducted from the balance automatically
 
     * */
-    /*public void penaltyFeeChecker(){
-        if(getBalance().getAmount()){
-
+    public void penaltyFeeChecker(Money minimum){
+        if(getBalance().getAmount().compareTo(minimum.getAmount()) == -1 ){
+            this.balance = new Money(getBalance().decreaseAmount(this.penaltyFee));
         }
-    }*/
+    }
 }

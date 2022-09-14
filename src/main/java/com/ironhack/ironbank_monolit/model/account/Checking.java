@@ -21,20 +21,29 @@ public class Checking extends Account{
 
     @Transient
     @DecimalMin(value = "250")
-    private Money MINIMAL_BALANCE = new Money(new BigDecimal("250"));
+    private Money MINIMAL_BALANCE;
+    //private Money MINIMAL_BALANCE = new Money(new BigDecimal("250"));
+
     @Transient
-    private Money MONTHLY_MAINTENANCE_FEE = new Money(new BigDecimal("12"));
+    private Money MONTHLY_MAINTENANCE_FEE;
+    //private Money MONTHLY_MAINTENANCE_FEE = new Money(new BigDecimal("12"));
 
 
     //this gonna be charges by DTO
-    public Checking(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status,User accounts, Money MINIMAL_BALANCE, Money MONTHLY_MAINTENANCE_FEE) {
+    public Checking(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status,User accounts) {
         super(balance, secretKey, primaryOwner, secondaryOwner, status, accounts);
-        this.MINIMAL_BALANCE = MINIMAL_BALANCE;
-        this.MONTHLY_MAINTENANCE_FEE = MONTHLY_MAINTENANCE_FEE;
     }
 
     public static Checking byDTO(CheckingDTO checkingDTO, User primaryOwner, User Secondary) {
 
         return new Checking(checkingDTO.getBalance(), checkingDTO.getSecretKey(), primaryOwner, Secondary, checkingDTO.getStatus(),null, checkingDTO.getMinimalBalance(), checkingDTO.getMonthlyMaintenanceFee());
+    }
+
+
+    @Override
+    public void setBalance(Money balance){
+
+        //call to set the super attributte
+        super.setBalance(balance);
     }
 }
