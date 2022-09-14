@@ -1,6 +1,7 @@
 package com.ironhack.ironbank_monolit.model.account;
 
 import com.ironhack.ironbank_monolit.dto.accountDTO.SavingDTO;
+import com.ironhack.ironbank_monolit.model.enums.InterestType;
 import com.ironhack.ironbank_monolit.model.enums.Status;
 import com.ironhack.ironbank_monolit.model.user.User;
 import lombok.Getter;
@@ -60,12 +61,12 @@ public class Saving extends Account {
     @Override
     public void setBalance(Money balance){
         super.setBalance(getMinimalBalance());
-        //super.penaltyFeeChecker(MINIMUM_BALANCE);
+        penaltyFeeChecker(MINIMUM_BALANCE);
     }
 
     public void setMinimalBalance(Money minimalBalance){
 
-        if(minimalBalance.getAmount().compareTo(MINIMUM_BALANCE.getAmount()) == -1){
+        if(minimalBalance.getAmount().compareTo(MINIMUM_BALANCE.getAmount()) < 0){
             this.minimalBalance = MINIMUM_BALANCE;
         }
         else if (minimalBalance.getAmount().compareTo(DEFAULT_BALANCE.getAmount()) == 0){
@@ -77,12 +78,20 @@ public class Saving extends Account {
 
     public void setInterestRate(BigDecimal interestRate){
 
-        if (interestRate.compareTo(MAXIMUM_INTEREST_RATE) == 1){
+        if (interestRate.compareTo(MAXIMUM_INTEREST_RATE) > 0){
             this.interestRate = MAXIMUM_INTEREST_RATE;
         } else if (interestRate.compareTo(DEFAULT_INTEREST_RATE) < 0) {
             this.interestRate = DEFAULT_INTEREST_RATE;
         } else {
             this.interestRate = interestRate;
         }
+    }
+
+
+    public Money getBalance() {
+        //call to the method for check the interest Rate IF A SAVING COUNT--> ANNUALLY
+        super.addInterestRate(interestRate, InterestType.ANNUALLY);
+
+        return balance;
     }
 }

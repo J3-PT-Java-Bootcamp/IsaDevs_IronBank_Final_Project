@@ -1,6 +1,7 @@
 package com.ironhack.ironbank_monolit.model.account;
 
 import com.ironhack.ironbank_monolit.dto.accountDTO.CreditDTO;
+import com.ironhack.ironbank_monolit.model.enums.InterestType;
 import com.ironhack.ironbank_monolit.model.enums.Status;
 import com.ironhack.ironbank_monolit.model.user.User;
 import lombok.AllArgsConstructor;
@@ -10,8 +11,6 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.Transient;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
 
 @Entity
@@ -94,4 +93,12 @@ public class Credit extends Account {
             this.interestRate = interestRate;
         }
     }
+
+    public Money getBalance() {
+        //call to the method for check the interest Rate IF A CREDIT COUNT--> MONTHLY
+        super.addInterestRate(interestRate, InterestType.MONTHLY);
+
+        return balance;
+    }
+
 }

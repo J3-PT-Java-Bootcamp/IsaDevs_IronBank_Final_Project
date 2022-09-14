@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -29,7 +28,7 @@ public class Checking extends Account{
 
     //private Money MONTHLY_MAINTENANCE_FEE;
     @Transient
-    private Money MONTHLY_MAINTENANCE_FEE = new Money(new BigDecimal("12"));
+    private final Money MONTHLY_MAINTENANCE_FEE = new Money(new BigDecimal("12"));
 
 
     //this gonna be charges by DTO
@@ -47,7 +46,7 @@ public class Checking extends Account{
     public void setBalance(Money balance){
         //call to set the super attributte AND THE SETTING THE BALANCE WITH THE PENALTYFEE CHECKING FOR EVERY CLASS
         super.setBalance(balance);
-       // super.penaltyFeeChecker(MINIMAL_BALANCE);
+        super.penaltyFeeChecker(MINIMAL_BALANCE);
         monthlyDeduction(balance);
 
     }

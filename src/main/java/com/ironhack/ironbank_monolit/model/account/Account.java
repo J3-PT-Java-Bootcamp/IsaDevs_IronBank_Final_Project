@@ -1,5 +1,6 @@
 package com.ironhack.ironbank_monolit.model.account;
 
+import com.ironhack.ironbank_monolit.model.enums.InterestType;
 import com.ironhack.ironbank_monolit.model.enums.Status;
 import com.ironhack.ironbank_monolit.model.user.User;
 
@@ -96,9 +97,37 @@ public class Account {
     If any account drops below the minimumBalance, the penaltyFee should be deducted from the balance automatically
 
     * */
-   /* public void penaltyFeeChecker(Money minimum){
-        if(getBalance().getAmount().compareTo(minimum.getAmount()) == -1 ){
+    public void penaltyFeeChecker(Money minimum){
+        if(getBalance().getAmount().compareTo(minimum.getAmount()) < 0 ){
             this.balance = new Money(getBalance().decreaseAmount(penaltyFee));
         }
-    }*/
+    }
+
+    public void addInterestRate(BigDecimal interestRate, InterestType typus){
+
+        switch (typus){
+            case MONTHLY -> {
+                Date month = new Date(getInterestDate().toString());
+                month.setMonth(month.getMonth() + 1);
+
+                //checking if the interest month compare to actual month is the same for add the interest
+                if(month.compareTo(new Date()) == 0){
+                    setBalance(new Money(getBalance().getAmount().multiply(interestRate)));
+                }
+            }
+            case ANNUALLY -> {
+                Date year = new Date(getInterestDate().toString());
+                year.setYear(year.getYear() + 1);
+
+                //checking if the interest year compare to actual year is the same for add the interest
+                if(year.compareTo(new Date()) == 0){
+                    setBalance(new Money(getBalance().getAmount().multiply(interestRate)));
+                }
+
+            }
+
+
+
+        }
+    }
 }

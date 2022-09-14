@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Service(value = "operations")
 public class OperationServiceImpl {
@@ -29,9 +30,9 @@ public class OperationServiceImpl {
 
         var acountReceive = accountRepository.findByPrimaryOwner(accountHolderRepository.findByIdAndName(id, name));
 
-
-
-
+        /*
+        *  check if exist a user with id and name
+        * */
         if(userReceive == null){
             throw new Exception("Not Found");
         } else {
@@ -42,8 +43,10 @@ public class OperationServiceImpl {
                //accountHolderRepository.save(user);
 
                 account.setBalance(new Money(user.getOwner().getBalance().getAmount().subtract(ammount)));
-                acountReceive.setBalance(new Money(userReceive.getOwner().getBalance().getAmount().add(ammount)));
+                account.setTransactionDate(new Date());
 
+                acountReceive.setBalance(new Money(userReceive.getOwner().getBalance().getAmount().add(ammount)));
+                acountReceive.setTransactionDate(new Date());
 
                 accountRepository.save(account);
                 accountRepository.save(acountReceive);
@@ -62,6 +65,20 @@ public class OperationServiceImpl {
             }
         }
 
-        return user.getOwner();
+        return account;
+    }
+
+
+    public Money checkBalance(long id) throws Exception {
+
+        var user = accountHolderRepository.findById(id).orElseThrow();
+
+        var account = accountRepository.findByPrimaryOwner(user);
+
+        if(account == null){
+            throw new Exception("not user register with that id");
+        }
+
+        return account.getBalance();
     }
 }
