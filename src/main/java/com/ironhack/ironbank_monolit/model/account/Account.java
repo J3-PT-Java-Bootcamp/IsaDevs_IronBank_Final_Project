@@ -1,5 +1,6 @@
 package com.ironhack.ironbank_monolit.model.account;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ironhack.ironbank_monolit.model.enums.InterestType;
 import com.ironhack.ironbank_monolit.model.enums.Status;
 import com.ironhack.ironbank_monolit.model.user.User;
@@ -59,6 +60,7 @@ public class Account {
     protected Date transactionDate;  // ---> JUST FOR THE ANTIFRAUD METHOD
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "accounts")
     protected User accounts;
 
