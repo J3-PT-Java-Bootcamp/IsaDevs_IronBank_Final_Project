@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.List;
@@ -20,14 +21,17 @@ import java.util.List;
 @AllArgsConstructor
 public class ThirdParty extends User {
 
-    @Size(min = 24, max = 24)
+    @Size(min = 24, max = 24, message = "the hashed key must be with a 24 length extension")
     private String hashedKey;
 
-    @NotBlank
+    @NotBlank // --> difference between @NotBlank and @NotEmpty??
+    @NotNull
     private Money amount;
 
+    @NotBlank
     private long idAccount;
 
+    @NotNull
     private String secretKey;
 
     public ThirdParty(String name, Account owner, Account secondaryOwner, List<Account> accountList, String hashedKey, Money amount, long idAccount, String secretKey) {

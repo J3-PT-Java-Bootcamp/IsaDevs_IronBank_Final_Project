@@ -27,7 +27,6 @@ import static com.ironhack.ironbank_monolit.model.enums.AccountsType.*;
 public class MenuTest {
 
     private int response;
-    private String user;
     private String password;
 
     @Autowired
@@ -86,7 +85,7 @@ public class MenuTest {
     public void createAccount() throws Exception {
         System.out.println("kind of account?");
         System.out.println("1.- Checking\n 2.-Credit\n 3.-Saving\n 4.-Student");
-        user = scanner.next();
+        response = scanner.nextInt();
 
         //"owner", "secondary Owner", "accounts",
         //List <Object> values = getAttributes("Name", "date of birth", "street number", "road", "country", "postal code", "mailingaddress");
@@ -98,8 +97,8 @@ public class MenuTest {
 
         System.out.println("user added");
         var user1 = accountHolderRepository.findById(accountHolderRepository.count());
-        var num = scanner.nextInt();
-        switch (num){
+
+        switch (response){
             case 1 -> { //checking
                 List <Object> checking = getAttributes("Balance", "Secret Key");
                 var check = user.primaryOwnerVerified(CHECKING, new Money(new BigDecimal((String) checking.get(0))), (String) checking.get(1), user1.orElseThrow(), user1.orElseThrow(), Status.ACTIVE , user1.orElseThrow(), null, null);

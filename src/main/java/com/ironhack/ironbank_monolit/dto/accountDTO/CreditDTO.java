@@ -1,17 +1,14 @@
 package com.ironhack.ironbank_monolit.dto.accountDTO;
 
-import com.ironhack.ironbank_monolit.model.account.Checking;
 import com.ironhack.ironbank_monolit.model.account.Credit;
 import com.ironhack.ironbank_monolit.model.account.Money;
 import com.ironhack.ironbank_monolit.model.enums.Status;
-import com.ironhack.ironbank_monolit.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 @Setter
 @Getter
@@ -39,6 +36,6 @@ public class CreditDTO {
 
     public static CreditDTO  byObject(Credit credit){
 
-        return new CreditDTO(credit.getBalance(),credit.getSecretKey(), credit.getPrimaryOwner().getId(), credit.getSecondaryOwner().getId(), credit.getStatus(),  credit.getCreditLimit(), credit.getInterestRate());
+        return new CreditDTO(credit.getBalance(), credit.getSecretKey(), credit.getPrimaryOwner().getId(), credit.getSecondaryOwner().getId(), credit.getStatus(),  credit.getCreditLimit(), credit.getInterestRate());
     }
 }
