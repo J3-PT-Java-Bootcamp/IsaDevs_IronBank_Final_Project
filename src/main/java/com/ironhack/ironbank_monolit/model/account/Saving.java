@@ -61,7 +61,7 @@ public class Saving extends Account {
     @Override
     public void setBalance(Money balance){
         super.setBalance(getMinimalBalance());
-        penaltyFeeChecker(MINIMUM_BALANCE);
+        //penaltyFeeChecker(MINIMUM_BALANCE);
     }
 
     public void setMinimalBalance(Money minimalBalance){

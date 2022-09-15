@@ -1,7 +1,9 @@
 package com.ironhack.ironbank_monolit.controller.user;
 
+import com.ironhack.ironbank_monolit.dto.accountDTO.AccountDTO;
 import com.ironhack.ironbank_monolit.dto.accountDTO.CheckingDTO;
 import com.ironhack.ironbank_monolit.dto.accountDTO.CreditDTO;
+import com.ironhack.ironbank_monolit.dto.registerDTO.NewRegisterDTO;
 import com.ironhack.ironbank_monolit.dto.userDTO.AccountHolderDTO;
 import com.ironhack.ironbank_monolit.model.account.Account;
 import com.ironhack.ironbank_monolit.model.account.Money;
@@ -30,13 +32,19 @@ public class AdminController {
     @Qualifier("admin")
     private AdminServiceImpl adminService;
 
+
     @Autowired
     @Qualifier("operations")
     private OperationServiceImpl operationService;
 
     @GetMapping("/accounts")
-    public List<Account> findAll(){
-        return adminService.getAll();
+    public List<AccountDTO> findAll(){
+
+        var x = adminService.getAll();
+
+        //System.out.println(x);
+
+        return x;
     }
 
     @GetMapping("/checking")
@@ -50,16 +58,27 @@ public class AdminController {
 
     @GetMapping("/users")
     public List <AccountHolderDTO> all(){
+
         return accountHolderService.holders();
     }
 
     //*********  DONT WORK WITH REPOSITORY
     @GetMapping("/users-total")
     public List <AccountHolder> total(){
-        return accountHolderService.total();
+
+        var result = accountHolderService.total();
+
+        System.out.println(result);
+        return result;
     }
 
     //**********************************
+
+    @GetMapping("/user-balance/{id}")
+    public Money getMyBalance(@PathVariable("id") long id) throws Exception {
+
+        return operationService.checkBalance(id);
+    }
 
     @GetMapping("/id-user/{id}")
     public AccountHolderDTO findById(@PathVariable("id") long id){
@@ -68,16 +87,23 @@ public class AdminController {
     //********** ADD NEW REGISTER TO DATABASE
 
     @PostMapping("/add-new-register")
-    public AccountHolderDTO createNewAccount(@RequestBody String name, @RequestBody Date date, @RequestBody Integer number, @RequestBody String road, @RequestBody String country, @RequestBody Long postalCode, @RequestBody String mailingAddress, @RequestBody String accountType, @RequestBody BigDecimal interestRate, @RequestBody BigDecimal creditLimit, @RequestBody BigDecimal balance, @RequestBody String secretKey){
-        AccountHolderDTO newUser = new AccountHolderDTO(name, date, number, road, country, postalCode, mailingAddress);
+    //public AccountHolderDTO createNewAccount(@RequestBody String name, @RequestBody Date date, @RequestBody Integer number, @RequestBody String road, @RequestBody String country, @RequestBody Long postalCode, @RequestBody String mailingAddress, @RequestBody String accountType, @RequestBody BigDecimal interestRate, @RequestBody BigDecimal creditLimit, @RequestBody BigDecimal balance, @RequestBody String secretKey){
+    public AccountHolderDTO createNewAccount(@RequestBody NewRegisterDTO newRegisterDTO){
 
-        var interest = new Money(interestRate);
-        var balan = new Money(balance);
+        AccountHolderDTO newUser = new AccountHolderDTO(newRegisterDTO.getName(), newRegisterDTO.getDateOfBirth(), newRegisterDTO.getNumber(), newRegisterDTO.getRoad(), newRegisterDTO.getCountry(), newRegisterDTO.getPostalCode(), newRegisterDTO.getMailingAddress());
+        System.out.println(newUser);
 
-        return adminService.saveNewAccount(newUser, accountType,interest, creditLimit, balan, secretKey);
+        var interest = newRegisterDTO.getInterestRate();
+
+        var balan = new Money(newRegisterDTO.getBalance());
+
+
+
+        var c = adminService.saveNewAccount(newUser, newRegisterDTO.getAccountType(),new Money(newRegisterDTO.getCreditLimit()), interest, balan, newRegisterDTO.getSecretKey());
+
+        System.out.println(c);
+        return c;
     }
-
-
 
     //********** OPERATIONS AREA
 

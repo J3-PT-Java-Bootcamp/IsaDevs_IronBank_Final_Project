@@ -46,8 +46,8 @@ public class Checking extends Account{
     public void setBalance(Money balance){
         //call to set the super attributte AND THE SETTING THE BALANCE WITH THE PENALTYFEE CHECKING FOR EVERY CLASS
         super.setBalance(balance);
-        super.penaltyFeeChecker(MINIMAL_BALANCE);
-        monthlyDeduction(balance);
+        //super.penaltyFeeChecker(MINIMAL_BALANCE);
+        //monthlyDeduction(balance);
 
     }
     public void monthlyDeduction(Money balance){

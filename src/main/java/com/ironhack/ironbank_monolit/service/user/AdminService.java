@@ -1,10 +1,6 @@
 package com.ironhack.ironbank_monolit.service.user;
 
-import com.ironhack.ironbank_monolit.dto.accountDTO.CheckingDTO;
-import com.ironhack.ironbank_monolit.dto.accountDTO.CreditDTO;
-import com.ironhack.ironbank_monolit.dto.accountDTO.SavingDTO;
-import com.ironhack.ironbank_monolit.dto.accountDTO.StudentCheckingDTO;
-import com.ironhack.ironbank_monolit.model.account.Account;
+import com.ironhack.ironbank_monolit.dto.accountDTO.*;
 
 
 import java.util.List;
@@ -12,7 +8,7 @@ import java.util.List;
 public interface AdminService {
 
     //*********************************** BY CHECKING
-    List <Account> getAll();
+    List <AccountDTO> getAll();
     List <CheckingDTO> getAllChecking();
     List<CheckingDTO> getStatus(String stats);
 

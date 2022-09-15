@@ -22,13 +22,13 @@ public class OperationServiceImpl {
 
 
     /*the user must provide the Primary or Secondary owner name and the id of the account that should receive the transfer.*/
-    public Account transfer(long iduser, long id, String name, BigDecimal ammount) throws Exception {
-        var userReceive = accountHolderRepository.findByIdAndName(id, name);
+    public Account transfer(long iduser, long id, String name, BigDecimal amount) throws Exception {
         var user = accountHolderRepository.findById(iduser).orElseThrow();
 
         var account = accountRepository.findByPrimaryOwner(accountHolderRepository.findById(iduser).orElseThrow());
 
-        var acountReceive = accountRepository.findByPrimaryOwner(accountHolderRepository.findByIdAndName(id, name));
+        var userReceive = accountHolderRepository.findByName(name);
+        var accountReceiveId = accountRepository.findById(id).orElseThrow();
 
         /*
         *  check if exist a user with id and name
@@ -36,30 +36,17 @@ public class OperationServiceImpl {
         if(userReceive == null){
             throw new Exception("Not Found");
         } else {
-            if(user.getOwner().getBalance().getAmount().compareTo(ammount) == 1 ){
-                //user.getOwner().setBalance(new Money(user.getOwner().getBalance().getAmount().subtract(ammount)));
-                //user.getOwner().setTransactionDate(new Date());
+            if(user.getOwner().getBalance().getAmount().compareTo(amount) == 1 ){
 
-               //accountHolderRepository.save(user);
-
-                account.setBalance(new Money(user.getOwner().getBalance().getAmount().subtract(ammount)));
+                account.setBalance(new Money(user.getOwner().getBalance().getAmount().subtract(amount)));
                 account.setTransactionDate(new Date());
 
-                acountReceive.setBalance(new Money(userReceive.getOwner().getBalance().getAmount().add(ammount)));
-                acountReceive.setTransactionDate(new Date());
+                accountReceiveId.setBalance(new Money(userReceive.getOwner().getBalance().getAmount().add(amount)));
+                accountReceiveId.setTransactionDate(new Date());
 
                 accountRepository.save(account);
-                accountRepository.save(acountReceive);
+                accountRepository.save(accountReceiveId);
                 ///////////////////
-
-                //userReceive.getOwner().setBalance(new Money(userReceive.getOwner().getBalance().getAmount().add(ammount)));
-                //userReceive.getOwner().setTransactionDate(new Date());
-
-                //accountHolderRepository.save(userReceive);
-
-                //account.setBalance(new Money(account.getBalance().getAmount().subtract(ammount)));
-
-
 
                 System.out.println("transfer ok");
             }

@@ -1,9 +1,6 @@
 package com.ironhack.ironbank_monolit.serviceImpl.user;
 
-import com.ironhack.ironbank_monolit.dto.accountDTO.CheckingDTO;
-import com.ironhack.ironbank_monolit.dto.accountDTO.CreditDTO;
-import com.ironhack.ironbank_monolit.dto.accountDTO.SavingDTO;
-import com.ironhack.ironbank_monolit.dto.accountDTO.StudentCheckingDTO;
+import com.ironhack.ironbank_monolit.dto.accountDTO.*;
 import com.ironhack.ironbank_monolit.dto.userDTO.AccountHolderDTO;
 import com.ironhack.ironbank_monolit.model.account.*;
 import com.ironhack.ironbank_monolit.model.enums.AccountsType;
@@ -13,10 +10,7 @@ import com.ironhack.ironbank_monolit.repository.account.*;
 import com.ironhack.ironbank_monolit.repository.user.AccountHolderRepository;
 import com.ironhack.ironbank_monolit.repository.user.AdminRepository;
 import com.ironhack.ironbank_monolit.service.user.AdminService;
-import com.ironhack.ironbank_monolit.serviceImpl.account.CheckingServiceImpl;
-import com.ironhack.ironbank_monolit.serviceImpl.account.CreditServiceImpl;
-import com.ironhack.ironbank_monolit.serviceImpl.account.SavingServiceImpl;
-import com.ironhack.ironbank_monolit.serviceImpl.account.StudentCheckingServiceImpl;
+import com.ironhack.ironbank_monolit.serviceImpl.account.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,9 +60,13 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private SavingServiceImpl savingService;
 
+    @Autowired
+    private AccountServiceImpl accountService;
+
     @Override
-    public List<Account> getAll() {
-        return accountRepository.findAll();
+    public List<AccountDTO> getAll() {
+
+        return accountService.getAll();
     }
 
     @Override
@@ -82,14 +80,21 @@ public class AdminServiceImpl implements AdminService {
         return listDTO;
     }
 
+
+
     //*************************************************************
 
     public AccountHolderDTO saveNewAccount(AccountHolderDTO accountHolderDTO, String accountsType, Money creditLimit, BigDecimal interestRate, Money balance, String secretkey ){
 
         accountHolderService.save(accountHolderDTO);
+
+        var x = accountHolderService.save(accountHolderDTO);
+        System.out.println(x);
         //var user =  AccountHolder.byDTO(accountHolderDTO);
 
         var primaryOwner = accountHolderRepository.findById(accountHolderRepository.count());
+
+        System.out.println(primaryOwner);
 
         AccountsType type = AccountsType.valueOf(accountsType.toUpperCase());
 
@@ -99,6 +104,10 @@ public class AdminServiceImpl implements AdminService {
         switch (type){
             case CHECKING -> {
                 var dtoChecking = CheckingDTO.byObject((Checking) account);
+                System.out.println(dtoChecking);
+
+                var i = checkingService.saveObject(dtoChecking);
+                System.out.println(i);
                 checkingService.saveObject(dtoChecking);
             }
             case CREDIT -> {

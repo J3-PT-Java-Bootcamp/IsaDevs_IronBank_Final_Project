@@ -23,7 +23,7 @@ import java.util.List;
 @AllArgsConstructor
 public class AccountHolder extends User {
 
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
 
     @Embedded

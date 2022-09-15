@@ -1,6 +1,8 @@
 package com.ironhack.ironbank_monolit.model.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ironhack.ironbank_monolit.dto.accountDTO.AccountDTO;
+import com.ironhack.ironbank_monolit.dto.accountDTO.StudentCheckingDTO;
 import com.ironhack.ironbank_monolit.model.enums.InterestType;
 import com.ironhack.ironbank_monolit.model.enums.Status;
 import com.ironhack.ironbank_monolit.model.user.User;
@@ -39,10 +41,12 @@ public class Account {
     protected String secretKey;
 
     @OneToOne
+    @JsonIgnore
     @JoinColumn(name = "owner")
     protected User primaryOwner;
 
     @OneToOne
+    @JsonIgnore
     @JoinColumn(name = "secondary_owner")
     protected User secondaryOwner;
 
@@ -60,7 +64,6 @@ public class Account {
     protected Date transactionDate;  // ---> JUST FOR THE ANTIFRAUD METHOD
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "accounts")
     protected User accounts;
 
@@ -82,6 +85,10 @@ public class Account {
         this.accounts = accounts;
     }
 
+    public static Account byDTO(AccountDTO accountDTO, User primaryOwner, User Secondary) {
+
+        return new Account(accountDTO.getBalance(), accountDTO.getSecretKey(), primaryOwner, Secondary, accountDTO.getStatus(),null);
+    }
     /*
     * this method capture the date for every new account
     * */
@@ -99,11 +106,13 @@ public class Account {
     If any account drops below the minimumBalance, the penaltyFee should be deducted from the balance automatically
 
     * */
-    public void penaltyFeeChecker(Money minimum){
+    /*public void penaltyFeeChecker(Money minimum){
         if(getBalance().getAmount().compareTo(minimum.getAmount()) < 0 ){
             this.balance = new Money(getBalance().decreaseAmount(penaltyFee));
         }
-    }
+    }*/
+
+
 
     public void addInterestRate(BigDecimal interestRate, InterestType typus){
 

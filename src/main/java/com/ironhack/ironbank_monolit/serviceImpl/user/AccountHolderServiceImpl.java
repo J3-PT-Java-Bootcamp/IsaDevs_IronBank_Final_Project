@@ -21,10 +21,10 @@ public class AccountHolderServiceImpl implements AccountHolderService {
     @Override
     public Map<Object, Object> findByPassAnU(String pass, String name) {
         Map <Object, Object> count = new HashMap<>();
-        List<Object[]> x = accountHolderRepository.findByPasswordAndUser(pass, name);
-        for(int i = 0; i < x.size(); i++){
+        //List<Object[]> x = accountHolderRepository.findByPasswordAndUser(pass, name);
+        /*for(int i = 0; i < x.size(); i++){
             count.put(x.get(i)[0], x.get(i)[1]);
-        }
+        }*/
 
         System.out.println(count);
 
@@ -52,7 +52,10 @@ public class AccountHolderServiceImpl implements AccountHolderService {
     }
 
     public List <AccountHolder> total(){
-        return accountHolderRepository.findAll();
+        var account = accountHolderRepository.findAll();
+
+        System.out.println(account);
+        return account;
     }
 
     public AccountHolderDTO save(AccountHolderDTO accountHolderDTO){

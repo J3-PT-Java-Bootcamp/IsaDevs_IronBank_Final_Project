@@ -10,13 +10,6 @@ import java.util.List;
 
 @Repository
 public interface AccountHolderRepository extends JpaRepository <AccountHolder, Long> {
-
-    @Query(value = "SELECT B.secret_key, A.name\n" +
-            "    FROM user A\n" +
-            "    JOIN account B ON B.owner = A.id\n" +
-            "    WHERE B.secret_key LIKE :secret AND A.name LIKE :name", nativeQuery = true)
-    List<Object[]> findByPasswordAndUser(@Param("secret") String secret, @Param("name") String name);
-
-    AccountHolder findByIdAndName(long id, String name);
+    AccountHolder findByName(String name);
 
 }

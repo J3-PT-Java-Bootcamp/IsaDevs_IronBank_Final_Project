@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -17,7 +18,7 @@ public class AccountHolderDTO {
     private String name;
 
     //by class
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private  Date dateOfBirth;
 
 
