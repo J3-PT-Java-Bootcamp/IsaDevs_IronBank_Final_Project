@@ -14,6 +14,7 @@ import com.ironhack.ironbank_monolit.serviceImpl.account.CreditServiceImpl;
 import com.ironhack.ironbank_monolit.serviceImpl.account.SavingServiceImpl;
 import com.ironhack.ironbank_monolit.serviceImpl.account.StudentCheckingServiceImpl;
 import com.ironhack.ironbank_monolit.serviceImpl.user.AccountHolderServiceImpl;
+import com.ironhack.ironbank_monolit.serviceImpl.user.AdminServiceImpl;
 import com.ironhack.ironbank_monolit.validation.OperationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -36,19 +37,8 @@ public class MenuTest {
     private AccountHolderRepository accountHolderRepository;
 
     @Autowired
-    private CheckingServiceImpl checkingService;
+    private AdminServiceImpl adminService;
 
-    @Autowired
-    private StudentCheckingServiceImpl studentCheckingService;
-
-    @Autowired
-    private CreditServiceImpl creditService;
-
-    @Autowired
-    private SavingServiceImpl savingService;
-
-    @Autowired
-    private AccountHolderServiceImpl accountHolderService;
 
     private Scanner scanner = new Scanner(System.in);
 
@@ -63,22 +53,13 @@ public class MenuTest {
     }
 
     public void enterToAccount() throws Exception {
-        //System.out.println("user");
-        //user = scanner.next();
-        //System.out.println("password");
-       // password = "cATYcAT";
 
-        //if(!accountHolderService.findByPassAnU("cATYcAT", "pedro perez").isEmpty()){
             System.out.println("desea realizar una transferencia  (1) yes, (2) no");
             response = scanner.nextInt();
             switch (response){
                 case 1 -> transfer();
                 case 2 -> menu();
             }
-        //}else{
-           // System.out.println("try again");
-       // }
-
         menu();
     }
 
@@ -87,13 +68,10 @@ public class MenuTest {
         System.out.println("1.- Checking\n 2.-Credit\n 3.-Saving\n 4.-Student");
         response = scanner.nextInt();
 
-        //"owner", "secondary Owner", "accounts",
-        //List <Object> values = getAttributes("Name", "date of birth", "street number", "road", "country", "postal code", "mailingaddress");
         List <Object> values = getAttributes("Name", "date of birth", "street number", "road", "country", "postal code", "mailingaddress");
         var holder = new AccountHolderDTO((String) values.get(0), new Date(1990, Calendar.DECEMBER, 11), Integer.parseInt((String) values.get(2)), (String) values.get(3), (String) values.get(4), Long.valueOf((String) values.get(5)), (String) values.get(6));
         var user = AccountHolder.byDTO(holder);
 
-        accountHolderService.save(holder);
 
         System.out.println("user added");
         var user1 = accountHolderRepository.findById(accountHolderRepository.count());
@@ -101,34 +79,27 @@ public class MenuTest {
         switch (response){
             case 1 -> { //checking
                 List <Object> checking = getAttributes("Balance", "Secret Key");
-                var check = user.primaryOwnerVerified(CHECKING, new Money(new BigDecimal((String) checking.get(0))), (String) checking.get(1), user1.orElseThrow(), user1.orElseThrow(), Status.ACTIVE , user1.orElseThrow(), null, null);
-                var dtoChecking = CheckingDTO.byObject((Checking) check);
-                checkingService.saveObject(dtoChecking);
+                adminService.saveNewAccount(holder, "checking", null, null, new Money(new BigDecimal((String) checking.get(0))), (String) checking.get(1));
 
                 System.out.println("New User and Account created" );
 
             }
             case 2 -> { //credit
                 List <Object> credit = getAttributes("Balance", "Secret Key", "creditLimit", "interestRate");
-                var check = user.primaryOwnerVerified(CREDIT, new Money(new BigDecimal((String) credit.get(0))), (String) credit.get(1), user1.orElseThrow(), user1.orElseThrow(), Status.ACTIVE , user1.orElseThrow(),  new Money(new BigDecimal((String) credit.get(2))), new BigDecimal((String) credit.get(3)));
-                var dtoChecking = CreditDTO.byObject((Credit) check);
-                creditService.saveObject(dtoChecking);
+
+                adminService.saveNewAccount(holder, "credit", new Money(new BigDecimal((String) credit.get(2))), new BigDecimal((String) credit.get(3)),new Money(new BigDecimal((String) credit.get(0))), (String) credit.get(1));
 
                 System.out.println("New User and Account created");
             }
             case 3 -> {//saving
                 List <Object> saving = getAttributes("Balance", "Secret Key", "interestRate");
-                var check = user.primaryOwnerVerified(SAVING, new Money(new BigDecimal((String) saving.get(0))), (String) saving.get(1), user1.orElseThrow(), user1.orElseThrow(), Status.ACTIVE , user1.orElseThrow(),  null, new BigDecimal((String) saving.get(2)));
-                var dtoChecking = SavingDTO.byObject((Saving) check);
-                savingService.saveObject(dtoChecking);
+                adminService.saveNewAccount(holder, "saving", null, new BigDecimal((String) saving.get(2)), new Money(new BigDecimal((String) saving.get(0))), (String) saving.get(1));
 
                 System.out.println("New User and Account created");
             }
             case 4 -> {
                 List <Object> student = getAttributes("Balance", "Secret Key");
-                var check = user.primaryOwnerVerified(STUDENT, new Money(new BigDecimal((String) student.get(0))), (String) student.get(1), user1.orElseThrow(), user1.orElseThrow(), Status.ACTIVE , user1.orElseThrow(), null, null);
-                var dtoChecking = StudentCheckingDTO.byObject((StudentChecking) check);
-                studentCheckingService.saveObject(dtoChecking);
+                adminService.saveNewAccount(holder, "student", null, null, new Money(new BigDecimal((String) student.get(0))), (String) student.get(1));
 
                 System.out.println("New User and Account created");
             }

@@ -96,7 +96,7 @@ public class Credit extends Account {
 
     public Money getBalance() {
         //call to the method for check the interest Rate IF A CREDIT COUNT--> MONTHLY
-        super.addInterestRate(interestRate, InterestType.MONTHLY);
+        //super.addInterestRate(interestRate, InterestType.MONTHLY);
 
         return balance;
     }

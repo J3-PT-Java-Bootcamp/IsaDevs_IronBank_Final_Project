@@ -4,6 +4,7 @@ import com.ironhack.ironbank_monolit.dto.accountDTO.CheckingDTO;
 import com.ironhack.ironbank_monolit.dto.accountDTO.CreditDTO;
 import com.ironhack.ironbank_monolit.dto.userDTO.AccountHolderDTO;
 import com.ironhack.ironbank_monolit.model.account.Account;
+import com.ironhack.ironbank_monolit.model.account.Money;
 import com.ironhack.ironbank_monolit.model.enums.AccountsType;
 import com.ironhack.ironbank_monolit.model.user.AccountHolder;
 import com.ironhack.ironbank_monolit.serviceImpl.user.AccountHolderServiceImpl;
@@ -52,18 +53,28 @@ public class AdminController {
         return accountHolderService.holders();
     }
 
+    //*********  DONT WORK WITH REPOSITORY
     @GetMapping("/users-total")
     public List <AccountHolder> total(){
         return accountHolderService.total();
     }
 
+    //**********************************
+
+    @GetMapping("/id-user/{id}")
+    public AccountHolderDTO findById(@PathVariable("id") long id){
+        return accountHolderService.byId(id);
+    }
     //********** ADD NEW REGISTER TO DATABASE
 
     @PostMapping("/add-new-register")
     public AccountHolderDTO createNewAccount(@RequestBody String name, @RequestBody Date date, @RequestBody Integer number, @RequestBody String road, @RequestBody String country, @RequestBody Long postalCode, @RequestBody String mailingAddress, @RequestBody String accountType, @RequestBody BigDecimal interestRate, @RequestBody BigDecimal creditLimit, @RequestBody BigDecimal balance, @RequestBody String secretKey){
         AccountHolderDTO newUser = new AccountHolderDTO(name, date, number, road, country, postalCode, mailingAddress);
 
-        return adminService.saveNewAccount(newUser, accountType, interestRate, creditLimit, balance, secretKey);
+        var interest = new Money(interestRate);
+        var balan = new Money(balance);
+
+        return adminService.saveNewAccount(newUser, accountType,interest, creditLimit, balan, secretKey);
     }
 
 

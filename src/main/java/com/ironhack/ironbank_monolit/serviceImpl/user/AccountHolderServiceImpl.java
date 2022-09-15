@@ -43,6 +43,14 @@ public class AccountHolderServiceImpl implements AccountHolderService {
         return list;
     }
 
+    @Override
+    public AccountHolderDTO byId(long id) {
+        var byInstance = accountHolderRepository.findById(id).orElseThrow();
+        var byDTO = AccountHolderDTO.byObject(byInstance);
+
+        return byDTO;
+    }
+
     public List <AccountHolder> total(){
         return accountHolderRepository.findAll();
     }

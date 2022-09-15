@@ -90,7 +90,7 @@ public class Saving extends Account {
 
     public Money getBalance() {
         //call to the method for check the interest Rate IF A SAVING COUNT--> ANNUALLY
-        super.addInterestRate(interestRate, InterestType.ANNUALLY);
+        //super.addInterestRate(interestRate, InterestType.ANNUALLY);
 
         return balance;
     }

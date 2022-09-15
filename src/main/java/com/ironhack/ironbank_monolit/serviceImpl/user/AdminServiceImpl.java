@@ -84,7 +84,7 @@ public class AdminServiceImpl implements AdminService {
 
     //*************************************************************
 
-    public AccountHolderDTO saveNewAccount(AccountHolderDTO accountHolderDTO, String accountsType, BigDecimal creditLimit, BigDecimal interestRate, BigDecimal balance, String secretkey ){
+    public AccountHolderDTO saveNewAccount(AccountHolderDTO accountHolderDTO, String accountsType, Money creditLimit, BigDecimal interestRate, Money balance, String secretkey ){
 
         accountHolderService.save(accountHolderDTO);
         //var user =  AccountHolder.byDTO(accountHolderDTO);
@@ -94,7 +94,7 @@ public class AdminServiceImpl implements AdminService {
         AccountsType type = AccountsType.valueOf(accountsType.toUpperCase());
 
 
-        var account = primaryOwner.get().primaryOwnerVerified(type, new Money(balance), secretkey, primaryOwner.orElseThrow(), primaryOwner.orElseThrow(), Status.ACTIVE, primaryOwner.orElseThrow(), new Money(creditLimit), interestRate);
+        var account = primaryOwner.get().primaryOwnerVerified(type, balance, secretkey, primaryOwner.orElseThrow(), primaryOwner.orElseThrow(), Status.ACTIVE, primaryOwner.orElseThrow(), creditLimit, interestRate);
 
         switch (type){
             case CHECKING -> {

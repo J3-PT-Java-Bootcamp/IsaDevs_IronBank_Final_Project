@@ -10,4 +10,6 @@ public interface AccountHolderService {
     Map<Object, Object> findByPassAnU(String pass, String  user);
 
     List <AccountHolderDTO> holders();
+
+    AccountHolderDTO byId(long id);
 }
