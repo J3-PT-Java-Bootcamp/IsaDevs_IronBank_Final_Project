@@ -1,5 +1,6 @@
 package com.ironhack.ironbank_monolit.model.user;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ironhack.ironbank_monolit.dto.userDTO.AccountHolderDTO;
 import com.ironhack.ironbank_monolit.model.account.*;
 import com.ironhack.ironbank_monolit.model.enums.AccountsType;
@@ -23,7 +24,8 @@ import java.util.List;
 @AllArgsConstructor
 public class AccountHolder extends User {
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    //@DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
 
     @Embedded

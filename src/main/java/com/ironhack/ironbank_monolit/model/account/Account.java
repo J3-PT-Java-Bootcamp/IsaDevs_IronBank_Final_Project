@@ -2,7 +2,6 @@ package com.ironhack.ironbank_monolit.model.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ironhack.ironbank_monolit.dto.accountDTO.AccountDTO;
-import com.ironhack.ironbank_monolit.dto.accountDTO.StudentCheckingDTO;
 import com.ironhack.ironbank_monolit.model.enums.InterestType;
 import com.ironhack.ironbank_monolit.model.enums.Status;
 import com.ironhack.ironbank_monolit.model.user.User;
@@ -106,19 +105,20 @@ public class Account {
     If any account drops below the minimumBalance, the penaltyFee should be deducted from the balance automatically
 
     * */
-    /*public void penaltyFeeChecker(Money minimum){
-        if(getBalance().getAmount().compareTo(minimum.getAmount()) < 0 ){
-            this.balance = new Money(getBalance().decreaseAmount(penaltyFee));
-        }
-    }*/
 
+    public void penaltyFeeChecker(Money minimum){
+        if(getBalance().getAmount().compareTo(minimum.getAmount()) < 0 ){
+            //this.balance = new Money(getBalance().decreaseAmount(penaltyFee));
+            setBalance(new Money(getBalance().decreaseAmount(penaltyFee)));
+        }
+    }
 
 
     public void addInterestRate(BigDecimal interestRate, InterestType typus){
 
         switch (typus){
             case MONTHLY -> {
-                Date month = new Date(getInterestDate().toString());
+                Date month = (Date) getInterestDate().clone();
                 month.setMonth(month.getMonth() + 1);
 
                 //checking if the interest month compare to actual month is the same for add the interest
@@ -127,8 +127,11 @@ public class Account {
                 }
             }
             case ANNUALLY -> {
-                Date year = new Date(getInterestDate().toString());
+                Date year = (Date) getInterestDate().clone();
+                System.out.println(year.getYear());
                 year.setYear(year.getYear() + 1);
+
+                System.out.println(year);
 
                 //checking if the interest year compare to actual year is the same for add the interest
                 if(year.compareTo(new Date()) == 0){

@@ -1,5 +1,6 @@
 package com.ironhack.ironbank_monolit.dto.userDTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ironhack.ironbank_monolit.model.user.AccountHolder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,6 +20,7 @@ public class AccountHolderDTO {
 
     //by class
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    //@JsonFormat(pattern = "yyyy-MM-dd")
     private  Date dateOfBirth;
 
 

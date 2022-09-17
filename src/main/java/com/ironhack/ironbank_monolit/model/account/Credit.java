@@ -1,5 +1,6 @@
 package com.ironhack.ironbank_monolit.model.account;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ironhack.ironbank_monolit.dto.accountDTO.CreditDTO;
 import com.ironhack.ironbank_monolit.model.enums.InterestType;
 import com.ironhack.ironbank_monolit.model.enums.Status;
@@ -83,10 +84,10 @@ public class Credit extends Account {
      * THIS METHOD CHECK AND SET THE VALUES WITH THE REQUIREMENTS
      * */
     public void setInterestRate(BigDecimal interestRate){
-        if(interestRate.compareTo(MIN_INTEREST_RATE) == -1){
+        if(interestRate.compareTo(MIN_INTEREST_RATE) < 0){
             this.interestRate = MIN_INTEREST_RATE;
         }
-        else if (interestRate.compareTo(MAX_INTEREST_RATE) == 1){
+        else if (interestRate.compareTo(MAX_INTEREST_RATE) > 0){
             this.interestRate = MAX_INTEREST_RATE;
         }
         else {
@@ -94,9 +95,10 @@ public class Credit extends Account {
         }
     }
 
+    @JsonIgnore
     public Money getBalance() {
         //call to the method for check the interest Rate IF A CREDIT COUNT--> MONTHLY
-        //super.addInterestRate(interestRate, InterestType.MONTHLY);
+        super.addInterestRate(interestRate, InterestType.MONTHLY);
 
         return balance;
     }

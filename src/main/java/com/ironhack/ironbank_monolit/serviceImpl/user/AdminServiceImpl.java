@@ -88,8 +88,8 @@ public class AdminServiceImpl implements AdminService {
 
         accountHolderService.save(accountHolderDTO);
 
-        var x = accountHolderService.save(accountHolderDTO);
-        System.out.println(x);
+        //var x = accountHolderService.save(accountHolderDTO);
+        //System.out.println(x);
         //var user =  AccountHolder.byDTO(accountHolderDTO);
 
         var primaryOwner = accountHolderRepository.findById(accountHolderRepository.count());

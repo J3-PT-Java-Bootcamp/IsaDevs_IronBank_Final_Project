@@ -45,12 +45,23 @@ public class Checking extends Account{
     @Override
     public void setBalance(Money balance){
         //call to set the super attributte AND THE SETTING THE BALANCE WITH THE PENALTYFEE CHECKING FOR EVERY CLASS
+
+        monthlyDeduction();
+        super.penaltyFeeChecker(MINIMAL_BALANCE);
         super.setBalance(balance);
-        //super.penaltyFeeChecker(MINIMAL_BALANCE);
         //monthlyDeduction(balance);
 
     }
-    public void monthlyDeduction(Money balance){
+
+    // //call to set the super attributte AND THE SETTING THE BALANCE WITH THE PENALTYFEE CHECKING FOR EVERY CLASS
+    @Override
+    public Money getBalance() {
+        //monthlyDeduction(balance);
+        //super.penaltyFeeChecker(MINIMAL_BALANCE);
+
+        return getBalance();
+    }
+   public void monthlyDeduction(){
 
         if(super.getCreationDate().getDay() == new Date().getDay()){
             super.setBalance(new Money(getBalance().decreaseAmount(MONTHLY_MAINTENANCE_FEE)));

@@ -1,5 +1,6 @@
 package com.ironhack.ironbank_monolit.model.account;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ironhack.ironbank_monolit.dto.accountDTO.SavingDTO;
 import com.ironhack.ironbank_monolit.model.enums.InterestType;
 import com.ironhack.ironbank_monolit.model.enums.Status;
@@ -61,7 +62,6 @@ public class Saving extends Account {
     @Override
     public void setBalance(Money balance){
         super.setBalance(getMinimalBalance());
-        //penaltyFeeChecker(MINIMUM_BALANCE);
     }
 
     public void setMinimalBalance(Money minimalBalance){
@@ -88,9 +88,11 @@ public class Saving extends Account {
     }
 
 
+    @JsonIgnore
     public Money getBalance() {
         //call to the method for check the interest Rate IF A SAVING COUNT--> ANNUALLY
-        //super.addInterestRate(interestRate, InterestType.ANNUALLY);
+        super.addInterestRate(interestRate, InterestType.ANNUALLY);
+        penaltyFeeChecker(MINIMUM_BALANCE);
 
         return balance;
     }
