@@ -54,13 +54,13 @@ public class Checking extends Account{
     }
 
     // //call to set the super attributte AND THE SETTING THE BALANCE WITH THE PENALTYFEE CHECKING FOR EVERY CLASS
-    @Override
+    /*@Override
     public Money getBalance() {
         //monthlyDeduction(balance);
         //super.penaltyFeeChecker(MINIMAL_BALANCE);
 
         return getBalance();
-    }
+    }*/
    public void monthlyDeduction(){
 
         Date deduction = (Date) getCreationDate().clone();

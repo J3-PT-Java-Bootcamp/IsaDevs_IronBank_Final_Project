@@ -39,7 +39,7 @@ public class OperationServiceImpl {
         if (userName == null && !Objects.equals(userName.getName(), userReceive.getName())) {
             throw new Exception("Not User with that name");
         } else {
-            if (user.getOwner().getBalance().getAmount().compareTo(amount) > 0 && user.getOwner().getStatus() != Status.FROZEN) {
+            if (user.getOwner().getBalance().getAmount().compareTo(amount) > 0) {
                 user.getOwner().setBalance(new Money(user.getOwner().getBalance().decreaseAmount(amount)));
                 user.getOwner().setTransactionDate(new Date());
                 account.setBalance(new Money(user.getOwner().getBalance().getAmount().subtract(amount)));

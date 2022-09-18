@@ -106,8 +106,8 @@ public class AdminServiceImpl implements AdminService {
                 var dtoChecking = CheckingDTO.byObject((Checking) account);
                 System.out.println(dtoChecking);
 
-                var i = checkingService.saveObject(dtoChecking);
-                System.out.println(i);
+                //var i = checkingService.saveObject(dtoChecking);
+                //System.out.println(i);
                 checkingService.saveObject(dtoChecking);
             }
             case CREDIT -> {
