@@ -47,7 +47,7 @@ public class Checking extends Account{
         //call to set the super attributte AND THE SETTING THE BALANCE WITH THE PENALTYFEE CHECKING FOR EVERY CLASS
 
         monthlyDeduction();
-        super.penaltyFeeChecker(MINIMAL_BALANCE);
+       // super.penaltyFeeChecker(MINIMAL_BALANCE);
         super.setBalance(balance);
         //monthlyDeduction(balance);
 
@@ -63,7 +63,10 @@ public class Checking extends Account{
     }
    public void monthlyDeduction(){
 
-        if(super.getCreationDate().getDay() == new Date().getDay()){
+        Date deduction = (Date) getCreationDate().clone();
+        deduction.setMonth(deduction.getMonth() + 1);
+
+        if(deduction == new Date()){
             super.setBalance(new Money(getBalance().decreaseAmount(MONTHLY_MAINTENANCE_FEE)));
         }
     }
