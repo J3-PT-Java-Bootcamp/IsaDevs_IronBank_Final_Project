@@ -7,17 +7,26 @@ import com.ironhack.ironbank_monolit.dto.registerDTO.NewRegisterDTO;
 import com.ironhack.ironbank_monolit.dto.userDTO.AccountHolderDTO;
 import com.ironhack.ironbank_monolit.model.account.Account;
 import com.ironhack.ironbank_monolit.model.account.Money;
-import com.ironhack.ironbank_monolit.model.enums.AccountsType;
 import com.ironhack.ironbank_monolit.model.user.AccountHolder;
+import com.ironhack.ironbank_monolit.security.DTOCreateUserRequest.CreateUserRequest;
+import com.ironhack.ironbank_monolit.security.DTOCreateUserRequest.LoginRequest;
+import com.ironhack.ironbank_monolit.security.config.KeyCloakProvider;
+import com.ironhack.ironbank_monolit.security.service.KeycloakAdminClientService;
 import com.ironhack.ironbank_monolit.serviceImpl.user.AccountHolderServiceImpl;
 import com.ironhack.ironbank_monolit.serviceImpl.user.AdminServiceImpl;
 import com.ironhack.ironbank_monolit.validation.OperationServiceImpl;
+import org.keycloak.admin.client.Keycloak;
+import org.keycloak.representations.AccessTokenResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
+import javax.ws.rs.BadRequestException;
+import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -29,6 +38,10 @@ public class AdminController {
     private AccountHolderServiceImpl accountHolderService;
 
     @Autowired
+    @Qualifier("security")
+    private KeycloakAdminClientService adminClientService;
+
+    @Autowired
     @Qualifier("admin")
     private AdminServiceImpl adminService;
 
@@ -36,6 +49,12 @@ public class AdminController {
     @Autowired
     @Qualifier("operations")
     private OperationServiceImpl operationService;
+
+    private final KeyCloakProvider keyCloakProvider;
+
+    public AdminController(KeyCloakProvider keyCloakProvider){
+        this.keyCloakProvider = keyCloakProvider;
+    }
 
     @GetMapping("/accounts")
     public List<AccountDTO> findAll(){
@@ -87,7 +106,6 @@ public class AdminController {
     //********** ADD NEW REGISTER TO DATABASE
 
     @PostMapping("/add-new-register")
-    //public AccountHolderDTO createNewAccount(@RequestBody String name, @RequestBody Date date, @RequestBody Integer number, @RequestBody String road, @RequestBody String country, @RequestBody Long postalCode, @RequestBody String mailingAddress, @RequestBody String accountType, @RequestBody BigDecimal interestRate, @RequestBody BigDecimal creditLimit, @RequestBody BigDecimal balance, @RequestBody String secretKey){
     public AccountHolderDTO createNewAccount(@RequestBody NewRegisterDTO newRegisterDTO){
 
         AccountHolderDTO newUser = new AccountHolderDTO(newRegisterDTO.getName(), newRegisterDTO.getDateOfBirth(), newRegisterDTO.getNumber(), newRegisterDTO.getRoad(), newRegisterDTO.getCountry(), newRegisterDTO.getPostalCode(), newRegisterDTO.getMailingAddress());
@@ -104,6 +122,38 @@ public class AdminController {
         System.out.println(c);
         return c;
     }
+
+
+    //*******************************************************************************
+    //  FOR SECURITY
+
+    @PostMapping(value = "/create")
+    public ResponseEntity<?> createUser(@RequestBody CreateUserRequest user) { // CALL TO THE DTO FROM SECURITY EMULING LIKE THE DTO FOR CREATE A NEW ACCOUNT
+        try (Response createdResponse = adminClientService.createKeycloakUser(user)) {
+
+            return ResponseEntity.status(createdResponse.getStatus()).build();
+        }
+    }
+
+
+    //THIS POST GET THE TOKEN AND UPDATE EVERYTIME
+    @PostMapping("/get-token")
+    public ResponseEntity<AccessTokenResponse> login(@NotNull @RequestBody LoginRequest loginRequest){
+        Keycloak keycloak = keyCloakProvider.createKeycloakInstanceWithCredentials(loginRequest.getUsername(), loginRequest.getPassword()).build();
+
+        AccessTokenResponse accessTokenResponse = null;
+
+        try{
+            accessTokenResponse = keycloak.tokenManager().getAccessToken();
+
+            return ResponseEntity.status(HttpStatus.OK).body(accessTokenResponse);
+        } catch (BadRequestException ex) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(accessTokenResponse);
+        }
+    }
+
+
+    //******************************************************************************************
 
     //********** OPERATIONS AREA
 

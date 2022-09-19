@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Log
-@Service
+@Service(value = "security")
 public class KeycloakAdminClientService {
 
     private final KeyCloakProvider keyProvider;
@@ -56,7 +56,7 @@ public class KeycloakAdminClientService {
         kcUser.setEnabled(true);
         kcUser.setEmailVerified(false);
 
-        kcUser.setGroups(List.of("users"));
+        kcUser.setGroups(List.of("admin")); // ADD EVERY MEMBER TO THE GROUP MEMBER IN THE KEYCLOAK CLIENT
 
         Response response = usersResource.create(kcUser);
 
