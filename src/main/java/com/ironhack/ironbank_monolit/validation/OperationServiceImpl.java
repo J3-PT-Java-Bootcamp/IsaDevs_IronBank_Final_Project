@@ -50,7 +50,7 @@ public class OperationServiceImpl {
                 account.setBalance(new Money(user.getOwner().getBalance().getAmount().subtract(amount)));
                 //account.getOperation();
 
-               // userReceive.getOwner().setBalance(new Money(userReceive.getOwner().getBalance().increaseAmount(amount)));
+               //userReceive.getOwner().setBalance(new Money(userReceive.getOwner().getBalance().increaseAmount(amount)));
                 //userReceive.getOwner().setTransactionDate(new Date());
                 acountReceive.setBalance(new Money(userReceive.getOwner().getBalance().getAmount().add(amount)));
 

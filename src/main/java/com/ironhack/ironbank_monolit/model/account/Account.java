@@ -119,7 +119,6 @@ public class Account {
         }
 
         operationSend.add(operations);
-        operations.setAccountSend(this);
     }
 
     public void addToOperationReceiveList(Operations operations){
@@ -128,7 +127,6 @@ public class Account {
         }
 
         operationSend.add(operations);
-        operations.setAccountSend(this);
     }
 
     /*
