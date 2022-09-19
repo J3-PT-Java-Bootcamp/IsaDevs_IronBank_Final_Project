@@ -17,12 +17,12 @@ import java.util.List;
 @NoArgsConstructor
 public class StudentChecking extends Account {
 
-    public StudentChecking(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, List<Operations> operationSend, List<Operations> operationReceive) {
-        super(balance, secretKey, primaryOwner, secondaryOwner, status, operationSend, operationReceive);
+    public StudentChecking(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status/*, List<Operations> operationSend, List<Operations> operationReceive*/) {
+        super(balance, secretKey, primaryOwner, secondaryOwner, status/*, operationSend, operationReceive*/);
     }
 
     public static StudentChecking byDTO(StudentCheckingDTO studentCheckingDTO, User primaryOwner, User Secondary) {
 
-        return new StudentChecking(studentCheckingDTO.getBalance(), studentCheckingDTO.getSecretKey(), primaryOwner, Secondary, studentCheckingDTO.getStatus(),studentCheckingDTO.getSend(), studentCheckingDTO.getReceive());
+        return new StudentChecking(studentCheckingDTO.getBalance(), studentCheckingDTO.getSecretKey(), primaryOwner, Secondary, studentCheckingDTO.getStatus()/*,studentCheckingDTO.getSend(), studentCheckingDTO.getReceive()*/);
     }
 }

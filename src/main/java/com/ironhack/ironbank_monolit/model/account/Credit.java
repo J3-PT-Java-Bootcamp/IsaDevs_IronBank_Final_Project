@@ -53,8 +53,8 @@ public class Credit extends Account {
     // only for admin
 
 
-    public Credit(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, List<Operations> operationSend, List<Operations> operationReceive, Money creditLimit, BigDecimal interestRate) {
-        super(balance, secretKey, primaryOwner, secondaryOwner, status, operationSend, operationReceive);
+    public Credit(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status,/* List<Operations> operationSend, List<Operations> operationReceive,*/ Money creditLimit, BigDecimal interestRate) {
+        super(balance, secretKey, primaryOwner, secondaryOwner, status/*, operationSend, operationReceive*/);
         setCreditLimit(creditLimit);
         setInterestRate(interestRate);
     }
@@ -68,7 +68,7 @@ public class Credit extends Account {
 
     public static Credit byDTO(CreditDTO creditDTO, User primaryOwner, User Secondary){
 
-        return new Credit(creditDTO.getBalance(), creditDTO.getSecretKey(), primaryOwner, Secondary, creditDTO.getStatus(), creditDTO.getSend(), creditDTO.getReceive(), creditDTO.getCreditLimit(), creditDTO.getInterestRate());
+        return new Credit(creditDTO.getBalance(), creditDTO.getSecretKey(), primaryOwner, Secondary, creditDTO.getStatus(), /*creditDTO.getSend(), creditDTO.getReceive(),*/ creditDTO.getCreditLimit(), creditDTO.getInterestRate());
     }
 
     /*

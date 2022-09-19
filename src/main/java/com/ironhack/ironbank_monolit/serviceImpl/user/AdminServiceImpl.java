@@ -99,7 +99,7 @@ public class AdminServiceImpl implements AdminService {
         AccountsType type = AccountsType.valueOf(accountsType.toUpperCase());
 
 
-        var account = primaryOwner.get().primaryOwnerVerified(type, balance, secretkey, primaryOwner.orElseThrow(), primaryOwner.orElseThrow(), Status.ACTIVE, primaryOwner.orElseThrow(), creditLimit, interestRate);
+        var account = primaryOwner.get().primaryOwnerVerified(type, balance, secretkey, primaryOwner.orElseThrow(), primaryOwner.orElseThrow(), Status.ACTIVE,  creditLimit, interestRate);
 
         switch (type){
             case CHECKING -> {

@@ -14,6 +14,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -74,7 +75,7 @@ public class Account {
 
 
     //changes to money attribute
-    public Account(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, List<Operations> operationSend, List<Operations> operationReceive) {
+    public Account(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status) {
         this.balance = balance;
         this.secretKey = secretKey;
         this.primaryOwner = primaryOwner;
@@ -82,13 +83,13 @@ public class Account {
         this.status = Status.ACTIVE;
         setCreationDate();
         setInterestDate();
-        this.operationSend = operationSend;
-        this.operationReceive = operationReceive;
+        setOperationSend(new ArrayList<>());
+        setOperationReceive(new ArrayList<>());
     }
 
     public static Account byDTO(AccountDTO accountDTO, User primaryOwner, User Secondary) {
 
-        return new Account(accountDTO.getBalance(), accountDTO.getSecretKey(), primaryOwner, Secondary, accountDTO.getStatus(), accountDTO.getSend(), accountDTO.getSend());
+        return new Account(accountDTO.getBalance(), accountDTO.getSecretKey(), primaryOwner, Secondary, accountDTO.getStatus());
     }
     /*
     * this method capture the date for every new account
@@ -99,6 +100,35 @@ public class Account {
 
     public void setInterestDate() {
         this.interestDate = getCreationDate();
+    }
+
+    public void setOperationSend(List<Operations> operationSend) {
+        this.operationSend = operationSend;
+    }
+
+    public void setOperationReceive(List<Operations> operationReceive) {
+        this.operationReceive = operationReceive;
+    }
+
+    /*
+    * this method gonna set every value from transactions
+    * */
+    public void addToOperationSendList(Operations operations){
+        if(operationSend.contains(operations)){
+            return;
+        }
+
+        operationSend.add(operations);
+        operations.setAccountSend(this);
+    }
+
+    public void addToOperationReceiveList(Operations operations){
+        if(operationReceive.contains(operations)){
+            return;
+        }
+
+        operationSend.add(operations);
+        operations.setAccountSend(this);
     }
 
     /*

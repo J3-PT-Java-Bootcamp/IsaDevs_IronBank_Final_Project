@@ -34,8 +34,8 @@ public class ThirdParty extends User {
     @NotNull
     private String secretKey;
 
-    public ThirdParty(String name, Account owner, Account secondaryOwner, List<Account> accountList, String hashedKey, Money amount, long idAccount, String secretKey) {
-        super(name, owner, secondaryOwner, accountList);
+    public ThirdParty(String name, Account owner, Account secondaryOwner/*, List<Account> accountList*/, String hashedKey, Money amount, long idAccount, String secretKey) {
+        super(name, owner, secondaryOwner/*, accountList*/);
         this.hashedKey = hashedKey;
         this.amount = amount;
         this.idAccount = idAccount;

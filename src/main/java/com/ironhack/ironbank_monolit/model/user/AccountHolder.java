@@ -34,8 +34,8 @@ public class AccountHolder extends User {
     private String mailingAddress;
 
 
-    public AccountHolder(String name, Account owner, Account secondaryOwner, List<Account> accountList, Date dateOfBirth, Address address, String mailingAddress) {
-        super(name, owner, secondaryOwner, accountList);
+    public AccountHolder(String name, Account owner, Account secondaryOwner, /*List<Account> accountList,*/ Date dateOfBirth, Address address, String mailingAddress) {
+        super(name, owner, secondaryOwner/*, accountList*/);
         this.dateOfBirth = dateOfBirth;
         this.address = address;
         this.mailingAddress = mailingAddress;
@@ -46,21 +46,21 @@ public class AccountHolder extends User {
     *
     * When creating a new Checking account, if the primaryOwner is less than 24, a StudentChecking account should be created otherwise a regular Checking Account should be created.
     * */
-    public Account primaryOwnerVerified(AccountsType account, Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, User accounts,  Money creditLimit, BigDecimal interestRate){
+    public Account primaryOwnerVerified(AccountsType account, Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status,  Money creditLimit, BigDecimal interestRate){
         System.out.println("age of " + getDateOfBirth().getYear());
 
         switch (account){
             case CHECKING -> {
-                return getDateOfBirth().getYear() - new Date().getYear() >= 24 ? new Checking(balance, secretKey, primaryOwner, secondaryOwner, status, accounts) :  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status,  accounts);
+                return getDateOfBirth().getYear() - new Date().getYear() >= 24 ? new Checking(balance, secretKey, primaryOwner, secondaryOwner, status) :  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status);
             }
             case CREDIT -> {
-                return getDateOfBirth().getYear() - new Date().getYear() >= 24 ? new Credit(balance, secretKey, primaryOwner, secondaryOwner, status, accounts, creditLimit, interestRate) :  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status,  accounts);
+                return getDateOfBirth().getYear() - new Date().getYear() >= 24 ? new Credit(balance, secretKey, primaryOwner, secondaryOwner, status,  creditLimit, interestRate) :  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status);
             }
             case SAVING -> {
-                return getDateOfBirth().getYear() - new Date().getYear() >= 24 ? new Saving(balance, secretKey, primaryOwner, secondaryOwner, status, accounts,  interestRate) :  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status,  accounts);
+                return getDateOfBirth().getYear() - new Date().getYear() >= 24 ? new Saving(balance, secretKey, primaryOwner, secondaryOwner, status,   interestRate) :  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status);
             }
             case STUDENT -> {
-                return  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status,  accounts);
+                return  new StudentChecking(balance, secretKey, primaryOwner, secondaryOwner, status);
             }
         }
         return  null;
@@ -72,6 +72,6 @@ public class AccountHolder extends User {
     public static AccountHolder byDTO(AccountHolderDTO accountHolderDTO){
         var addressa = new Address(accountHolderDTO.getNumber(), accountHolderDTO.getRoad(), accountHolderDTO.getCountry(), accountHolderDTO.getPostalCode());
         //return new AccountHolder(accountHolderDTO.getName(), primaryOwner, secondaryOwner, null, accountHolderDTO.getDateOfBirth(), addressa, accountHolderDTO.getMailingAddress());
-        return new AccountHolder(accountHolderDTO.getName(), null, null,null, accountHolderDTO.getDateOfBirth(), addressa, accountHolderDTO.getMailingAddress());
+        return new AccountHolder(accountHolderDTO.getName(), null, null,/*null,*/ accountHolderDTO.getDateOfBirth(), addressa, accountHolderDTO.getMailingAddress());
     }
 }

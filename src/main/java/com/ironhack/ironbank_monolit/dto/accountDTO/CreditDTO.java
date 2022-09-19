@@ -29,9 +29,9 @@ public class CreditDTO {
 
     private Status status;
 
-    private List<Operations> send;
+    //private List<Operations> send;
 
-    private List <Operations> receive;
+    //private List <Operations> receive;
 
     //private long accounts;
 
@@ -61,6 +61,6 @@ public class CreditDTO {
         }
         credit.setOperationReceive(receiver);
 
-        return new CreditDTO(credit.getBalance(), credit.getSecretKey(), credit.getPrimaryOwner().getId(), credit.getSecondaryOwner().getId(), credit.getStatus(),credit.getOperationSend(), credit.getOperationReceive(), credit.getCreditLimit(), credit.getInterestRate());
+        return new CreditDTO(credit.getBalance(), credit.getSecretKey(), credit.getPrimaryOwner().getId(), credit.getSecondaryOwner().getId(), credit.getStatus(),/*credit.getOperationSend(), credit.getOperationReceive(),*/ credit.getCreditLimit(), credit.getInterestRate());
     }
 }

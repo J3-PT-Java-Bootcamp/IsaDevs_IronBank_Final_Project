@@ -36,13 +36,13 @@ public class Checking extends Account{
     //this gonna be charges by DTO
 
 
-    public Checking(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, List<Operations> operationSend, List<Operations> operationReceive) {
-        super(balance, secretKey, primaryOwner, secondaryOwner, status, operationSend, operationReceive);
+    public Checking(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status/*, List<Operations> operationSend, List<Operations> operationReceive*/) {
+        super(balance, secretKey, primaryOwner, secondaryOwner, status/*, operationSend, operationReceive*/);
     }
 
     public static Checking byDTO(CheckingDTO checkingDTO, User primaryOwner, User Secondary) {
 
-        return new Checking(checkingDTO.getBalance(), checkingDTO.getSecretKey(), primaryOwner, Secondary, checkingDTO.getStatus(), checkingDTO.getSend(), checkingDTO.getReceive());
+        return new Checking(checkingDTO.getBalance(), checkingDTO.getSecretKey(), primaryOwner, Secondary, checkingDTO.getStatus()/*, checkingDTO.getSend(), checkingDTO.getReceive()*/);
     }
 
 

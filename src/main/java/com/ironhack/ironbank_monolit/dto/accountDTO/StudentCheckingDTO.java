@@ -30,9 +30,9 @@ public class StudentCheckingDTO {
 
     //private long accounts;
 
-    private List<Operations> send;
+    //private List<Operations> send;
 
-    private List <Operations> receive;
+    //private List <Operations> receive;
 
     //own by class
 
@@ -54,6 +54,6 @@ public class StudentCheckingDTO {
         }
         studentChecking.setOperationReceive(receiver);
 
-        return new StudentCheckingDTO(studentChecking.getBalance(), studentChecking.getSecretKey(),studentChecking.getPrimaryOwner().getId(), studentChecking.getSecondaryOwner().getId(),studentChecking.getStatus(), studentChecking.getOperationSend(), studentChecking.getOperationReceive());
+        return new StudentCheckingDTO(studentChecking.getBalance(), studentChecking.getSecretKey(),studentChecking.getPrimaryOwner().getId(), studentChecking.getSecondaryOwner().getId(),studentChecking.getStatus() /*studentChecking.getOperationSend(), studentChecking.getOperationReceive()*/);
     }
 }

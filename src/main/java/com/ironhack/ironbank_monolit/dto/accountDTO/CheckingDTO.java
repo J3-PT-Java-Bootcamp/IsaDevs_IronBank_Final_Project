@@ -34,9 +34,9 @@ public class CheckingDTO {
 
     //private Money  minimalBalance;
 
-    private List<Operations> send;
+    //private List<Operations> send;
 
-    private List <Operations> receive;
+    //private List <Operations> receive;
 
     private Money  monthlyMaintenanceFee;
 
@@ -61,7 +61,7 @@ public class CheckingDTO {
         }
         checking.setOperationReceive(receiver);
 
-        return new CheckingDTO(checking.getBalance(),checking.getSecretKey(), checking.getPrimaryOwner().getId(), checking.getSecondaryOwner().getId(), checking.getStatus(), checking.getOperationSend(), checking.getOperationReceive(), checking.getMONTHLY_MAINTENANCE_FEE());
+        return new CheckingDTO(checking.getBalance(),checking.getSecretKey(), checking.getPrimaryOwner().getId(), checking.getSecondaryOwner().getId(), checking.getStatus(), /*checking.getOperationSend(), checking.getOperationReceive(),*/ checking.getMONTHLY_MAINTENANCE_FEE());
     }
 
 

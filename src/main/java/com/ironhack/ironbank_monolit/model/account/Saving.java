@@ -44,8 +44,8 @@ public class Saving extends Account {
     // admin constructor
 
 
-    public Saving(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, List<Operations> operationSend, List<Operations> operationReceive, BigDecimal interestRate) {
-        super(balance, secretKey, primaryOwner, secondaryOwner, status, operationSend, operationReceive);
+    public Saving(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status,/* List<Operations> operationSend, List<Operations> operationReceive,*/ BigDecimal interestRate) {
+        super(balance, secretKey, primaryOwner, secondaryOwner, status/*, operationSend, operationReceive*/);
         setInterestRate(interestRate);
     }
 
@@ -58,7 +58,7 @@ public class Saving extends Account {
 
     public static Saving byDTO(SavingDTO savingDTO, User primaryOwner, User secondaryOwner ){
 
-        return new Saving(savingDTO.getBalance(), savingDTO.getSecretKey(), primaryOwner, secondaryOwner, savingDTO.getStatus(),savingDTO.getSend(), savingDTO.getReceive(), savingDTO.getInterestRate());
+        return new Saving(savingDTO.getBalance(), savingDTO.getSecretKey(), primaryOwner, secondaryOwner, savingDTO.getStatus(),/*savingDTO.getSend(), savingDTO.getReceive(), */savingDTO.getInterestRate());
     }
 
 

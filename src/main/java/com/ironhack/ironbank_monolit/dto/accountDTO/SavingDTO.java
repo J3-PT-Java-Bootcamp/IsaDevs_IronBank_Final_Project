@@ -37,9 +37,9 @@ public class SavingDTO {
     //own by class
     //private Money minimalBalance;
 
-    private List<Operations> send;
+    //private List<Operations> send;
 
-    private List <Operations> receive;
+    //private List <Operations> receive;
 
     private BigDecimal interestRate;
 
@@ -62,7 +62,7 @@ public class SavingDTO {
         }
         saving.setOperationReceive(receiver);
 
-        return new SavingDTO(saving.getBalance(),saving.getSecretKey(), saving.getPrimaryOwner().getId(), saving.getSecondaryOwner().getId(), saving.getStatus(), saving.getOperationSend(), saving.getOperationReceive(), saving.getInterestRate());
+        return new SavingDTO(saving.getBalance(),saving.getSecretKey(), saving.getPrimaryOwner().getId(), saving.getSecondaryOwner().getId(), saving.getStatus(),/* saving.getOperationSend(), saving.getOperationReceive(),*/ saving.getInterestRate());
     }
 
 }
