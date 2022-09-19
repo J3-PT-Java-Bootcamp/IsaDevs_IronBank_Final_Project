@@ -5,6 +5,7 @@ import com.ironhack.ironbank_monolit.dto.accountDTO.CreditDTO;
 import com.ironhack.ironbank_monolit.model.enums.InterestType;
 import com.ironhack.ironbank_monolit.model.enums.Status;
 import com.ironhack.ironbank_monolit.model.user.User;
+import com.ironhack.ironbank_monolit.validation.Operations;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import lombok.Setter;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Getter
@@ -49,22 +51,24 @@ public class Credit extends Account {
     * */
 
     // only for admin
-    public Credit(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, User accounts, Money creditLimit, BigDecimal interestRate) {
-        super(balance, secretKey, primaryOwner, secondaryOwner, status,accounts);
+
+
+    public Credit(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, List<Operations> operationSend, List<Operations> operationReceive, Money creditLimit, BigDecimal interestRate) {
+        super(balance, secretKey, primaryOwner, secondaryOwner, status, operationSend, operationReceive);
         setCreditLimit(creditLimit);
         setInterestRate(interestRate);
     }
 
     // only for new users not admin
-    public Credit(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, User accounts) {
+    /*public Credit(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, User accounts) {
         super(balance, secretKey, primaryOwner, secondaryOwner, status, accounts);
         this.creditLimit = MIN_CREDIT_LIMIT; //BY DEFAULT
         this.interestRate = MAX_INTEREST_RATE;
-    }
+    }*/
 
     public static Credit byDTO(CreditDTO creditDTO, User primaryOwner, User Secondary){
 
-        return new Credit(creditDTO.getBalance(), creditDTO.getSecretKey(), primaryOwner, Secondary, creditDTO.getStatus(),null, creditDTO.getCreditLimit(), creditDTO.getInterestRate());
+        return new Credit(creditDTO.getBalance(), creditDTO.getSecretKey(), primaryOwner, Secondary, creditDTO.getStatus(), creditDTO.getSend(), creditDTO.getReceive(), creditDTO.getCreditLimit(), creditDTO.getInterestRate());
     }
 
     /*

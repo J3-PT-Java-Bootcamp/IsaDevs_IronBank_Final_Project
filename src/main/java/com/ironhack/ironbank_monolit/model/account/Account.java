@@ -6,6 +6,7 @@ import com.ironhack.ironbank_monolit.model.enums.InterestType;
 import com.ironhack.ironbank_monolit.model.enums.Status;
 import com.ironhack.ironbank_monolit.model.user.User;
 
+import com.ironhack.ironbank_monolit.validation.Operations;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Inheritance(strategy = InheritanceType.JOINED)
 @Getter
@@ -60,20 +62,19 @@ public class Account {
     protected Date interestDate; // --> SERÁ A LIBRE ELECCION DEL ADMIN O DEL USER LA FECHA DE INTERÉS O SERÁ AUTOMÁTICA
 
     //this must be start just when the new operation is done
-    protected Date transactionDate;  // ---> JUST FOR THE ANTIFRAUD METHOD
-
-    @ManyToOne
-    @JoinColumn(name = "accounts")
-    protected User accounts;
+    //protected Date transactionDate;  // ---> JUST FOR THE ANTIFRAUD METHOD
 
 
     // 1 ACCOUNT == N OPERATIONS
-    //@OneToMany(mappedBy = "account")
-    //private List <Operation> operation;
+    @OneToMany(mappedBy = "accountSend")
+    private List<Operations> operationSend;
+
+    @OneToMany(mappedBy = "accountReceive")
+    private List<Operations> operationReceive;
 
 
     //changes to money attribute
-    public Account(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, User accounts) {
+    public Account(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, List<Operations> operationSend, List<Operations> operationReceive) {
         this.balance = balance;
         this.secretKey = secretKey;
         this.primaryOwner = primaryOwner;
@@ -81,12 +82,13 @@ public class Account {
         this.status = Status.ACTIVE;
         setCreationDate();
         setInterestDate();
-        this.accounts = accounts;
+        this.operationSend = operationSend;
+        this.operationReceive = operationReceive;
     }
 
     public static Account byDTO(AccountDTO accountDTO, User primaryOwner, User Secondary) {
 
-        return new Account(accountDTO.getBalance(), accountDTO.getSecretKey(), primaryOwner, Secondary, accountDTO.getStatus(),null);
+        return new Account(accountDTO.getBalance(), accountDTO.getSecretKey(), primaryOwner, Secondary, accountDTO.getStatus(), accountDTO.getSend(), accountDTO.getSend());
     }
     /*
     * this method capture the date for every new account
@@ -108,8 +110,8 @@ public class Account {
 
     public void penaltyFeeChecker(Money minimum){
         if(getBalance().getAmount().compareTo(minimum.getAmount()) < 0 ){
-            //this.balance = new Money(getBalance().decreaseAmount(penaltyFee));
-            setBalance(new Money(getBalance().decreaseAmount(penaltyFee)));
+            this.balance = new Money(getBalance().decreaseAmount(penaltyFee));
+            //setBalance(new Money(getBalance().decreaseAmount(penaltyFee)));
         }
     }
 

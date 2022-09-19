@@ -2,6 +2,7 @@ package com.ironhack.ironbank_monolit.model.account;
 import com.ironhack.ironbank_monolit.dto.accountDTO.CheckingDTO;
 import com.ironhack.ironbank_monolit.model.enums.Status;
 import com.ironhack.ironbank_monolit.model.user.User;
+import com.ironhack.ironbank_monolit.validation.Operations;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -32,13 +34,15 @@ public class Checking extends Account{
 
 
     //this gonna be charges by DTO
-    public Checking(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status,User accounts) {
-        super(balance, secretKey, primaryOwner, secondaryOwner, status, accounts);
+
+
+    public Checking(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, List<Operations> operationSend, List<Operations> operationReceive) {
+        super(balance, secretKey, primaryOwner, secondaryOwner, status, operationSend, operationReceive);
     }
 
     public static Checking byDTO(CheckingDTO checkingDTO, User primaryOwner, User Secondary) {
 
-        return new Checking(checkingDTO.getBalance(), checkingDTO.getSecretKey(), primaryOwner, Secondary, checkingDTO.getStatus(),null);
+        return new Checking(checkingDTO.getBalance(), checkingDTO.getSecretKey(), primaryOwner, Secondary, checkingDTO.getStatus(), checkingDTO.getSend(), checkingDTO.getReceive());
     }
 
 

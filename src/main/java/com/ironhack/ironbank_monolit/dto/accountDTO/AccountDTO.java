@@ -5,10 +5,14 @@ import com.ironhack.ironbank_monolit.model.account.Money;
 import com.ironhack.ironbank_monolit.model.account.StudentChecking;
 import com.ironhack.ironbank_monolit.model.enums.Status;
 import com.ironhack.ironbank_monolit.model.user.User;
+import com.ironhack.ironbank_monolit.validation.Operations;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,19 +24,36 @@ public class AccountDTO {
 
     private String secretKey;
 
-   // private long primaryOwner;
     private User primaryOwner;
 
     private long secondaryOwner;
 
     private Status status;
 
-    //private long accounts;
+    private List<Operations> send;
+
+    private List <Operations> receive;
 
     //own by class
 
     public static AccountDTO byObject(Account account){
 
-        return new AccountDTO(account.getBalance(), account.getSecretKey(),account.getPrimaryOwner(), account.getSecondaryOwner().getId(),account.getStatus());
+        var send = account.getOperationSend();
+        List <Operations> sending = new ArrayList<>();
+
+        var receive = account.getOperationReceive();
+        List <Operations> receiver = new ArrayList<>();
+
+        for(var i : send){
+            sending.add(i);
+        }
+        account.setOperationSend(sending);
+
+        for(var i : receive){
+            receiver.add(i);
+        }
+        account.setOperationReceive(receiver);
+
+        return new AccountDTO(account.getBalance(), account.getSecretKey(),account.getPrimaryOwner(), account.getSecondaryOwner().getId(),account.getStatus(), account.getOperationSend(), account.getOperationReceive());
     }
 }

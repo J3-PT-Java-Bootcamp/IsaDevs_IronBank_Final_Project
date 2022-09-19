@@ -5,6 +5,7 @@ import com.ironhack.ironbank_monolit.dto.accountDTO.SavingDTO;
 import com.ironhack.ironbank_monolit.model.enums.InterestType;
 import com.ironhack.ironbank_monolit.model.enums.Status;
 import com.ironhack.ironbank_monolit.model.user.User;
+import com.ironhack.ironbank_monolit.validation.Operations;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Setter
@@ -40,22 +42,23 @@ public class Saving extends Account {
     private BigDecimal MAXIMUM_INTEREST_RATE = new BigDecimal("0.5");
 
     // admin constructor
-    public Saving(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, User accounts, BigDecimal interestRate) {
-        super(balance, secretKey, primaryOwner, secondaryOwner, status, accounts);
-        setMinimalBalance(balance);
+
+
+    public Saving(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, List<Operations> operationSend, List<Operations> operationReceive, BigDecimal interestRate) {
+        super(balance, secretKey, primaryOwner, secondaryOwner, status, operationSend, operationReceive);
         setInterestRate(interestRate);
     }
 
     //user constructor, every values are by default
-    public Saving(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, User accounts) {
+    /*public Saving(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, User accounts) {
         super(balance, secretKey, primaryOwner, secondaryOwner, status, accounts);
         super.setBalance(MINIMUM_BALANCE);
         this.interestRate = getInterestRate();
-    }
+    }*/
 
     public static Saving byDTO(SavingDTO savingDTO, User primaryOwner, User secondaryOwner ){
 
-        return new Saving(savingDTO.getBalance(), savingDTO.getSecretKey(), primaryOwner, secondaryOwner, savingDTO.getStatus(),null, savingDTO.getInterestRate());
+        return new Saving(savingDTO.getBalance(), savingDTO.getSecretKey(), primaryOwner, secondaryOwner, savingDTO.getStatus(),savingDTO.getSend(), savingDTO.getReceive(), savingDTO.getInterestRate());
     }
 
 
