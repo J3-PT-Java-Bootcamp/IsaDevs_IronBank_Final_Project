@@ -27,7 +27,7 @@ public class KeyCloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
                 .antMatchers("/public/**").permitAll()
                 .antMatchers("/member/**").hasAnyRole("member") //this could be totally customized
                 .antMatchers("/user/**").hasAnyRole("user")
-                .antMatchers("/admin/**").hasAnyRole("admin")
+                .antMatchers("/admin/**").hasAnyRole("admin") //"/admin/**"
                 .anyRequest()
                 .permitAll();
 

@@ -30,7 +30,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/users")
 public class AdminController {
 
     @Autowired
@@ -129,10 +129,10 @@ public class AdminController {
 
     @PostMapping(value = "/create")
     public ResponseEntity<?> createUser(@RequestBody CreateUserRequest user) { // CALL TO THE DTO FROM SECURITY EMULING LIKE THE DTO FOR CREATE A NEW ACCOUNT
-        try (Response createdResponse = adminClientService.createKeycloakUser(user)) {
-
+       // try (Response createdResponse = adminClientService.createKeycloakUser(user)) {
+        Response createdResponse = adminClientService.createKeycloakUser(user);
             return ResponseEntity.status(createdResponse.getStatus()).build();
-        }
+        //}
     }
 
 
