@@ -26,18 +26,11 @@ public class Checking extends Account{
    // private Money MINIMAL_BALANCE;
     @Transient
     private Money MINIMAL_BALANCE = new Money(new BigDecimal("250"));
-
-
-    //private Money MONTHLY_MAINTENANCE_FEE;
     @Transient
     private final Money MONTHLY_MAINTENANCE_FEE = new Money(new BigDecimal("12"));
 
-
-    //this gonna be charges by DTO
-
-
-    public Checking(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status/*, List<Operations> operationSend, List<Operations> operationReceive*/) {
-        super(balance, secretKey, primaryOwner, secondaryOwner, status/*, operationSend, operationReceive*/);
+    public Checking(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status) {
+        super(balance, secretKey, primaryOwner, secondaryOwner, status);
     }
 
     public static Checking byDTO(CheckingDTO checkingDTO, User primaryOwner, User Secondary) {
@@ -51,20 +44,11 @@ public class Checking extends Account{
         //call to set the super attributte AND THE SETTING THE BALANCE WITH THE PENALTYFEE CHECKING FOR EVERY CLASS
 
         monthlyDeduction();
-       // super.penaltyFeeChecker(MINIMAL_BALANCE);
         super.setBalance(balance);
-        //monthlyDeduction(balance);
+        super.penaltyFeeChecker(MINIMAL_BALANCE);
 
     }
 
-    // //call to set the super attributte AND THE SETTING THE BALANCE WITH THE PENALTYFEE CHECKING FOR EVERY CLASS
-    /*@Override
-    public Money getBalance() {
-        //monthlyDeduction(balance);
-        //super.penaltyFeeChecker(MINIMAL_BALANCE);
-
-        return getBalance();
-    }*/
    public void monthlyDeduction(){
 
         Date deduction = (Date) getCreationDate().clone();

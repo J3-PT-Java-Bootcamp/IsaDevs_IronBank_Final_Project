@@ -63,7 +63,6 @@ public class Account {
     protected Date interestDate; // --> SERÁ A LIBRE ELECCION DEL ADMIN O DEL USER LA FECHA DE INTERÉS O SERÁ AUTOMÁTICA
 
     //this must be start just when the new operation is done
-    //protected Date transactionDate;  // ---> JUST FOR THE ANTIFRAUD METHOD
 
 
     // 1 ACCOUNT == N OPERATIONS
@@ -111,7 +110,7 @@ public class Account {
     }
 
     /*
-    * this method gonna set every value from transactions
+    * this method going to set every value from transactions and adding to the list operations
     * */
     public void addToOperationSendList(Operations operations){
         if(operationSend.contains(operations)){
