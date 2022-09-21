@@ -11,6 +11,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +42,8 @@ public class SavingDTO {
     //private List<Operations> send;
 
     //private List <Operations> receive;
-
+    @DecimalMin(value = "0.0", message = "minimun interest rate")
+    @DecimalMax(value = "0.5", message = "max interest rate is 0.5")
     private BigDecimal interestRate;
 
 

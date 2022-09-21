@@ -1,11 +1,8 @@
-package com.ironhack.ironbank_monolit.dto.registerDTO;
+package com.ironhack.ironbank_monolit.security.dto;
 
-import com.ironhack.ironbank_monolit.model.account.Money;
 import com.ironhack.ironbank_monolit.model.enums.Status;
 import com.ironhack.ironbank_monolit.model.user.User;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -13,9 +10,19 @@ import java.util.Date;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class NewRegisterDTO {
+public class CreateUserRequest {
+
+    /*
+    * THIS IS LIKE THE DTO FOR USERREQUEST, IN THIS CLASS WE GONNA PUT ALL ATTRIBUTTES THAT WE NEED IN THE BUILD INSTANCE
+    * */
+
+    String username;
+    String password;
+    String email;
+    String firstname;
+    String lastname;
+
+    //***************************************
 
     private String name;
     private String secretId;
@@ -48,6 +55,4 @@ public class NewRegisterDTO {
     private BigDecimal creditLimit;
 
     private String accountType;
-
-
 }

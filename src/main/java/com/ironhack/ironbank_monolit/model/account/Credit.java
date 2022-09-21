@@ -75,9 +75,9 @@ public class Credit extends Account {
     * THIS METHOD CHECK AND SET THE VALUES WITH THE REQUIREMENTS
     * */
     public void setCreditLimit(Money creditLimit){
-        if(creditLimit.getAmount().compareTo(MIN_CREDIT_LIMIT.getAmount()) == -1){
+        if(creditLimit.getAmount().compareTo(MIN_CREDIT_LIMIT.getAmount()) < 0){
             this.creditLimit = MIN_CREDIT_LIMIT;
-        } else if (creditLimit.getAmount().compareTo(MAX_CREDIT_LIMIT.getAmount()) == 1) {
+        } else if (creditLimit.getAmount().compareTo(MAX_CREDIT_LIMIT.getAmount()) > 0) {
             this.creditLimit = MAX_CREDIT_LIMIT;
         } else {
             this.creditLimit = creditLimit;

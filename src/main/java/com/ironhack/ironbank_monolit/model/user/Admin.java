@@ -1,5 +1,6 @@
 package com.ironhack.ironbank_monolit.model.user;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

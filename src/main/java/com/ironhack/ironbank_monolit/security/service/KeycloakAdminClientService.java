@@ -1,7 +1,14 @@
 package com.ironhack.ironbank_monolit.security.service;
 
-import com.ironhack.ironbank_monolit.security.DTOCreateUserRequest.CreateUserRequest;
+import com.ironhack.ironbank_monolit.dto.registerDTO.NewRegisterDTO;
+import com.ironhack.ironbank_monolit.dto.userDTO.AccountHolderDTO;
+import com.ironhack.ironbank_monolit.model.account.Money;
+import com.ironhack.ironbank_monolit.model.user.AccountHolder;
+import com.ironhack.ironbank_monolit.model.user.ThirdParty;
+import com.ironhack.ironbank_monolit.security.dto.CreateUserRequest;
 import com.ironhack.ironbank_monolit.security.config.KeyCloakProvider;
+import com.ironhack.ironbank_monolit.security.rol.Rol;
+import com.ironhack.ironbank_monolit.serviceImpl.user.AdminServiceImpl;
 import lombok.extern.java.Log;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
@@ -18,6 +25,8 @@ import java.util.List;
 public class KeycloakAdminClientService {
 
     private final KeyCloakProvider keyProvider;
+    private final AdminServiceImpl adminService;
+
     @Value("${keycloak.realm}")
     public String realm;
     @Value(("${keycloak.resource}"))
@@ -25,8 +34,9 @@ public class KeycloakAdminClientService {
 
 
     //instance without autowired
-    public KeycloakAdminClientService(KeyCloakProvider keyCloakProvider){
+    public KeycloakAdminClientService(KeyCloakProvider keyCloakProvider, AdminServiceImpl adminService){
         this.keyProvider = keyCloakProvider;
+        this.adminService = adminService;
     }
 
     //this method gonna update the values from crentials
@@ -56,7 +66,7 @@ public class KeycloakAdminClientService {
         kcUser.setEnabled(true);
         kcUser.setEmailVerified(false);
 
-        kcUser.setGroups(List.of("admin")); // ADD EVERY MEMBER TO THE GROUP MEMBER IN THE KEYCLOAK CLIENT
+        //kcUser.setGroups(List.of("admin")); // ADD EVERY MEMBER TO THE GROUP MEMBER IN THE KEYCLOAK CLIENT
 
         Response response = usersResource.create(kcUser);
 
@@ -69,7 +79,26 @@ public class KeycloakAdminClientService {
 
             var createdUser = userRepresentationList.get(0);
             log.info("User with id " + createdUser.getId() + " was correctly created");
+
+           // userRequest.setSecretId(createdUser.getId());
+            //userRequest.setUserName(createdUser.getUsername());
+
+            AccountHolderDTO newUser = new AccountHolderDTO(userRequest.getName(), createdUser.getId(), createdUser.getUsername(), userRequest.getDateOfBirth(), userRequest.getNumber(), userRequest.getRoad(), userRequest.getCountry(), userRequest.getPostalCode(), userRequest.getMailingAddress());
+            System.out.println(newUser);
+
+            var interest = userRequest.getInterestRate();
+
+            var balan = new Money(userRequest.getBalance());
+
+
+
+            var c = adminService.saveNewAccount(newUser, userRequest.getAccountType(),new Money(userRequest.getCreditLimit()), interest, balan, userRequest.getSecretKey());
+
+            System.out.println(c);
+
         }
+
+
 
         return response;
     }

@@ -34,8 +34,15 @@ public class AccountHolder extends User {
     private String mailingAddress;
 
 
-    public AccountHolder(String name, Account owner, Account secondaryOwner, /*List<Account> accountList,*/ Date dateOfBirth, Address address, String mailingAddress) {
-        super(name, owner, secondaryOwner/*, accountList*/);
+    public AccountHolder(String name, Account owner, Account secondaryOwner, String secretKey, String userName, Date dateOfBirth, Address address, String mailingAddress) {
+        super(name, owner, secondaryOwner, secretKey, userName);
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
+        this.mailingAddress = mailingAddress;
+    }
+
+    public AccountHolder(String name, Account owner, Account secondaryOwner, Date dateOfBirth, Address address, String mailingAddress) {
+        super(name, owner, secondaryOwner);
         this.dateOfBirth = dateOfBirth;
         this.address = address;
         this.mailingAddress = mailingAddress;
@@ -68,10 +75,12 @@ public class AccountHolder extends User {
     }
 
 
+
+
     //public static AccountHolder byDTO(AccountHolderDTO accountHolderDTO, Account primaryOwner, Account secondaryOwner ){
     public static AccountHolder byDTO(AccountHolderDTO accountHolderDTO){
         var addressa = new Address(accountHolderDTO.getNumber(), accountHolderDTO.getRoad(), accountHolderDTO.getCountry(), accountHolderDTO.getPostalCode());
-        //return new AccountHolder(accountHolderDTO.getName(), primaryOwner, secondaryOwner, null, accountHolderDTO.getDateOfBirth(), addressa, accountHolderDTO.getMailingAddress());
-        return new AccountHolder(accountHolderDTO.getName(), null, null,/*null,*/ accountHolderDTO.getDateOfBirth(), addressa, accountHolderDTO.getMailingAddress());
+
+        return new AccountHolder(accountHolderDTO.getName(), null, null,accountHolderDTO.getSecretId(), accountHolderDTO.getUserName(), accountHolderDTO.getDateOfBirth(), addressa, accountHolderDTO.getMailingAddress());
     }
 }

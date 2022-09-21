@@ -1,4 +1,4 @@
-package com.ironhack.ironbank_monolit.security.DTOCreateUserRequest;
+package com.ironhack.ironbank_monolit.security.dto;
 
 import lombok.Getter;
 

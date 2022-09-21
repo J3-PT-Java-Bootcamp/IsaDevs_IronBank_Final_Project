@@ -30,14 +30,25 @@ public class User {
     @OneToOne(mappedBy = "secondaryOwner")
     protected Account secondaryOwner;
 
+    protected String secret;
+
+    protected String userName;
+
     /*@OneToMany(mappedBy = "accounts")
     @JsonIgnore
     protected List <Account> accountList;*/
 
-    public User(String name, Account owner, Account secondaryOwner/*, List<Account> accountList*/) {
+    public User(String name, Account owner, Account secondaryOwner, String secretKey, String userName) {
         this.name = name;
         this.owner = owner;
         this.secondaryOwner = secondaryOwner;
-        //this.accountList = accountList;
+        this.secret = secretKey;
+        this.userName = userName;
+    }
+
+    public User(String name, Account owner, Account secondaryOwner) {
+        this.name = name;
+        this.owner = owner;
+        this.secondaryOwner = secondaryOwner;
     }
 }

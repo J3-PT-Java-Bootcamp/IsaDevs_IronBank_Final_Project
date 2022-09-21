@@ -8,8 +8,9 @@ import com.ironhack.ironbank_monolit.dto.userDTO.AccountHolderDTO;
 import com.ironhack.ironbank_monolit.model.account.Account;
 import com.ironhack.ironbank_monolit.model.account.Money;
 import com.ironhack.ironbank_monolit.model.user.AccountHolder;
-import com.ironhack.ironbank_monolit.security.DTOCreateUserRequest.CreateUserRequest;
-import com.ironhack.ironbank_monolit.security.DTOCreateUserRequest.LoginRequest;
+import com.ironhack.ironbank_monolit.repository.user.AccountHolderRepository;
+import com.ironhack.ironbank_monolit.security.dto.CreateUserRequest;
+import com.ironhack.ironbank_monolit.security.dto.LoginRequest;
 import com.ironhack.ironbank_monolit.security.config.KeyCloakProvider;
 import com.ironhack.ironbank_monolit.security.service.KeycloakAdminClientService;
 import com.ironhack.ironbank_monolit.serviceImpl.user.AccountHolderServiceImpl;
@@ -18,7 +19,6 @@ import com.ironhack.ironbank_monolit.validation.OperationServiceImpl;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.representations.AccessTokenResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,29 +30,25 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/admin")
 public class AdminController {
 
-    @Autowired
-    @Qualifier("account-holder")
-    private AccountHolderServiceImpl accountHolderService;
+    private final AccountHolderServiceImpl accountHolderService;
 
-    @Autowired
-    @Qualifier("security")
-    private KeycloakAdminClientService adminClientService;
+    private final KeycloakAdminClientService adminClientService;
 
-    @Autowired
-    @Qualifier("admin")
-    private AdminServiceImpl adminService;
+    private final AdminServiceImpl adminService;
 
-
-    @Autowired
-    @Qualifier("operations")
-    private OperationServiceImpl operationService;
+    private final  OperationServiceImpl operationService;
 
     private final KeyCloakProvider keyCloakProvider;
 
-    public AdminController(KeyCloakProvider keyCloakProvider){
+
+    public AdminController(AccountHolderServiceImpl accountHolderService, KeycloakAdminClientService adminClientService, AdminServiceImpl adminService, OperationServiceImpl operationService, KeyCloakProvider keyCloakProvider){
+        this.accountHolderService = accountHolderService;
+        this.adminClientService = adminClientService;
+        this.adminService = adminService;
+        this.operationService = operationService;
         this.keyCloakProvider = keyCloakProvider;
     }
 
@@ -105,10 +101,10 @@ public class AdminController {
     }
     //********** ADD NEW REGISTER TO DATABASE
 
-    @PostMapping("/add-new-register")
+   /* @PostMapping("/add-new-register")
     public AccountHolderDTO createNewAccount(@RequestBody NewRegisterDTO newRegisterDTO){
 
-        AccountHolderDTO newUser = new AccountHolderDTO(newRegisterDTO.getName(), newRegisterDTO.getDateOfBirth(), newRegisterDTO.getNumber(), newRegisterDTO.getRoad(), newRegisterDTO.getCountry(), newRegisterDTO.getPostalCode(), newRegisterDTO.getMailingAddress());
+        /*AccountHolderDTO newUser = new AccountHolderDTO(newRegisterDTO.getName(), newRegisterDTO.getDateOfBirth(), newRegisterDTO.getNumber(), newRegisterDTO.getRoad(), newRegisterDTO.getCountry(), newRegisterDTO.getPostalCode(), newRegisterDTO.getMailingAddress());
         System.out.println(newUser);
 
         var interest = newRegisterDTO.getInterestRate();
@@ -121,7 +117,7 @@ public class AdminController {
 
         System.out.println(c);
         return c;
-    }
+    }*/
 
 
     //*******************************************************************************
@@ -129,10 +125,11 @@ public class AdminController {
 
     @PostMapping(value = "/create")
     public ResponseEntity<?> createUser(@RequestBody CreateUserRequest user) { // CALL TO THE DTO FROM SECURITY EMULING LIKE THE DTO FOR CREATE A NEW ACCOUNT
-       // try (Response createdResponse = adminClientService.createKeycloakUser(user)) {
+        // with this we get the id
         Response createdResponse = adminClientService.createKeycloakUser(user);
-            return ResponseEntity.status(createdResponse.getStatus()).build();
-        //}
+
+        return ResponseEntity.status(createdResponse.getStatus()).build();
+
     }
 
 

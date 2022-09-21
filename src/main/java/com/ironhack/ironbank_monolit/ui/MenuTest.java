@@ -64,7 +64,7 @@ public class MenuTest {
     }
 
     public void createAccount() throws Exception {
-        System.out.println("kind of account?");
+        /*System.out.println("kind of account?");
         System.out.println("1.- Checking\n 2.-Credit\n 3.-Saving\n 4.-Student");
         response = scanner.nextInt();
 
@@ -103,7 +103,7 @@ public class MenuTest {
 
                 System.out.println("New User and Account created");
             }
-        }
+        }*/
 
         menu();
     }

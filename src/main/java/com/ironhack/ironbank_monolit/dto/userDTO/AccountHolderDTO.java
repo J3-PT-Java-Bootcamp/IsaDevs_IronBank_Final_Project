@@ -17,6 +17,8 @@ import java.util.Date;
 public class AccountHolderDTO {
 
     private String name;
+    private String secretId;
+    private String userName;
 
     //by class
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -30,6 +32,7 @@ public class AccountHolderDTO {
     private Long postalCode;
 
     private String mailingAddress;
+
 
     public static AccountHolderDTO byObject(AccountHolder accountHolder){
 
@@ -46,7 +49,7 @@ public class AccountHolderDTO {
 
         //return new AccountHolderDTO(accountHolder.getName(), accountHolder.getOwner().getId() ,accountHolder.getSecondaryOwner().getId() , accountHolder.getDateOfBirth(), accountHolder.getAddress().getNumber(), accountHolder.getAddress().getRoad(), accountHolder.getAddress().getCountry(),  accountHolder.getAddress().getPostalCode(), accountHolder.getMailingAddress());
 
-        return new AccountHolderDTO(accountHolder.getName(),  accountHolder.getDateOfBirth(), accountHolder.getAddress().getNumber(), accountHolder.getAddress().getRoad(), accountHolder.getAddress().getCountry(),  accountHolder.getAddress().getPostalCode(), accountHolder.getMailingAddress());
+        return new AccountHolderDTO(accountHolder.getName(), accountHolder.getSecret(), accountHolder.getUserName(), accountHolder.getDateOfBirth(), accountHolder.getAddress().getNumber(), accountHolder.getAddress().getRoad(), accountHolder.getAddress().getCountry(),  accountHolder.getAddress().getPostalCode(), accountHolder.getMailingAddress());
     }
 
 

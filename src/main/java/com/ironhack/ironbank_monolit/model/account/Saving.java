@@ -24,18 +24,15 @@ import java.util.List;
 @NoArgsConstructor
 public class Saving extends Account {
 
-    @Transient
-    //@DecimalMin(value = "100")
-    private Money minimalBalance;
-
-    @DecimalMax(value = "0.5")
+    @DecimalMin(value = "0.0", message = "minimun interest rate")
+    @DecimalMax(value = "0.5", message = "max interest rate is 0.5")
     private BigDecimal interestRate = new BigDecimal("0.0025");
 
     @Transient
     private Money MINIMUM_BALANCE = new Money(new BigDecimal("100"));
 
     @Transient
-    private Money DEFAULT_BALANCE =  new Money(new BigDecimal("1000"));
+    private Money DEFAULT_BALANCE = new Money(new BigDecimal("1000"));
 
     private BigDecimal DEFAULT_INTEREST_RATE = new BigDecimal("0.0025");
 
@@ -44,9 +41,20 @@ public class Saving extends Account {
     // admin constructor
 
 
-    public Saving(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status,/* List<Operations> operationSend, List<Operations> operationReceive,*/ BigDecimal interestRate) {
-        super(balance, secretKey, primaryOwner, secondaryOwner, status/*, operationSend, operationReceive*/);
-        setInterestRate(interestRate);
+    public Saving(Money balance, String secretKey, User primaryOwner, User secondaryOwner, Status status, BigDecimal interestRate) {
+        super(balance, secretKey, primaryOwner, secondaryOwner, status);
+
+        //setInterestRate(interestRate);
+
+        if (interestRate.compareTo(MAXIMUM_INTEREST_RATE) > 0) {
+            this.interestRate = MAXIMUM_INTEREST_RATE;
+        } else if (interestRate.compareTo(DEFAULT_INTEREST_RATE) < 0) {
+            this.interestRate = DEFAULT_INTEREST_RATE;
+        } else {
+            this.interestRate = interestRate;
+        }
+
+
     }
 
     //user constructor, every values are by default
@@ -56,47 +64,25 @@ public class Saving extends Account {
         this.interestRate = getInterestRate();
     }*/
 
-    public static Saving byDTO(SavingDTO savingDTO, User primaryOwner, User secondaryOwner ){
+    public static Saving byDTO(SavingDTO savingDTO, User primaryOwner, User secondaryOwner) {
 
         return new Saving(savingDTO.getBalance(), savingDTO.getSecretKey(), primaryOwner, secondaryOwner, savingDTO.getStatus(),/*savingDTO.getSend(), savingDTO.getReceive(), */savingDTO.getInterestRate());
     }
 
 
     @Override
-    public void setBalance(Money balance){
-        super.setBalance(getMinimalBalance());
-    }
+    public void setBalance(Money balance) {
 
-    public void setMinimalBalance(Money minimalBalance){
-
-        if(minimalBalance.getAmount().compareTo(MINIMUM_BALANCE.getAmount()) < 0){
-            this.minimalBalance = MINIMUM_BALANCE;
-        }
-        else if (minimalBalance.getAmount().compareTo(DEFAULT_BALANCE.getAmount()) == 0){
-                this.minimalBalance = DEFAULT_BALANCE;
+        if (balance.getAmount().compareTo(DEFAULT_BALANCE.getAmount()) > 0) {
+            this.balance = DEFAULT_BALANCE;
         } else {
-            this.minimalBalance = minimalBalance;
+            this.balance = balance;
         }
-    }
 
-    public void setInterestRate(BigDecimal interestRate){
-
-        if (interestRate.compareTo(MAXIMUM_INTEREST_RATE) > 0){
-            this.interestRate = MAXIMUM_INTEREST_RATE;
-        } else if (interestRate.compareTo(DEFAULT_INTEREST_RATE) < 0) {
-            this.interestRate = DEFAULT_INTEREST_RATE;
-        } else {
-            this.interestRate = interestRate;
-        }
-    }
-
-
-    @JsonIgnore
-    public Money getBalance() {
-        //call to the method for check the interest Rate IF A SAVING COUNT--> ANNUALLY
+        super.setBalance(balance);
         super.addInterestRate(interestRate, InterestType.ANNUALLY);
         penaltyFeeChecker(MINIMUM_BALANCE);
 
-        return balance;
     }
+
 }

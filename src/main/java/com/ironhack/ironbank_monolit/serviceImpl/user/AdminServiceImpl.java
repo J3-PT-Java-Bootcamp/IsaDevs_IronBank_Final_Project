@@ -88,10 +88,6 @@ public class AdminServiceImpl implements AdminService {
 
         accountHolderService.save(accountHolderDTO);
 
-        //var x = accountHolderService.save(accountHolderDTO);
-        //System.out.println(x);
-        //var user =  AccountHolder.byDTO(accountHolderDTO);
-
         var primaryOwner = accountHolderRepository.findById(accountHolderRepository.count());
 
         System.out.println(primaryOwner);
@@ -104,10 +100,6 @@ public class AdminServiceImpl implements AdminService {
         switch (type){
             case CHECKING -> {
                 var dtoChecking = CheckingDTO.byObject((Checking) account);
-                System.out.println(dtoChecking);
-
-                //var i = checkingService.saveObject(dtoChecking);
-                //System.out.println(i);
                 checkingService.saveObject(dtoChecking);
             }
             case CREDIT -> {
@@ -123,14 +115,6 @@ public class AdminServiceImpl implements AdminService {
                 studentCheckingService.saveObject(dtoChecking);
             }
         }
-
-        /*var user1 = accountHolderRepository.findById(checkingDTO.getPrimaryOwner()).orElseThrow();
-        var user2 = accountHolderRepository.findById(checkingDTO.getSecondaryOwner()).orElseThrow();
-
-        var byInstace = Checking.byDTO(checkingDTO, user1, user2);
-
-        checkingRepository.save(byInstace);
-        return CheckingDTO.byObject(byInstace);*/
 
         return accountHolderDTO;
     }
