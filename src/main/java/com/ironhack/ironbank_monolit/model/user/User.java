@@ -34,10 +34,6 @@ public class User {
 
     protected String userName;
 
-    /*@OneToMany(mappedBy = "accounts")
-    @JsonIgnore
-    protected List <Account> accountList;*/
-
     public User(String name, Account owner, Account secondaryOwner, String secretKey, String userName) {
         this.name = name;
         this.owner = owner;

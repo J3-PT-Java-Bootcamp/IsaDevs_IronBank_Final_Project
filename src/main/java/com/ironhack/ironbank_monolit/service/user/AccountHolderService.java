@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 public interface AccountHolderService {
-
-    Map<Object, Object> findByPassAnU(String pass, String  user);
-
     List <AccountHolderDTO> holders();
 
     AccountHolderDTO byId(long id);
+
+    List <AccountHolderDTO> getByName(String name);
+
+    List <AccountHolderDTO> getByUserName(String username);
+
 }

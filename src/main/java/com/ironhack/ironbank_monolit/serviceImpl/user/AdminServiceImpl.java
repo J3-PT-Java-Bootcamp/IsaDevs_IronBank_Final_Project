@@ -2,66 +2,111 @@ package com.ironhack.ironbank_monolit.serviceImpl.user;
 
 import com.ironhack.ironbank_monolit.dto.accountDTO.*;
 import com.ironhack.ironbank_monolit.dto.userDTO.AccountHolderDTO;
+import com.ironhack.ironbank_monolit.dto.userDTO.AdminDTO;
 import com.ironhack.ironbank_monolit.model.account.*;
 import com.ironhack.ironbank_monolit.model.enums.AccountsType;
 import com.ironhack.ironbank_monolit.model.enums.Status;
-import com.ironhack.ironbank_monolit.model.user.AccountHolder;
 import com.ironhack.ironbank_monolit.repository.account.*;
 import com.ironhack.ironbank_monolit.repository.user.AccountHolderRepository;
 import com.ironhack.ironbank_monolit.repository.user.AdminRepository;
+import com.ironhack.ironbank_monolit.repository.user.ThirdPartyRepository;
 import com.ironhack.ironbank_monolit.service.user.AdminService;
 import com.ironhack.ironbank_monolit.serviceImpl.account.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static com.ironhack.ironbank_monolit.model.enums.AccountsType.CHECKING;
 
 @Service(value = "admin")
 public class AdminServiceImpl implements AdminService {
 
-    @Autowired
-    private CheckingRepository checkingRepository;
 
-    @Autowired
-    private AccountRepository accountRepository;
+    private final  CheckingRepository checkingRepository;
 
-    @Autowired
-    private CreditRepository creditRepository;
+    private final  AccountRepository accountRepository;
 
-    @Autowired
-    private SavingRepository savingRepository;
+    private final  CreditRepository creditRepository;
 
-    @Autowired
-    private StudentCheckingRepository studentCheckingRepository;
+    private final  SavingRepository savingRepository;
 
-    @Autowired
-    private AccountHolderRepository accountHolderRepository;// for admin or accountholder??
+    private final  StudentCheckingRepository studentCheckingRepository;
 
-    @Autowired
-    private AdminRepository adminRepository;
+    private final  AccountHolderRepository accountHolderRepository;// for admin or accountholder??
+
+    private final  AdminRepository adminRepository;
+
+    private final ThirdPartyRepository thirdPartyRepository;
 
 
     //*/***************************** by services
 
-    @Autowired
-    private AccountHolderServiceImpl accountHolderService;
+    private final AccountHolderServiceImpl accountHolderService;
 
-    @Autowired
-    private CheckingServiceImpl checkingService;
+    private final CheckingServiceImpl checkingService;
 
-    @Autowired
-    private StudentCheckingServiceImpl studentCheckingService;
+    private final StudentCheckingServiceImpl studentCheckingService;
 
-    @Autowired
-    private CreditServiceImpl creditService;
+    private final CreditServiceImpl creditService;
 
-    @Autowired
-    private SavingServiceImpl savingService;
+    private final SavingServiceImpl savingService;
 
-    @Autowired
-    private AccountServiceImpl accountService;
+    private final AccountServiceImpl accountService;
+
+    public AdminServiceImpl(CheckingRepository checkingRepository, AccountRepository accountRepository, CreditRepository creditRepository, SavingRepository savingRepository, StudentCheckingRepository studentCheckingRepository, AccountHolderRepository accountHolderRepository, AdminRepository adminRepository, ThirdPartyRepository thirdPartyRepository, AccountHolderServiceImpl accountHolderService, CheckingServiceImpl checkingService, StudentCheckingServiceImpl studentCheckingService, CreditServiceImpl creditService, SavingServiceImpl savingService, AccountServiceImpl accountService) {
+        this.checkingRepository = checkingRepository;
+        this.accountRepository = accountRepository;
+        this.creditRepository = creditRepository;
+        this.savingRepository = savingRepository;
+        this.studentCheckingRepository = studentCheckingRepository;
+        this.accountHolderRepository = accountHolderRepository;
+        this.adminRepository = adminRepository;
+        this.thirdPartyRepository = thirdPartyRepository;
+        this.accountHolderService = accountHolderService;
+        this.checkingService = checkingService;
+        this.studentCheckingService = studentCheckingService;
+        this.creditService = creditService;
+        this.savingService = savingService;
+        this.accountService = accountService;
+    }
+
+    @Override
+    public List<AdminDTO> getAdmins() {
+        var admin = adminRepository.findAll();
+        List <AdminDTO> admins = new ArrayList<>();
+
+        for(var i : admin){
+            admins.add(AdminDTO.byObject(i));
+        }
+        return null;
+    }
+    public List <AccountDTO> getTotal(String typus){
+
+        AccountsType type = AccountsType.valueOf(typus.toUpperCase());
+
+        switch (type){
+            case CHECKING -> {
+                return Collections.singletonList((AccountDTO) checkingService.getAll());
+            }
+            case CREDIT -> {
+                return Collections.singletonList((AccountDTO) creditService.getAll());
+            }
+            case SAVING -> {
+                return Collections.singletonList((AccountDTO) savingService.getAll());
+            }
+            case STUDENT -> {
+                return Collections.singletonList((AccountDTO) studentCheckingService.getAll());
+            }
+        }
+
+        return null;
+
+    }
+
+
 
     @Override
     public List<AccountDTO> getAll() {
@@ -71,15 +116,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<CheckingDTO> getAllChecking() {
-        var all = checkingRepository.findAll();
 
-        List <CheckingDTO> listDTO = new ArrayList<>();
-        for(var i : all){
-            listDTO.add(CheckingDTO.byObject(i));
-        }
-        return listDTO;
+        return checkingService.getAll();
     }
-
 
 
     //*************************************************************
@@ -122,47 +161,47 @@ public class AdminServiceImpl implements AdminService {
     //************************************************************
     @Override
     public List<CheckingDTO> getStatus(String stats) {
-        return null;
+        return checkingService.getStatus(stats);
     }
 
     @Override
     public CheckingDTO findById(Long id) {
-        return null;
+        return checkingService.findById(id);
     }
 
     @Override
     public CheckingDTO saveObject(CheckingDTO checkingDTO) {
-        return null;
+        return checkingService.saveObject(checkingDTO);
     }
 
     @Override
     public List<CreditDTO> getAllCredit() {
-        return null;
+        return creditService.getAll();
     }
 
     @Override
     public CreditDTO findByIdCredit(Long id) {
-        return null;
+        return creditService.findById(id);
     }
 
     @Override
     public CreditDTO saveObject(CreditDTO creditDTO) {
-        return null;
+        return creditService.saveObject(creditDTO);
     }
 
     @Override
     public List<SavingDTO> getAllSaving() {
-        return null;
+        return savingService.getAll();
     }
 
     @Override
     public SavingDTO findByIdSaving(Long id) {
-        return null;
+        return savingService.findById(id);
     }
 
     @Override
     public SavingDTO saveObject(SavingDTO savingDTO) {
-        return null;
+        return savingService.saveObject(savingDTO);
     }
 
     @Override

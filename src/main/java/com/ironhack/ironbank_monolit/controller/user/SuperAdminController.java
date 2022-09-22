@@ -42,8 +42,6 @@ public class SuperAdminController {
     public ResponseEntity<?> createUser(@RequestBody CreateUserRequest user) { // CALL TO THE DTO FROM SECURITY EMULING LIKE THE DTO FOR CREATE A NEW ACCOUNT
         // with this we get the id
         Response createdResponse = clientService.createKeycloakUser(user);
-
-        //createdResponse.g
         return ResponseEntity.status(createdResponse.getStatus()).build();
 
     }
@@ -64,6 +62,7 @@ public class SuperAdminController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(accessTokenResponse);
         }
     }
+
 
 
     //******************************************************************************************

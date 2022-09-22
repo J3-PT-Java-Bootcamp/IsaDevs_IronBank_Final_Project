@@ -1,11 +1,16 @@
 package com.ironhack.ironbank_monolit.service.user;
 
 import com.ironhack.ironbank_monolit.dto.accountDTO.*;
+import com.ironhack.ironbank_monolit.dto.userDTO.AdminDTO;
 
 
 import java.util.List;
 
 public interface AdminService {
+
+    //*************************** BY ADMIN
+
+    List <AdminDTO> getAdmins();
 
     //*********************************** BY CHECKING
     List <AccountDTO> getAll();

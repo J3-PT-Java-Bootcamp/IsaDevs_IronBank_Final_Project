@@ -17,20 +17,6 @@ public class AccountHolderServiceImpl implements AccountHolderService {
     @Autowired
     AccountHolderRepository accountHolderRepository;
 
-
-    @Override
-    public Map<Object, Object> findByPassAnU(String pass, String name) {
-        Map <Object, Object> count = new HashMap<>();
-        //List<Object[]> x = accountHolderRepository.findByPasswordAndUser(pass, name);
-        /*for(int i = 0; i < x.size(); i++){
-            count.put(x.get(i)[0], x.get(i)[1]);
-        }*/
-
-        System.out.println(count);
-
-        return count;
-    }
-
     @Override
     public List<AccountHolderDTO> holders() {
         var hol = accountHolderRepository.findAll();
@@ -39,7 +25,6 @@ public class AccountHolderServiceImpl implements AccountHolderService {
         for(var i : hol){
             list.add(AccountHolderDTO.byObject(i));
         }
-
         return list;
     }
 
@@ -51,12 +36,28 @@ public class AccountHolderServiceImpl implements AccountHolderService {
         return byDTO;
     }
 
-    public List <AccountHolder> total(){
-        var account = accountHolderRepository.findAll();
+    @Override
+    public List<AccountHolderDTO> getByName(String name) {
+       var names = accountHolderRepository.findAccountHolderByName(name);
+       List <AccountHolderDTO> namesOf = new ArrayList<>();
+       for(var i : names){
+           namesOf.add(AccountHolderDTO.byObject(i));
+       }
 
-        System.out.println(account);
-        return account;
+       return namesOf;
     }
+
+    @Override
+    public List<AccountHolderDTO> getByUserName(String username) {
+        var names = accountHolderRepository.findAccountHolderByUserName(username);
+        List <AccountHolderDTO> namesOf = new ArrayList<>();
+        for(var i : names){
+            namesOf.add(AccountHolderDTO.byObject(i));
+        }
+
+        return namesOf;
+    }
+
 
     public AccountHolderDTO save(AccountHolderDTO accountHolderDTO){
 

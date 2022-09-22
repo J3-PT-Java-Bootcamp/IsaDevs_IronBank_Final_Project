@@ -30,7 +30,7 @@ public class OperationServiceImpl {
     /*the user must provide the Primary or Secondary owner name and the id of the account that should receive the transfer.*/
     public Account transfer(long iduser, long id, String name, BigDecimal amount) throws Exception {
 
-        var userName = accountHolderRepository.findByName(name);
+        var userName = accountHolderRepository.findAccountHolderByName(name).get(0);
 
         var user = accountHolderRepository.findById(iduser).orElseThrow();
 
@@ -38,7 +38,7 @@ public class OperationServiceImpl {
 
         var acountReceive = accountRepository.findById(id).orElseThrow();
 
-        var userReceive = accountHolderRepository.findByName(acountReceive.getPrimaryOwner().getName());
+        var userReceive = accountHolderRepository.findAccountHolderByName(acountReceive.getPrimaryOwner().getName()).get(0);
 
         if (userName == null && !Objects.equals(userName.getName(), userReceive.getName()) && userName.getOwner().getStatus() != Status.FROZEN) {
             throw new Exception("Not User with that name");

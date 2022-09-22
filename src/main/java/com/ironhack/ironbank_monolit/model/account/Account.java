@@ -42,12 +42,12 @@ public class Account {
     @NotBlank
     protected String secretKey;
 
-    @OneToOne
+    @OneToOne(optional = false)
     @JsonIgnore
     @JoinColumn(name = "owner")
     protected User primaryOwner;
 
-    @OneToOne
+    @OneToOne(optional = true)
     @JsonIgnore
     @JoinColumn(name = "secondary_owner")
     protected User secondaryOwner;
@@ -67,10 +67,10 @@ public class Account {
 
     // 1 ACCOUNT == N OPERATIONS
     @OneToMany(mappedBy = "accountSend")
-    private List<Operations> operationSend;
+    protected List<Operations> operationSend;
 
     @OneToMany(mappedBy = "accountReceive")
-    private List<Operations> operationReceive;
+    protected List<Operations> operationReceive;
 
 
     //changes to money attribute

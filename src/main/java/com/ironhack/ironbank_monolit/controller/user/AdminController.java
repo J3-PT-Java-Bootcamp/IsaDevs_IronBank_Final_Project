@@ -62,6 +62,12 @@ public class AdminController {
         return x;
     }
 
+    @GetMapping("/get-account/type/{type}")
+    public List<AccountDTO> getAType(@PathVariable String type){
+
+        return adminService.getTotal(type);
+    }
+
     @GetMapping("/checking")
     public List <CheckingDTO> findAllChecking(){
         return adminService.getAllChecking();
@@ -78,16 +84,6 @@ public class AdminController {
     }
 
     //*********  DONT WORK WITH REPOSITORY
-    @GetMapping("/users-total")
-    public List <AccountHolder> total(){
-
-        var result = accountHolderService.total();
-
-        System.out.println(result);
-        return result;
-    }
-
-    //**********************************
 
     @GetMapping("/user-balance/{id}")
     public Money getMyBalance(@PathVariable("id") long id) throws Exception {
@@ -132,7 +128,6 @@ public class AdminController {
 
     }
 
-
     //THIS POST GET THE TOKEN AND UPDATE EVERYTIME
     @PostMapping("/get-token")
     public ResponseEntity<AccessTokenResponse> login(@NotNull @RequestBody LoginRequest loginRequest){
@@ -148,7 +143,6 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(accessTokenResponse);
         }
     }
-
 
     //******************************************************************************************
 
