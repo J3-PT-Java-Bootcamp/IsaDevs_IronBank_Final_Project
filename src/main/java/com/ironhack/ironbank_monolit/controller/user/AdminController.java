@@ -1,6 +1,5 @@
 package com.ironhack.ironbank_monolit.controller.user;
 
-import com.ironhack.ironbank_monolit.dto.accountDTO.AccountDTO;
 import com.ironhack.ironbank_monolit.dto.registerDTO.NewRegisterDTO;
 import com.ironhack.ironbank_monolit.dto.userDTO.AccountHolderDTO;
 import com.ironhack.ironbank_monolit.model.account.Account;
@@ -50,80 +49,60 @@ public class AdminController {
 
     //**************************************************************************
 
-//              this method returning a list of all accounts in the database
+//              this method returning a list of all accounts in the database, we need to pass the "type"
 
     // **************************************************************************
 
 
     @GetMapping("/get-account/type/{type}")
+    @ResponseStatus(HttpStatus.OK)
     public List<Object> getAType(@PathVariable String type){
 
         return adminService.getTotal(type);
     }
 
     @GetMapping("/users")
+    @ResponseStatus(HttpStatus.OK)
     public List <AccountHolderDTO> all(){
 
         return accountHolderService.holders();
     }
 
-    //*********  DONT WORK WITH REPOSITORY
 
     @GetMapping("/account-balance/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public Money getMyBalance(@PathVariable("id") Long  id) throws Exception {
 
         return adminService.getBalanceByAccount(id);
     }
 
     @GetMapping("/user-balance/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public List <Money> getMyBalances(@PathVariable("id") Long  id) throws Exception {
 
         return adminService.getBalanceByUser(id);
     }
 
     @GetMapping("/id-user/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public AccountHolderDTO findById(@PathVariable("id") long id){
         return accountHolderService.byId(id);
     }
-    //********** ADD NEW REGISTER TO DATABASE
-
-    /*@PostMapping("/add-new-register")
-    public AccountHolderDTO createNewAccount(@RequestBody NewRegisterDTO newRegisterDTO){
-
-        AccountHolderDTO newUser = new AccountHolderDTO(newRegisterDTO.getName(), newRegisterDTO.getDateOfBirth(), newRegisterDTO.getNumber(), newRegisterDTO.getRoad(), newRegisterDTO.getCountry(), newRegisterDTO.getPostalCode(), newRegisterDTO.getMailingAddress());
-        System.out.println(newUser);
-
-        var interest = newRegisterDTO.getInterestRate();
-
-        var balan = new Money(newRegisterDTO.getBalance());
-
-
-
-        var c = adminService.saveNewAccount(newUser, newRegisterDTO.getAccountType(),new Money(newRegisterDTO.getCreditLimit()), interest, balan, newRegisterDTO.getSecretKey());
-
-        System.out.println(c);
-        return c;
-    }*/
 
     @PostMapping("/add-new-register")
     public AccountHolderDTO createNewAccount(@RequestBody NewRegisterDTO newRegisterDTO) throws Exception {
 
-        //AccountHolderDTO newUser = new AccountHolderDTO(newRegisterDTO.getName(), newRegisterDTO.getDateOfBirth(), newRegisterDTO.getNumber(), newRegisterDTO.getRoad(), newRegisterDTO.getCountry(), newRegisterDTO.getPostalCode(), newRegisterDTO.getMailingAddress());
-        //System.out.println(newUser);
-
         var interest = newRegisterDTO.getInterestRate();
 
         var balan = new Money(newRegisterDTO.getBalance());
 
-
-
-        var c = adminService.addNewAccount(newRegisterDTO.getPrimary(), newRegisterDTO.getAccountType(),new Money(newRegisterDTO.getCreditLimit()), interest, balan, newRegisterDTO.getSecretKey());
-
-        return c;
+        return adminService.addNewAccount(newRegisterDTO.getPrimary(), newRegisterDTO.getAccountType(),new Money(newRegisterDTO.getCreditLimit()), interest, balan, newRegisterDTO.getSecretKey());
     }
 
     //*******************************************************************************
     //  FOR SECURITY
+    //*******************************************************************************
+
 
     @PostMapping(value = "/create")
     public ResponseEntity<?> createUser(@RequestBody CreateUserRequest user) { // CALL TO THE DTO FROM SECURITY EMULING LIKE THE DTO FOR CREATE A NEW ACCOUNT
@@ -151,13 +130,19 @@ public class AdminController {
     }
 
     //******************************************************************************************
-
-    //********** OPERATIONS AREA
+    //OPERATIONS AREA
+    //******************************************************************************************
 
     @PatchMapping("/id-user/{idUser}/id/{id}/name/{name}/ammount/{ammount}")
     public Account makeAtransfer(@PathVariable("idUser") long idUser, @PathVariable("id") long id, @PathVariable("name") String name, @PathVariable("ammount")BigDecimal ammount) throws Exception {
         return operationService.transfer(idUser, id, name, ammount);
     }
+
+   /* @PatchMapping("/make-a-transfer")
+    public Account makeAtransfer(@RequestBody NewRegisterDTO newRegisterDTO) throws Exception {
+
+        return operationService.transfer(newRegisterDTO.getPrimary(), newRegisterDTO.getId(), newRegisterDTO.getName(), newRegisterDTO.getBalance());
+    }*/
 
     @PatchMapping("modify/id/{id}/ammount/{ammount}")
     public Account modifyBalance(@PathVariable("id") Long id, @PathVariable("ammount")BigDecimal ammount){

@@ -89,6 +89,7 @@ public class AdminServiceImpl implements AdminService {
             case STUDENT -> {
                 return Collections.singletonList(studentCheckingService.getAll());
             }
+            default -> System.out.println("existing account types only");
         }
 
         return null;
@@ -120,6 +121,8 @@ public class AdminServiceImpl implements AdminService {
                 case STUDENT -> {
                     return studentCheckingService.findById(id);
                 }
+                default -> System.out.println("existing account types only");
+
             }
         } else {
             throw new Exception("Not account with that id in the database");
@@ -166,6 +169,8 @@ public class AdminServiceImpl implements AdminService {
                 var dtoChecking = StudentCheckingDTO.byObject((StudentChecking) account);
                 studentCheckingService.saveObject(dtoChecking);
             }
+            default -> System.out.println("existing account types only");
+
         }
         return accountHolderDTO;
     }
@@ -203,6 +208,7 @@ public class AdminServiceImpl implements AdminService {
                     var dtoChecking = StudentCheckingDTO.byObject((StudentChecking) account);
                     studentCheckingService.saveObject(dtoChecking);
                 }
+                default -> System.out.println("existing account types only");
             }
         } else {
             throw new Exception("Nonexistent user with that id");

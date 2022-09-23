@@ -16,6 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NewRegisterDTO {
+    private long id;
 
     private String name;
     private String secretId;
