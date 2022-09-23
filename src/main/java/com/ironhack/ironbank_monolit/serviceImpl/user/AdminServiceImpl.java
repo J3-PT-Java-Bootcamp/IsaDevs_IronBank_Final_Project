@@ -143,14 +143,14 @@ public class AdminServiceImpl implements AdminService {
 
         accountHolderService.save(accountHolderDTO);
 
-        var primaryOwner = accountHolderRepository.findById(accountHolderRepository.count());
+        var primaryOwner = accountHolderRepository.findById(accountHolderRepository.count() - 1).orElseThrow();
 
         System.out.println(primaryOwner);
 
         AccountsType type = AccountsType.valueOf(accountsType.toUpperCase());
 
 
-        var account = primaryOwner.get().primaryOwnerVerified(type, balance, secretkey, primaryOwner.orElseThrow(), primaryOwner.orElseThrow(), Status.ACTIVE,  creditLimit, interestRate);
+        var account = primaryOwner.primaryOwnerVerified(type, balance, secretkey, primaryOwner, primaryOwner, Status.ACTIVE,  creditLimit, interestRate);
 
         switch (type){
             case CHECKING -> {
@@ -224,11 +224,11 @@ public class AdminServiceImpl implements AdminService {
 
     public Money getBalanceByAccount(Long id) throws Exception {
 
-        if (accountService.getById(id) != null){
-            return accountService.getById(id).getBalance();
+        if (accountService.getById(id) == null){
+            throw new Exception("Nonexistent account with that id");
         }
+        return accountService.getById(id).getBalance();
 
-        throw new Exception("Nonexistent account with that id");
     }
 
 
@@ -242,14 +242,13 @@ public class AdminServiceImpl implements AdminService {
 
         List <Money> balance = new ArrayList<>();
 
-        if (accountService.getPrimaryOwner(id) != null){
-            for (var i : accountService.getPrimaryOwner(id)){
-                balance.add(i.getBalance());
-            }
-            return balance;
+        if (accountService.getPrimaryOwner(id) == null){
+            throw new Exception("Nonexistent account with that id");
         }
-
-        throw new Exception("Nonexistent account with that id");
+        for (var i : accountService.getPrimaryOwner(id)){
+            balance.add(i.getBalance());
+        }
+        return balance;
     }
     //************************************************************
 

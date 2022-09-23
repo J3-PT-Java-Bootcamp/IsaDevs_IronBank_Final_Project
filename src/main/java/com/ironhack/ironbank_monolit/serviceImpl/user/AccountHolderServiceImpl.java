@@ -1,20 +1,27 @@
 package com.ironhack.ironbank_monolit.serviceImpl.user;
 
 import com.ironhack.ironbank_monolit.dto.userDTO.AccountHolderDTO;
+import com.ironhack.ironbank_monolit.model.account.Money;
 import com.ironhack.ironbank_monolit.model.user.AccountHolder;
 import com.ironhack.ironbank_monolit.repository.user.AccountHolderRepository;
 import com.ironhack.ironbank_monolit.service.user.AccountHolderService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ironhack.ironbank_monolit.serviceImpl.account.AccountServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service(value = "account-holder")
 public class AccountHolderServiceImpl implements AccountHolderService {
-    @Autowired
-    AccountHolderRepository accountHolderRepository;
+
+    private final AccountHolderRepository accountHolderRepository;
+
+    private final AccountServiceImpl accountService;
+
+    public AccountHolderServiceImpl(AccountHolderRepository accountHolderRepository, AccountServiceImpl accountService) {
+        this.accountHolderRepository = accountHolderRepository;
+        this.accountService = accountService;
+    }
 
     @Override
     public List<AccountHolderDTO> holders() {
@@ -70,5 +77,18 @@ public class AccountHolderServiceImpl implements AccountHolderService {
 
     public void deleteUser(Long id){
         accountHolderRepository.deleteById(id);
+    }
+
+    public List <Money> getBalanceByUser(Long id) throws Exception {
+
+        List <Money> balance = new ArrayList<>();
+
+        if (accountService.getPrimaryOwner(id) == null){
+            throw new Exception("Nonexistent account with that id");
+        }
+        for (var i : accountService.getPrimaryOwner(id)){
+            balance.add(i.getBalance());
+        }
+        return balance;
     }
 }

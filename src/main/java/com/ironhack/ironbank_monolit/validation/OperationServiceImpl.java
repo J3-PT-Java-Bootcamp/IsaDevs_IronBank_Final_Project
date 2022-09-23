@@ -58,6 +58,9 @@ public class OperationServiceImpl {
                 operationsRepository.save(oper);
 
                 System.out.println("transfer ok");
+            } else {
+                System.out.println("Transfer abort");
+                throw new Exception("Not Founds for this transaction, find a job!!!");
             }
 
         }
