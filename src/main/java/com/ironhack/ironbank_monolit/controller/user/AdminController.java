@@ -133,16 +133,18 @@ public class AdminController {
     //OPERATIONS AREA
     //******************************************************************************************
 
+    /*
     @PatchMapping("/id-user/{idUser}/id/{id}/name/{name}/ammount/{ammount}")
     public Account makeAtransfer(@PathVariable("idUser") long idUser, @PathVariable("id") long id, @PathVariable("name") String name, @PathVariable("ammount")BigDecimal ammount) throws Exception {
         return operationService.transfer(idUser, id, name, ammount);
-    }
+    }*/
 
-   /* @PatchMapping("/make-a-transfer")
+    @PatchMapping("/make-a-transfer")
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public Account makeAtransfer(@RequestBody NewRegisterDTO newRegisterDTO) throws Exception {
 
-        return operationService.transfer(newRegisterDTO.getPrimary(), newRegisterDTO.getId(), newRegisterDTO.getName(), newRegisterDTO.getBalance());
-    }*/
+        return operationService.transfer(newRegisterDTO.getPrimary(), newRegisterDTO.getId(), newRegisterDTO.getName(), newRegisterDTO.getBalance(), newRegisterDTO.getRol(), newRegisterDTO.getSecretId());
+    }
 
     @PatchMapping("modify/id/{id}/ammount/{ammount}")
     public Account modifyBalance(@PathVariable("id") Long id, @PathVariable("ammount")BigDecimal ammount){

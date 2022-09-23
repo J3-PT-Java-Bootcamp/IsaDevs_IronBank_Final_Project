@@ -46,13 +46,13 @@ public class MenuTest {
         System.out.println("Indique una opcion : \n1.- Ingresar a cuenta \n2.-Crear cuenta");
         var f = scanner.nextInt();
 
-        switch (f){
+        /*switch (f){
             case 1 -> enterToAccount();
             case 2 -> createAccount();
-        }
+        }*/
     }
 
-    public void enterToAccount() throws Exception {
+    /*public void enterToAccount() throws Exception {
 
             System.out.println("desea realizar una transferencia  (1) yes, (2) no");
             response = scanner.nextInt();
@@ -105,7 +105,7 @@ public class MenuTest {
             }
         }*/
 
-        menu();
+      /*  menu();
     }
 
     public List<Object> getAttributes(Object ... values){
@@ -118,7 +118,7 @@ public class MenuTest {
         return attribute;
     }
 
-    public void transfer() throws Exception {
+    /*public void transfer() throws Exception {
         System.out.println("id user");
         var idaccount = scanner.nextLong();
         System.out.println("indique id cuenta a transferir?");
@@ -129,5 +129,5 @@ public class MenuTest {
         var ammount = scanner.nextBigDecimal();
 
         operationService.transfer(idaccount, id, name, ammount);
-    }
+    }*/
 }

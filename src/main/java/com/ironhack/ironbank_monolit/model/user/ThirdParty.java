@@ -1,6 +1,6 @@
 package com.ironhack.ironbank_monolit.model.user;
 
-import com.ironhack.ironbank_monolit.model.account.Account;
+import com.ironhack.ironbank_monolit.dto.userDTO.ThirdPartyDTO;
 import com.ironhack.ironbank_monolit.model.account.Money;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,8 +11,6 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.math.BigDecimal;
-import java.util.List;
 
 @Entity
 @Setter
@@ -34,11 +32,40 @@ public class ThirdParty extends User {
     @NotNull
     private String secretKey;
 
-    public ThirdParty(String name, List<Account> owner, List<Account> secondaryOwner, String secret, String userName, String hashedKey, Money amount, long idAccount, String secretKey) {
-        super(name, owner, secondaryOwner, secret, userName);
+    //************************************************************************************
+    // CONSTRUCTOR FOR THIRD PARTY when receive and send money, REGISTER IN THE DATABASE
+    //************************************************************************************
+    public ThirdParty(String name, String secret, String userName, String hashedKey, Money amount, long idAccount, String secretKey) {
+        super(name, secret, userName);
         this.hashedKey = hashedKey;
         this.amount = amount;
         this.idAccount = idAccount;
         this.secretKey = secretKey;
+    }
+
+    //************************************************************************************
+    // CONSTRUCTOR FOR THIRD PARTY JUST MAKING A TRANSFER
+    //************************************************************************************
+
+    public ThirdParty(String name, String hashedKey, Money amount, long idAccount, String secretKey) {
+        super(name);
+        this.hashedKey = hashedKey;
+        this.amount = amount;
+        this.idAccount = idAccount;
+        this.secretKey = secretKey;
+    }
+
+    //************************************************************************************
+    // CONSTRUCTOR WITH DTO FOR MAKE A TRANSFER
+    //************************************************************************************
+    public static ThirdParty byDTO(ThirdPartyDTO thirdPartyDTO){
+        return  new ThirdParty(thirdPartyDTO.getName(), thirdPartyDTO.getHashedKey(), thirdPartyDTO.getAmount(), thirdPartyDTO.getIdAccount(), thirdPartyDTO.getSecretKey());
+    }
+
+    //************************************************************************************
+    // CONSTRUCTOR WITH DTO FOR MAKE AND RECEIVE A TRANSFER
+    //************************************************************************************
+    public static ThirdParty byDTORegister(ThirdPartyDTO thirdPartyDTO){
+        return new ThirdParty(thirdPartyDTO.getName(), thirdPartyDTO.getSecret(), thirdPartyDTO.getUsername(), thirdPartyDTO.getHashedKey(), thirdPartyDTO.getAmount(), thirdPartyDTO.getIdAccount(), thirdPartyDTO.getSecretKey());
     }
 }

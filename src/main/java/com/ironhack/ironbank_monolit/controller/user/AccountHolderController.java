@@ -32,9 +32,9 @@ public class AccountHolderController {
         return accountHolderService.getBalanceByUser(id);
     }
 
-    @PatchMapping("/id-user/{idUser}/id-account/{id}/name/{name}/ammount/{ammount}")
+    /*@PatchMapping("/id-user/{idUser}/id-account/{id}/name/{name}/ammount/{ammount}")
     public Account makeAtransfer(@PathVariable("idUser") long idUser, @PathVariable("id") long id, @PathVariable("name") String name, @PathVariable("ammount") BigDecimal ammount) throws Exception {
         return operationService.transfer(idUser, id, name, ammount);
-    }
+    }*/
 
 }

@@ -15,4 +15,6 @@ public interface AccountHolderRepository extends JpaRepository <AccountHolder, L
 
     List <AccountHolder> findAccountHolderByUserName(String username);
 
+    AccountHolder findBySecret(String secret);
+
 }

@@ -41,7 +41,7 @@ public class NewRegisterDTO {
 
     private User primaryOwner;
 
-    private long secondaryOwner;
+    private long secondaryr;
 
     private Status status;
 
@@ -51,5 +51,7 @@ public class NewRegisterDTO {
 
     private String accountType;
 
+
+    private String rol;
 
 }

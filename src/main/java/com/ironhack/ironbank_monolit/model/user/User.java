@@ -44,8 +44,18 @@ public class User {
         setSecondaryOwner(new ArrayList<>());
         this.secret = secret;
         this.userName = userName;
-
     }
+
+    public User(String name,  String secret, String userName) {
+        this.name = name;
+        this.secret = secret;
+        this.userName = userName;
+    }
+
+    public User(String name) {
+        this.name = name;
+    }
+
 
     public void setOwner(List<Account> owner) {
         this.owner = owner;
