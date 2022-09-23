@@ -44,14 +44,8 @@ public class OperationServiceImpl {
             throw new Exception("Not User with that name");
         } else {
             if (user.getOwner().get(0).getBalance().getAmount().compareTo(amount) > 0) {
-                //user.getOwner().setBalance(new Money(user.getOwner().getBalance().decreaseAmount(amount)));
-                //user.getOwner().setTransactionDate(new Date());
 
                 account.get(0).setBalance(new Money(user.getOwner().get(0).getBalance().getAmount().subtract(amount)));
-                //account.getOperation();
-
-               //userReceive.getOwner().setBalance(new Money(userReceive.getOwner().getBalance().increaseAmount(amount)));
-                //userReceive.getOwner().setTransactionDate(new Date());
                 acountReceive.setBalance(new Money(userReceive.getOwner().get(0).getBalance().getAmount().add(amount)));
 
                 var oper = new Operations(account.get(0), acountReceive, new Date());

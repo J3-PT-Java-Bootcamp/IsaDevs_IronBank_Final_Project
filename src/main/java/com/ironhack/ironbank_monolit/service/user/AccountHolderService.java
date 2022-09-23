@@ -8,7 +8,7 @@ import java.util.Map;
 public interface AccountHolderService {
     List <AccountHolderDTO> holders();
 
-    AccountHolderDTO byId(long id);
+    AccountHolderDTO byId(Long id);
 
     List <AccountHolderDTO> getByName(String name);
 

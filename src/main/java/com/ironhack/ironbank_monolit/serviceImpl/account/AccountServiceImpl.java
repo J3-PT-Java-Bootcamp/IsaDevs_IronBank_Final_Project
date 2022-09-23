@@ -2,6 +2,7 @@ package com.ironhack.ironbank_monolit.serviceImpl.account;
 
 import com.ironhack.ironbank_monolit.dto.accountDTO.AccountDTO;
 import com.ironhack.ironbank_monolit.dto.accountDTO.CheckingDTO;
+import com.ironhack.ironbank_monolit.model.account.Account;
 import com.ironhack.ironbank_monolit.repository.account.AccountRepository;
 import com.ironhack.ironbank_monolit.repository.user.AccountHolderRepository;
 import com.ironhack.ironbank_monolit.service.account.AccountService;
@@ -50,5 +51,10 @@ public class AccountServiceImpl implements AccountService {
         }
 
         return owners;
+    }
+
+
+    public void deleteAccount(Long id){
+        accountRepository.deleteById(id);
     }
 }

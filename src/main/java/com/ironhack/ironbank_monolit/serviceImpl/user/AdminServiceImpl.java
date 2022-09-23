@@ -9,7 +9,6 @@ import com.ironhack.ironbank_monolit.model.enums.Status;
 import com.ironhack.ironbank_monolit.repository.account.*;
 import com.ironhack.ironbank_monolit.repository.user.AccountHolderRepository;
 import com.ironhack.ironbank_monolit.repository.user.AdminRepository;
-import com.ironhack.ironbank_monolit.repository.user.ThirdPartyRepository;
 import com.ironhack.ironbank_monolit.service.user.AdminService;
 import com.ironhack.ironbank_monolit.serviceImpl.account.*;
 import org.springframework.stereotype.Service;
@@ -18,8 +17,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import static com.ironhack.ironbank_monolit.model.enums.AccountsType.CHECKING;
 
 @Service(value = "admin")
 public class AdminServiceImpl implements AdminService {
@@ -43,7 +40,10 @@ public class AdminServiceImpl implements AdminService {
 
     private final AccountServiceImpl accountService;
 
-    public AdminServiceImpl(AccountHolderRepository accountHolderRepository, AdminRepository adminRepository, AccountHolderServiceImpl accountHolderService, CheckingServiceImpl checkingService, StudentCheckingServiceImpl studentCheckingService, CreditServiceImpl creditService, SavingServiceImpl savingService, AccountServiceImpl accountService) {
+
+    private  final AccountRepository accountRepository;
+
+    public AdminServiceImpl(AccountHolderRepository accountHolderRepository, AdminRepository adminRepository, AccountHolderServiceImpl accountHolderService, CheckingServiceImpl checkingService, StudentCheckingServiceImpl studentCheckingService, CreditServiceImpl creditService, SavingServiceImpl savingService, AccountServiceImpl accountService, AccountRepository accountRepository) {
         this.accountHolderRepository = accountHolderRepository;
         this.adminRepository = adminRepository;
         this.accountHolderService = accountHolderService;
@@ -52,7 +52,9 @@ public class AdminServiceImpl implements AdminService {
         this.creditService = creditService;
         this.savingService = savingService;
         this.accountService = accountService;
+        this.accountRepository = accountRepository;
     }
+
 
     @Override
     public List<AdminDTO> getAdmins() {
@@ -243,4 +245,50 @@ public class AdminServiceImpl implements AdminService {
 
         throw new Exception("Nonexistent account with that id");
     }
+    //************************************************************
+
+    //  THIS METHOD UPDATE BALANCE IN ACCOUNTS BY ID
+
+    //************************************************************
+
+    public Account modifyBalance(Long id, BigDecimal balance){
+
+        var newVal = accountRepository.findById(id).orElseThrow();
+        newVal.setBalance(new Money(balance));
+        accountRepository.save(newVal);
+
+        return newVal;
+    }
+
+
+    //************************************************************
+
+    //  THIS METHOD DELETE ACCOUNTS BY ID
+
+    //************************************************************
+
+    public void deleteAccount(Long id) throws Exception {
+        if(accountService.getById(id) == null){
+            throw new Exception("Nonexistent account with that id");
+        }
+        System.out.println("Delete OK");
+        accountService.deleteAccount(id);
+
+    }
+
+    //************************************************************
+
+    //  THIS METHOD DELETE Accountholders BY ID in cascade the accounts
+
+    //************************************************************
+
+    public void deleteUser(Long id) throws Exception {
+        if(accountHolderService.byId(id) == null){
+            throw new Exception("Nonexistent account with that id");
+        }
+        System.out.println("Delete OK");
+        accountHolderService.deleteUser(id);
+
+    }
+
 }

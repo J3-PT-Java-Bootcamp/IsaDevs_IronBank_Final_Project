@@ -1,14 +1,10 @@
 package com.ironhack.ironbank_monolit.controller.user;
 
 import com.ironhack.ironbank_monolit.dto.accountDTO.AccountDTO;
-import com.ironhack.ironbank_monolit.dto.accountDTO.CheckingDTO;
-import com.ironhack.ironbank_monolit.dto.accountDTO.CreditDTO;
 import com.ironhack.ironbank_monolit.dto.registerDTO.NewRegisterDTO;
 import com.ironhack.ironbank_monolit.dto.userDTO.AccountHolderDTO;
 import com.ironhack.ironbank_monolit.model.account.Account;
 import com.ironhack.ironbank_monolit.model.account.Money;
-import com.ironhack.ironbank_monolit.model.user.AccountHolder;
-import com.ironhack.ironbank_monolit.repository.user.AccountHolderRepository;
 import com.ironhack.ironbank_monolit.security.dto.CreateUserRequest;
 import com.ironhack.ironbank_monolit.security.dto.LoginRequest;
 import com.ironhack.ironbank_monolit.security.config.KeyCloakProvider;
@@ -18,7 +14,6 @@ import com.ironhack.ironbank_monolit.serviceImpl.user.AdminServiceImpl;
 import com.ironhack.ironbank_monolit.validation.OperationServiceImpl;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.representations.AccessTokenResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -164,5 +159,19 @@ public class AdminController {
         return operationService.transfer(idUser, id, name, ammount);
     }
 
+    @PatchMapping("modify/id/{id}/ammount/{ammount}")
+    public Account modifyBalance(@PathVariable("id") Long id, @PathVariable("ammount")BigDecimal ammount){
+        return adminService.modifyBalance(id, ammount);
+    }
 
+
+    @DeleteMapping("/delete-account/{id}")
+    public void deleteAccount(@PathVariable("id") Long id) throws Exception {
+        adminService.deleteAccount(id);
+    }
+
+    @DeleteMapping("/delete-user/{id}")
+    public void deleteUser(@PathVariable("id") Long id) throws Exception {
+        adminService.deleteUser(id);
+    }
 }

@@ -26,11 +26,11 @@ public class User {
     protected String name;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "primaryOwner")
+    @OneToMany(mappedBy = "primaryOwner", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     protected List <Account> owner;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "secondaryOwner")
+    @OneToMany(mappedBy = "secondaryOwner", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     protected List <Account> secondaryOwner;
 
     protected String secret;

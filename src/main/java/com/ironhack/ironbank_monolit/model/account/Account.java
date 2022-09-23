@@ -63,11 +63,11 @@ public class Account {
 
     // 1 ACCOUNT == N OPERATIONS
     @JsonIgnore
-    @OneToMany(mappedBy = "accountSend")
+    @OneToMany(mappedBy = "accountSend", cascade = CascadeType.ALL)
     protected List<Operations> operationSend;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "accountReceive")
+    @OneToMany(mappedBy = "accountReceive",  cascade = CascadeType.ALL)
     protected List<Operations> operationReceive;
 
 

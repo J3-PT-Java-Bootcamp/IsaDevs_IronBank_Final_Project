@@ -8,9 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 @Service(value = "account-holder")
 public class AccountHolderServiceImpl implements AccountHolderService {
@@ -29,7 +28,7 @@ public class AccountHolderServiceImpl implements AccountHolderService {
     }
 
     @Override
-    public AccountHolderDTO byId(long id) {
+    public AccountHolderDTO byId(Long id) {
         var byInstance = accountHolderRepository.findById(id).orElseThrow();
         var byDTO = AccountHolderDTO.byObject(byInstance);
 
@@ -67,5 +66,9 @@ public class AccountHolderServiceImpl implements AccountHolderService {
         var byDto = AccountHolderDTO.byObject(byInstance);
 
         return byDto;
+    }
+
+    public void deleteUser(Long id){
+        accountHolderRepository.deleteById(id);
     }
 }
