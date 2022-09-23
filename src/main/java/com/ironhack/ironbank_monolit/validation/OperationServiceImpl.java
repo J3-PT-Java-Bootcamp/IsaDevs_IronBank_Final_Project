@@ -40,26 +40,26 @@ public class OperationServiceImpl {
 
         var userReceive = accountHolderRepository.findAccountHolderByName(acountReceive.getPrimaryOwner().getName()).get(0);
 
-        if (userName == null && !Objects.equals(userName.getName(), userReceive.getName()) && userName.getOwner().getStatus() != Status.FROZEN) {
+        if (userName == null && !Objects.equals(userName.getName(), userReceive.getName()) && userName.getOwner().get(0).getStatus() != Status.FROZEN) {
             throw new Exception("Not User with that name");
         } else {
-            if (user.getOwner().getBalance().getAmount().compareTo(amount) > 0) {
+            if (user.getOwner().get(0).getBalance().getAmount().compareTo(amount) > 0) {
                 //user.getOwner().setBalance(new Money(user.getOwner().getBalance().decreaseAmount(amount)));
                 //user.getOwner().setTransactionDate(new Date());
 
-                account.setBalance(new Money(user.getOwner().getBalance().getAmount().subtract(amount)));
+                account.get(0).setBalance(new Money(user.getOwner().get(0).getBalance().getAmount().subtract(amount)));
                 //account.getOperation();
 
                //userReceive.getOwner().setBalance(new Money(userReceive.getOwner().getBalance().increaseAmount(amount)));
                 //userReceive.getOwner().setTransactionDate(new Date());
-                acountReceive.setBalance(new Money(userReceive.getOwner().getBalance().getAmount().add(amount)));
+                acountReceive.setBalance(new Money(userReceive.getOwner().get(0).getBalance().getAmount().add(amount)));
 
-                var oper = new Operations(account, acountReceive, new Date());
+                var oper = new Operations(account.get(0), acountReceive, new Date());
 
-                account.addToOperationSendList(oper);
+                account.get(0).addToOperationSendList(oper);
                 acountReceive.addToOperationReceiveList(oper);
 
-                accountRepository.save(account);
+                accountRepository.save(account.get(0));
                 accountRepository.save(acountReceive);
                 operationsRepository.save(oper);
 
@@ -67,11 +67,11 @@ public class OperationServiceImpl {
             }
 
         }
-        return account;
+        return account.get(0);
     }
 
 
-    public Money checkBalance(long id) throws Exception {
+    /*public Money checkBalance(long id) throws Exception {
 
         var user = accountHolderRepository.findById(id).orElseThrow();
 
@@ -82,5 +82,5 @@ public class OperationServiceImpl {
         }
 
         return account.getBalance();
-    }
+    }*/
 }

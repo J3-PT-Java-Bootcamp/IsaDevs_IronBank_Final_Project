@@ -7,15 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface AccountRepository extends JpaRepository <Account, Long> {
 
 
-    Account findByPrimaryOwner(User user);
+    List <Account> findByPrimaryOwner(User user);
 
-    @Query(value = "SELECT *\n" +
-                        "FROM account A\n" +
-                        "JOIN user U on U.id = A.owner\n" +
-                        "WHERE A.id = :id AND U.name LIKE :name", nativeQuery = true)
-    Account findByIdAndName(@Param("id") long id, @Param("name") String name);
 }

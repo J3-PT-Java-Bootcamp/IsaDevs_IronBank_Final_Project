@@ -74,10 +74,16 @@ public class AdminController {
 
     //*********  DONT WORK WITH REPOSITORY
 
-    @GetMapping("/user-balance/{id}")
-    public Money getMyBalance(@PathVariable("id") long id) throws Exception {
+    @GetMapping("/account-balance/{id}")
+    public Money getMyBalance(@PathVariable("id") Long  id) throws Exception {
 
-        return operationService.checkBalance(id);
+        return adminService.getBalanceByAccount(id);
+    }
+
+    @GetMapping("/user-balance/{id}")
+    public List <Money> getMyBalances(@PathVariable("id") Long  id) throws Exception {
+
+        return adminService.getBalanceByUser(id);
     }
 
     @GetMapping("/id-user/{id}")
@@ -104,6 +110,22 @@ public class AdminController {
         return c;
     }*/
 
+    @PostMapping("/add-new-register")
+    public AccountHolderDTO createNewAccount(@RequestBody NewRegisterDTO newRegisterDTO) throws Exception {
+
+        //AccountHolderDTO newUser = new AccountHolderDTO(newRegisterDTO.getName(), newRegisterDTO.getDateOfBirth(), newRegisterDTO.getNumber(), newRegisterDTO.getRoad(), newRegisterDTO.getCountry(), newRegisterDTO.getPostalCode(), newRegisterDTO.getMailingAddress());
+        //System.out.println(newUser);
+
+        var interest = newRegisterDTO.getInterestRate();
+
+        var balan = new Money(newRegisterDTO.getBalance());
+
+
+
+        var c = adminService.addNewAccount(newRegisterDTO.getPrimary(), newRegisterDTO.getAccountType(),new Money(newRegisterDTO.getCreditLimit()), interest, balan, newRegisterDTO.getSecretKey());
+
+        return c;
+    }
 
     //*******************************************************************************
     //  FOR SECURITY

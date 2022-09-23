@@ -99,24 +99,28 @@ public class AdminServiceImpl implements AdminService {
 
     //*************************************************************
 
+    @Override
+    public Object getAccountById(String typus, Long id) throws Exception {
 
-    public Object getAccountById(String typus, Long id){
+        if(accountService.getById(id) != null){
+            AccountsType type = AccountsType.valueOf(typus.toUpperCase());
 
-        AccountsType type = AccountsType.valueOf(typus.toUpperCase());
-
-        switch (type){
-            case CHECKING -> {
-                return checkingService.findById(id);
+            switch (type){
+                case CHECKING -> {
+                    return checkingService.findById(id);
+                }
+                case CREDIT -> {
+                    return creditService.findById(id);
+                }
+                case SAVING -> {
+                    return savingService.findById(id);
+                }
+                case STUDENT -> {
+                    return studentCheckingService.findById(id);
+                }
             }
-            case CREDIT -> {
-                return creditService.findById(id);
-            }
-            case SAVING -> {
-                return savingService.findById(id);
-            }
-            case STUDENT -> {
-                return studentCheckingService.findById(id);
-            }
+        } else {
+            throw new Exception("Not account with that id in the database");
         }
 
         return null;
@@ -129,6 +133,7 @@ public class AdminServiceImpl implements AdminService {
 //      THIS METHOD ADD A NEW ACCOUNT WITH A ACCOUNT HOLDER ASSOCIATED
     //*************************************************************
 
+    @Override
     public AccountHolderDTO saveNewAccount(AccountHolderDTO accountHolderDTO, String accountsType, Money creditLimit, BigDecimal interestRate, Money balance, String secretkey ){
 
         accountHolderService.save(accountHolderDTO);
@@ -164,34 +169,78 @@ public class AdminServiceImpl implements AdminService {
     }
 
     //************************************************************
+
+//  THIS METHOD ADD A NEW ACCOUNT TO A REGISTER USER
+    //************************************************************
+
     @Override
-    public List<CheckingDTO> getStatus(String stats) {
-        return checkingService.getStatus(stats);
+    public AccountHolderDTO addNewAccount(Long id, String accountsType, Money creditLimit, BigDecimal interestRate, Money balance, String secretkey ) throws Exception {
+
+        var primaryOwner = accountHolderRepository.findById(id).orElseThrow();
+
+        if(accountHolderRepository.findById(id).isPresent()){
+            AccountsType type = AccountsType.valueOf(accountsType.toUpperCase());
+
+
+            var account = primaryOwner.primaryOwnerVerified(type, balance, secretkey, primaryOwner, primaryOwner, Status.ACTIVE,  creditLimit, interestRate);
+
+            switch (type){
+                case CHECKING -> {
+                    var dtoChecking = CheckingDTO.byObject((Checking) account);
+                    checkingService.saveObject(dtoChecking);
+                }
+                case CREDIT -> {
+                    var dtoChecking = CreditDTO.byObject((Credit) account);
+                    creditService.saveObject(dtoChecking);
+                }
+                case SAVING -> {
+                    var dtoChecking = SavingDTO.byObject((Saving) account);
+                    savingService.saveObject(dtoChecking);
+                }
+                case STUDENT -> {
+                    var dtoChecking = StudentCheckingDTO.byObject((StudentChecking) account);
+                    studentCheckingService.saveObject(dtoChecking);
+                }
+            }
+        } else {
+            throw new Exception("Nonexistent user with that id");
+        }
+
+        return AccountHolderDTO.byObject(primaryOwner);
+    }
+
+    //************************************************************
+
+    //  THIS METHOD SEARCH THE BALANCE IN A SPECIFIC ACCOUNT
+    //************************************************************
+
+    public Money getBalanceByAccount(Long id) throws Exception {
+
+        if (accountService.getById(id) != null){
+            return accountService.getById(id).getBalance();
+        }
+
+        throw new Exception("Nonexistent account with that id");
     }
 
 
+    //************************************************************
 
-    @Override
-    public CheckingDTO saveObject(CheckingDTO checkingDTO) {
-        return checkingService.saveObject(checkingDTO);
-    }
+    //  THIS METHOD SEARCH THE BALANCE FOR A SPECIFIC USER, THIS USER COULD HAVE MANY ACCOUNTS
 
+    //************************************************************
 
+    public List <Money> getBalanceByUser(Long id) throws Exception {
 
-    @Override
-    public CreditDTO saveObject(CreditDTO creditDTO) {
-        return creditService.saveObject(creditDTO);
-    }
+        List <Money> balance = new ArrayList<>();
 
-    @Override
-    public SavingDTO saveObject(SavingDTO savingDTO) {
-        return savingService.saveObject(savingDTO);
-    }
+        if (accountService.getPrimaryOwner(id) != null){
+            for (var i : accountService.getPrimaryOwner(id)){
+                balance.add(i.getBalance());
+            }
+            return balance;
+        }
 
-
-
-    @Override
-    public StudentCheckingDTO saveObjectStudent(StudentCheckingDTO studentCheckingDTO) {
-        return null;
+        throw new Exception("Nonexistent account with that id");
     }
 }

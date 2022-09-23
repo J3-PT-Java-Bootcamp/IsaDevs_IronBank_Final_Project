@@ -36,7 +36,8 @@ public class NewRegisterDTO {
 
     private String secretKey;
 
-    // private long primaryOwner;
+    private long primary;
+
     private User primaryOwner;
 
     private long secondaryOwner;

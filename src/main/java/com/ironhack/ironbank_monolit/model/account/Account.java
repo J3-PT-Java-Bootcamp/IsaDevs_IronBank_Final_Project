@@ -42,14 +42,10 @@ public class Account {
     @NotBlank
     protected String secretKey;
 
-    @OneToOne(optional = false)
-    @JsonIgnore
-    @JoinColumn(name = "owner")
+    @ManyToOne(optional = false)
     protected User primaryOwner;
 
-    @OneToOne(optional = true)
-    @JsonIgnore
-    @JoinColumn(name = "secondary_owner")
+    @ManyToOne(optional = true)
     protected User secondaryOwner;
 
     @Enumerated(EnumType.STRING)

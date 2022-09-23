@@ -34,19 +34,19 @@ public class AccountHolder extends User {
     private String mailingAddress;
 
 
-    public AccountHolder(String name, Account owner, Account secondaryOwner, String secretKey, String userName, Date dateOfBirth, Address address, String mailingAddress) {
-        super(name, owner, secondaryOwner, secretKey, userName);
+    public AccountHolder(String name, List<Account> owner, List<Account> secondaryOwner, String secret, String userName, Date dateOfBirth, Address address, String mailingAddress) {
+        super(name, owner, secondaryOwner, secret, userName);
         this.dateOfBirth = dateOfBirth;
         this.address = address;
         this.mailingAddress = mailingAddress;
     }
 
-    public AccountHolder(String name, Account owner, Account secondaryOwner, Date dateOfBirth, Address address, String mailingAddress) {
+    /*public AccountHolder(String name, Account owner, Account secondaryOwner, Date dateOfBirth, Address address, String mailingAddress) {
         super(name, owner, secondaryOwner);
         this.dateOfBirth = dateOfBirth;
         this.address = address;
         this.mailingAddress = mailingAddress;
-    }
+    }*/
 
     /*
     * THIS METHOD VERIFIED IF A STUDENTCHECKING OR NOT
