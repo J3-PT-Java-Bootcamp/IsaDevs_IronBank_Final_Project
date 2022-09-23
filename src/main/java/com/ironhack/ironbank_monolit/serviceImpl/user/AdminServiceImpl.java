@@ -24,22 +24,9 @@ import static com.ironhack.ironbank_monolit.model.enums.AccountsType.CHECKING;
 @Service(value = "admin")
 public class AdminServiceImpl implements AdminService {
 
-
-    private final  CheckingRepository checkingRepository;
-
-    private final  AccountRepository accountRepository;
-
-    private final  CreditRepository creditRepository;
-
-    private final  SavingRepository savingRepository;
-
-    private final  StudentCheckingRepository studentCheckingRepository;
-
     private final  AccountHolderRepository accountHolderRepository;// for admin or accountholder??
 
     private final  AdminRepository adminRepository;
-
-    private final ThirdPartyRepository thirdPartyRepository;
 
 
     //*/***************************** by services
@@ -56,15 +43,9 @@ public class AdminServiceImpl implements AdminService {
 
     private final AccountServiceImpl accountService;
 
-    public AdminServiceImpl(CheckingRepository checkingRepository, AccountRepository accountRepository, CreditRepository creditRepository, SavingRepository savingRepository, StudentCheckingRepository studentCheckingRepository, AccountHolderRepository accountHolderRepository, AdminRepository adminRepository, ThirdPartyRepository thirdPartyRepository, AccountHolderServiceImpl accountHolderService, CheckingServiceImpl checkingService, StudentCheckingServiceImpl studentCheckingService, CreditServiceImpl creditService, SavingServiceImpl savingService, AccountServiceImpl accountService) {
-        this.checkingRepository = checkingRepository;
-        this.accountRepository = accountRepository;
-        this.creditRepository = creditRepository;
-        this.savingRepository = savingRepository;
-        this.studentCheckingRepository = studentCheckingRepository;
+    public AdminServiceImpl(AccountHolderRepository accountHolderRepository, AdminRepository adminRepository, AccountHolderServiceImpl accountHolderService, CheckingServiceImpl checkingService, StudentCheckingServiceImpl studentCheckingService, CreditServiceImpl creditService, SavingServiceImpl savingService, AccountServiceImpl accountService) {
         this.accountHolderRepository = accountHolderRepository;
         this.adminRepository = adminRepository;
-        this.thirdPartyRepository = thirdPartyRepository;
         this.accountHolderService = accountHolderService;
         this.checkingService = checkingService;
         this.studentCheckingService = studentCheckingService;
@@ -83,22 +64,58 @@ public class AdminServiceImpl implements AdminService {
         }
         return null;
     }
-    public List <AccountDTO> getTotal(String typus){
+
+    //****************************************************************************************
+    public List <Object> getTotal(String typus){
+
+        AccountsType type = AccountsType.valueOf(typus.toUpperCase());
+
+        switch (type){
+            case ACCOUNTS -> {
+                return Collections.singletonList(accountService.getAll());
+            }
+            case CHECKING -> {
+                return Collections.singletonList(checkingService.getAll());
+            }
+            case CREDIT -> {
+                return Collections.singletonList(creditService.getAll());
+                //return Collections.singletonList((AccountDTO) creditService.getAll());
+            }
+            case SAVING -> {
+                return Collections.singletonList(savingService.getAll());
+            }
+            case STUDENT -> {
+                return Collections.singletonList(studentCheckingService.getAll());
+            }
+        }
+
+        return null;
+
+    }
+
+    //************************************************************************************
+
+//      THIS METHOD FIND A ACCOUNT WITH A SPECIFIC ID
+
+    //*************************************************************
+
+
+    public Object getAccountById(String typus, Long id){
 
         AccountsType type = AccountsType.valueOf(typus.toUpperCase());
 
         switch (type){
             case CHECKING -> {
-                return Collections.singletonList((AccountDTO) checkingService.getAll());
+                return checkingService.findById(id);
             }
             case CREDIT -> {
-                return Collections.singletonList((AccountDTO) creditService.getAll());
+                return creditService.findById(id);
             }
             case SAVING -> {
-                return Collections.singletonList((AccountDTO) savingService.getAll());
+                return savingService.findById(id);
             }
             case STUDENT -> {
-                return Collections.singletonList((AccountDTO) studentCheckingService.getAll());
+                return studentCheckingService.findById(id);
             }
         }
 
@@ -107,20 +124,9 @@ public class AdminServiceImpl implements AdminService {
     }
 
 
+    // *************************************************************
 
-    @Override
-    public List<AccountDTO> getAll() {
-
-        return accountService.getAll();
-    }
-
-    @Override
-    public List<CheckingDTO> getAllChecking() {
-
-        return checkingService.getAll();
-    }
-
-
+//      THIS METHOD ADD A NEW ACCOUNT WITH A ACCOUNT HOLDER ASSOCIATED
     //*************************************************************
 
     public AccountHolderDTO saveNewAccount(AccountHolderDTO accountHolderDTO, String accountsType, Money creditLimit, BigDecimal interestRate, Money balance, String secretkey ){
@@ -154,7 +160,6 @@ public class AdminServiceImpl implements AdminService {
                 studentCheckingService.saveObject(dtoChecking);
             }
         }
-
         return accountHolderDTO;
     }
 
@@ -164,25 +169,14 @@ public class AdminServiceImpl implements AdminService {
         return checkingService.getStatus(stats);
     }
 
-    @Override
-    public CheckingDTO findById(Long id) {
-        return checkingService.findById(id);
-    }
+
 
     @Override
     public CheckingDTO saveObject(CheckingDTO checkingDTO) {
         return checkingService.saveObject(checkingDTO);
     }
 
-    @Override
-    public List<CreditDTO> getAllCredit() {
-        return creditService.getAll();
-    }
 
-    @Override
-    public CreditDTO findByIdCredit(Long id) {
-        return creditService.findById(id);
-    }
 
     @Override
     public CreditDTO saveObject(CreditDTO creditDTO) {
@@ -190,29 +184,11 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<SavingDTO> getAllSaving() {
-        return savingService.getAll();
-    }
-
-    @Override
-    public SavingDTO findByIdSaving(Long id) {
-        return savingService.findById(id);
-    }
-
-    @Override
     public SavingDTO saveObject(SavingDTO savingDTO) {
         return savingService.saveObject(savingDTO);
     }
 
-    @Override
-    public List<StudentCheckingDTO> getAllStudent() {
-        return null;
-    }
 
-    @Override
-    public StudentCheckingDTO findByIdStudent(Long id) {
-        return null;
-    }
 
     @Override
     public StudentCheckingDTO saveObjectStudent(StudentCheckingDTO studentCheckingDTO) {

@@ -13,11 +13,10 @@ public interface AdminService {
     List <AdminDTO> getAdmins();
 
     //*********************************** BY CHECKING
-    List <AccountDTO> getAll();
-    List <CheckingDTO> getAllChecking();
+
+
     List<CheckingDTO> getStatus(String stats);
 
-    CheckingDTO findById(Long id);
 
 
 
@@ -28,26 +27,16 @@ public interface AdminService {
 
     //*********************************** BY CREDIT
 
-    List<CreditDTO> getAllCredit();
 
-    CreditDTO findByIdCredit(Long id);
 
     CreditDTO saveObject(CreditDTO creditDTO);
 
 
     //*********************************** BY SAVING
 
-    List<SavingDTO> getAllSaving();
-
-    SavingDTO findByIdSaving(Long id);
-
     SavingDTO saveObject(SavingDTO savingDTO);
 
     //*********************************** BY STUDENT
-
-    List<StudentCheckingDTO> getAllStudent();
-
-    StudentCheckingDTO findByIdStudent(Long id);
 
     StudentCheckingDTO saveObjectStudent(StudentCheckingDTO studentCheckingDTO);
 

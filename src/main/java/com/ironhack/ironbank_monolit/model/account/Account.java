@@ -66,9 +66,11 @@ public class Account {
 
 
     // 1 ACCOUNT == N OPERATIONS
+    @JsonIgnore
     @OneToMany(mappedBy = "accountSend")
     protected List<Operations> operationSend;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "accountReceive")
     protected List<Operations> operationReceive;
 

@@ -24,6 +24,7 @@ public class AccountServiceImpl implements AccountService {
         for(var i : all){
             listDTO.add(AccountDTO.byObject(i));
         }
+
         return listDTO;
     }
 }

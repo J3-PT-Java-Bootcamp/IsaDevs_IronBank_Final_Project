@@ -52,29 +52,18 @@ public class AdminController {
         this.keyCloakProvider = keyCloakProvider;
     }
 
-    @GetMapping("/accounts")
-    public List<AccountDTO> findAll(){
 
-        var x = adminService.getAll();
+    //**************************************************************************
 
-        //System.out.println(x);
+//              this method returning a list of all accounts in the database
 
-        return x;
-    }
+    // **************************************************************************
+
 
     @GetMapping("/get-account/type/{type}")
-    public List<AccountDTO> getAType(@PathVariable String type){
+    public List<Object> getAType(@PathVariable String type){
 
         return adminService.getTotal(type);
-    }
-
-    @GetMapping("/checking")
-    public List <CheckingDTO> findAllChecking(){
-        return adminService.getAllChecking();
-    }
-    @GetMapping("/credits")
-    public List <CreditDTO> findAllCredit(){
-        return adminService.getAllCredit();
     }
 
     @GetMapping("/users")
@@ -97,10 +86,10 @@ public class AdminController {
     }
     //********** ADD NEW REGISTER TO DATABASE
 
-   /* @PostMapping("/add-new-register")
+    /*@PostMapping("/add-new-register")
     public AccountHolderDTO createNewAccount(@RequestBody NewRegisterDTO newRegisterDTO){
 
-        /*AccountHolderDTO newUser = new AccountHolderDTO(newRegisterDTO.getName(), newRegisterDTO.getDateOfBirth(), newRegisterDTO.getNumber(), newRegisterDTO.getRoad(), newRegisterDTO.getCountry(), newRegisterDTO.getPostalCode(), newRegisterDTO.getMailingAddress());
+        AccountHolderDTO newUser = new AccountHolderDTO(newRegisterDTO.getName(), newRegisterDTO.getDateOfBirth(), newRegisterDTO.getNumber(), newRegisterDTO.getRoad(), newRegisterDTO.getCountry(), newRegisterDTO.getPostalCode(), newRegisterDTO.getMailingAddress());
         System.out.println(newUser);
 
         var interest = newRegisterDTO.getInterestRate();
