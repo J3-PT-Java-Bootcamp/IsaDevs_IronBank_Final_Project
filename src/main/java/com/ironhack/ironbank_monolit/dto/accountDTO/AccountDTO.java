@@ -13,6 +13,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,7 +27,7 @@ public class AccountDTO {
 
     private User primaryOwner;
 
-    private long secondaryOwner;
+    private Optional <Long> secondaryOwner;
 
     private Status status;
 
@@ -54,6 +55,6 @@ public class AccountDTO {
         }
         account.setOperationReceive(receiver);
 
-        return new AccountDTO(account.getBalance(), account.getSecretKey(),account.getPrimaryOwner(), account.getSecondaryOwner().getId(),account.getStatus(), account.getOperationSend(), account.getOperationReceive());
+        return new AccountDTO(account.getBalance(), account.getSecretKey(),account.getPrimaryOwner(), Optional.of(account.getSecondaryOwner().getId()),account.getStatus(), account.getOperationSend(), account.getOperationReceive());
     }
 }

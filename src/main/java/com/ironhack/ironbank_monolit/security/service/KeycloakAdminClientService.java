@@ -49,7 +49,10 @@ public class KeycloakAdminClientService {
         return passwordCredential;
     }
 
-    //RECEIVE THE REQUEST FROM POSTMAN AND SET THE VALUES AND THE DTO USERREQUEST
+    //************************************************************************************
+    // RECEIVE THE REQUEST FROM POSTMAN AND SET THE VALUES WITH THE DTO USERREQUEST VARIABLES, THIS IS TOTALLY CUSTOMIZED
+    //************************************************************************************
+
     public Response createKeycloakUser(CreateUserRequest userRequest){
 
         //SAVE THE METHOD FROM THE KEY PROVIDER INTO A NEW VARIABLE
@@ -66,11 +69,32 @@ public class KeycloakAdminClientService {
         kcUser.setEnabled(true);
         kcUser.setEmailVerified(false);
 
+        //************************************************************************************
+        // WITH THE DTO VALUE CHECK THE GROUP AND ADD THERE
+        //************************************************************************************
+
+        var kcGruopToGo = userRequest.getRol();
+
+
+        switch (kcGruopToGo.toUpperCase()){
+            case "MEMBER" -> kcUser.setGroups(List.of("member"));
+            case "ADMIN" -> kcUser.setGroups(List.of("admin"));
+            default -> kcUser.setGroups(List.of("moderator"));
+        }
+
         //kcUser.setGroups(List.of("admin")); // ADD EVERY MEMBER TO THE GROUP MEMBER IN THE KEYCLOAK CLIENT
 
-        Response response = usersResource.create(kcUser);
+        //************************************************************************************
+        // 1 .- BUILD A Response OBJECT WITH THE USERSRESOURSE CREATED FROM THE USERREPRESENTATION SETTING FROM DTO VALUES
+        // 2 .- CHECKING THE CODE STATUS FROM THE RESPONSE OBJECT.
+        // 3 .- ADD THE KEYCLOAK USER TO A LIST OF USERREPRESENTATION FOR TRANSFORM THAT VALUES TO THE DATABASE (PARSING)
+        // 4 .- ADD THE OBJECT FROM REPRESENTATION LIST TO A NEW VARIABLE FOR MANIPULATED AND BUILD IN THE DATABASE AND CLASS
+        // 5 .- WITH THAT VARIABLE TAKE THE VALUE FOR THE KEYCLOAK UNIQUE ID TO OUR DATABASE AND SPECIFIC USER
+        // 6 .- AFTER WE BUILD THE OBJECT CLASS, WE JUST CALL OUR SERVICE TO SAVE THAT OBJECT WITH THAR PARAMS IN THE DATABASE
+        //************************************************************************************
 
-        //VERIFIED THE RESPONSE
+
+        Response response = usersResource.create(kcUser);
 
         //ONLY IF THE USER WAS TRANSFER TO A LIST
         if(response.getStatus() == 201){
@@ -80,9 +104,6 @@ public class KeycloakAdminClientService {
             var createdUser = userRepresentationList.get(0);
             log.info("User with id " + createdUser.getId() + " was correctly created");
 
-           // userRequest.setSecretId(createdUser.getId());
-            //userRequest.setUserName(createdUser.getUsername());
-
             AccountHolderDTO newUser = new AccountHolderDTO(userRequest.getName(), createdUser.getId(), createdUser.getUsername(), userRequest.getDateOfBirth(), userRequest.getNumber(), userRequest.getRoad(), userRequest.getCountry(), userRequest.getPostalCode(), userRequest.getMailingAddress());
             System.out.println(newUser);
 
@@ -90,15 +111,11 @@ public class KeycloakAdminClientService {
 
             var balan = new Money(userRequest.getBalance());
 
+            var accountHolderToSave = adminService.saveNewAccount(newUser, userRequest.getAccountType(),new Money(userRequest.getCreditLimit()), interest, balan, userRequest.getSecretKey());
 
-
-            var c = adminService.saveNewAccount(newUser, userRequest.getAccountType(),new Money(userRequest.getCreditLimit()), interest, balan, userRequest.getSecretKey());
-
-            System.out.println(c);
+            System.out.println(accountHolderToSave);
 
         }
-
-
 
         return response;
     }

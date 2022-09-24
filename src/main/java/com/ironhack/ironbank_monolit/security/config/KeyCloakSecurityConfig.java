@@ -18,7 +18,9 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true) //jsr ??? what is the reference?
 public class KeyCloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
-    // to this configure we need add the
+    //************************************************************************************
+    // THIS OVERRIDE CONFIGURE ALL PERMISSIONS IN KEYCLOAK, THIS CLASS EXTENDS FROM KeycloakWebSecurityConfigurerAdapter
+    //************************************************************************************
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 

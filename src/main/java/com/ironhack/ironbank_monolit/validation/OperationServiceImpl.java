@@ -32,7 +32,7 @@ public class OperationServiceImpl {
 
 
     /*the user must provide the Primary or Secondary owner name and the id of the account that should receive the transfer.*/
-    public Account transfer(long iduser, long id, String name, BigDecimal amount, String rol, String secretKey) throws Exception {
+    public Account transfer(long iduser,  long id, String name, BigDecimal amount, String rol, String secretKey) throws Exception {
 
         var userName = accountHolderRepository.findAccountHolderByName(name).get(0);
 

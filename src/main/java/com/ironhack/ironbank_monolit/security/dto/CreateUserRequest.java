@@ -21,6 +21,7 @@ public class CreateUserRequest {
     String email;
     String firstname;
     String lastname;
+    String rol;
 
     //***************************************
 
@@ -48,7 +49,7 @@ public class CreateUserRequest {
 
     private long secondaryOwner;
 
-    private Status status;
+    //private Status status;
 
     private BigDecimal interestRate;
 
