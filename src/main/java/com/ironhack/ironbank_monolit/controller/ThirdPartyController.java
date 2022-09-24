@@ -1,4 +1,4 @@
-package com.ironhack.ironbank_monolit.controller.user;
+package com.ironhack.ironbank_monolit.controller;
 
 import com.ironhack.ironbank_monolit.dto.registerDTO.NewRegisterDTO;
 import com.ironhack.ironbank_monolit.model.account.Account;

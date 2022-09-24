@@ -25,10 +25,10 @@ public class AccountHolderTest {
 
     @BeforeEach
     void setUp() {
-        var holder = new AccountHolderDTO("Pedro Perez", new Date(), 24, "Abbey Road", "England", 4563L, "abbeyroad@fantasymail.com");
-        var test1 = AccountHolder.byDTO(holder);
+        //var holder = new AccountHolderDTO("Pedro Perez", new Date(), 24, "Abbey Road", "England", 4563L, "abbeyroad@fantasymail.com");
+        //var test1 = AccountHolder.byDTO(holder);
 
-        accountHolderRepository.save(test1);
+       // accountHolderRepository.save(test1);
     }
 
     @Test

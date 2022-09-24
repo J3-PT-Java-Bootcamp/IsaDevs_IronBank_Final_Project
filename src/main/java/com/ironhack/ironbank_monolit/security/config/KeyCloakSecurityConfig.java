@@ -27,6 +27,7 @@ public class KeyCloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
         super.configure(http);
         http.authorizeRequests()
                 .antMatchers("/public/**").permitAll()
+                .antMatchers("/swagger-ui.html", "/v2/api-docs", "/webjars/**","/swagger-resources/**").permitAll()
                 .antMatchers("/member/**").hasAnyRole("member") //this could be totally customized
                 .antMatchers("/user/**").hasAnyRole("user")
                 .antMatchers("/admin/**").hasAnyRole("admin") //"/admin/**"
