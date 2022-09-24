@@ -9,14 +9,16 @@ import com.ironhack.ironbank_monolit.repository.account.AccountRepository;
 import com.ironhack.ironbank_monolit.repository.operations.OperationsRepository;
 import com.ironhack.ironbank_monolit.repository.user.AccountHolderRepository;
 import com.ironhack.ironbank_monolit.security.rol.Rol;
+import com.ironhack.ironbank_monolit.service.operations.OperationService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Service(value = "operations")
-public class OperationServiceImpl {
+public class OperationServiceImpl implements OperationService {
 
     private final AccountHolderRepository accountHolderRepository;
 
@@ -96,6 +98,11 @@ public class OperationServiceImpl {
         operationsRepository.save(oper);
 
         System.out.println("Transfer from thirdparty --->   ok");
+    }
+
+    @Override
+    public List<Operations> getTotal() {
+        return operationsRepository.findAll();
     }
 
 

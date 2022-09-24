@@ -2,6 +2,8 @@ package com.ironhack.ironbank_monolit.controller.user;
 
 import com.ironhack.ironbank_monolit.dto.registerDTO.NewRegisterDTO;
 import com.ironhack.ironbank_monolit.dto.userDTO.AccountHolderDTO;
+import com.ironhack.ironbank_monolit.dto.userDTO.AdminDTO;
+import com.ironhack.ironbank_monolit.dto.userDTO.ThirdPartyDTO;
 import com.ironhack.ironbank_monolit.model.account.Account;
 import com.ironhack.ironbank_monolit.model.account.Money;
 import com.ironhack.ironbank_monolit.security.dto.CreateUserRequest;
@@ -11,6 +13,7 @@ import com.ironhack.ironbank_monolit.security.service.KeycloakAdminClientService
 import com.ironhack.ironbank_monolit.serviceImpl.user.AccountHolderServiceImpl;
 import com.ironhack.ironbank_monolit.serviceImpl.user.AdminServiceImpl;
 import com.ironhack.ironbank_monolit.validation.OperationServiceImpl;
+import com.ironhack.ironbank_monolit.validation.Operations;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.representations.AccessTokenResponse;
 import org.springframework.http.HttpStatus;
@@ -68,12 +71,48 @@ public class AdminController {
         return accountHolderService.holders();
     }
 
+    @GetMapping("/total-admins")
+    @ResponseStatus(HttpStatus.OK)
+    public List<AdminDTO> getAdmins(){
+        return adminService.getAdmins();
+    }
+
+    @GetMapping("/name/{name}")
+    @ResponseStatus(HttpStatus.OK)
+    public List <AdminDTO> byName(@PathVariable("name") String name){
+        return adminService.getByName(name);
+    }
+
+    @GetMapping("/username/{username}")
+    @ResponseStatus(HttpStatus.OK)
+    public AdminDTO byUserName(@PathVariable("username") String username){
+        return adminService.getByUserName(username);
+    }
 
     @GetMapping("/account-balance/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Money getMyBalance(@PathVariable("id") Long  id) throws Exception {
 
         return adminService.getBalanceByAccount(id);
+    }
+
+    @GetMapping("/typus/{types}/account-id/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Object getByAccountId (@PathVariable("types") String types, @PathVariable("id") Long  id) throws Exception {
+
+        return adminService.getAccountById(types, id);
+    }
+
+    @GetMapping("/third-party")
+    @ResponseStatus(HttpStatus.OK)
+    public List <ThirdPartyDTO> total(){
+        return adminService.total();
+    }
+
+    @GetMapping("/operations")
+    @ResponseStatus(HttpStatus.OK)
+    public List <Operations> gettotal(){
+        return adminService.getTotal();
     }
 
     @GetMapping("/user-balance/{id}")
@@ -132,12 +171,6 @@ public class AdminController {
     //******************************************************************************************
     //OPERATIONS AREA
     //******************************************************************************************
-
-    /*
-    @PatchMapping("/id-user/{idUser}/id/{id}/name/{name}/ammount/{ammount}")
-    public Account makeAtransfer(@PathVariable("idUser") long idUser, @PathVariable("id") long id, @PathVariable("name") String name, @PathVariable("ammount")BigDecimal ammount) throws Exception {
-        return operationService.transfer(idUser, id, name, ammount);
-    }*/
 
     @PatchMapping("/make-a-transfer")
     @ResponseStatus(HttpStatus.ACCEPTED)

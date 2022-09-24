@@ -6,6 +6,8 @@ import com.ironhack.ironbank_monolit.model.user.AccountHolder;
 import com.ironhack.ironbank_monolit.repository.user.AccountHolderRepository;
 import com.ironhack.ironbank_monolit.service.user.AccountHolderService;
 import com.ironhack.ironbank_monolit.serviceImpl.account.AccountServiceImpl;
+import com.ironhack.ironbank_monolit.validation.OperationServiceImpl;
+import com.ironhack.ironbank_monolit.validation.Operations;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,9 +20,12 @@ public class AccountHolderServiceImpl implements AccountHolderService {
 
     private final AccountServiceImpl accountService;
 
-    public AccountHolderServiceImpl(AccountHolderRepository accountHolderRepository, AccountServiceImpl accountService) {
+    private final OperationServiceImpl operationService;
+
+    public AccountHolderServiceImpl(AccountHolderRepository accountHolderRepository, AccountServiceImpl accountService, OperationServiceImpl operationService) {
         this.accountHolderRepository = accountHolderRepository;
         this.accountService = accountService;
+        this.operationService = operationService;
     }
 
     @Override
@@ -64,7 +69,7 @@ public class AccountHolderServiceImpl implements AccountHolderService {
         return namesOf;
     }
 
-
+    @Override
     public AccountHolderDTO save(AccountHolderDTO accountHolderDTO){
 
         var byInstance = AccountHolder.byDTO(accountHolderDTO);
@@ -79,6 +84,7 @@ public class AccountHolderServiceImpl implements AccountHolderService {
         accountHolderRepository.deleteById(id);
     }
 
+    @Override
     public List <Money> getBalanceByUser(Long id) throws Exception {
 
         List <Money> balance = new ArrayList<>();
@@ -90,5 +96,11 @@ public class AccountHolderServiceImpl implements AccountHolderService {
             balance.add(i.getBalance());
         }
         return balance;
+    }
+
+
+    @Override
+    public List<Operations> getTotal() {
+        return operationService.getTotal();
     }
 }

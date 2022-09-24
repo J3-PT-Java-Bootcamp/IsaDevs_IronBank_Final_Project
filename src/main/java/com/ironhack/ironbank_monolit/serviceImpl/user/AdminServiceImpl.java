@@ -3,6 +3,7 @@ package com.ironhack.ironbank_monolit.serviceImpl.user;
 import com.ironhack.ironbank_monolit.dto.accountDTO.*;
 import com.ironhack.ironbank_monolit.dto.userDTO.AccountHolderDTO;
 import com.ironhack.ironbank_monolit.dto.userDTO.AdminDTO;
+import com.ironhack.ironbank_monolit.dto.userDTO.ThirdPartyDTO;
 import com.ironhack.ironbank_monolit.model.account.*;
 import com.ironhack.ironbank_monolit.model.enums.AccountsType;
 import com.ironhack.ironbank_monolit.model.enums.Status;
@@ -11,6 +12,8 @@ import com.ironhack.ironbank_monolit.repository.user.AccountHolderRepository;
 import com.ironhack.ironbank_monolit.repository.user.AdminRepository;
 import com.ironhack.ironbank_monolit.service.user.AdminService;
 import com.ironhack.ironbank_monolit.serviceImpl.account.*;
+import com.ironhack.ironbank_monolit.validation.OperationServiceImpl;
+import com.ironhack.ironbank_monolit.validation.Operations;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -25,6 +28,7 @@ public class AdminServiceImpl implements AdminService {
 
     private final  AdminRepository adminRepository;
 
+    private  final AccountRepository accountRepository;
 
     //*/***************************** by services
 
@@ -40,10 +44,11 @@ public class AdminServiceImpl implements AdminService {
 
     private final AccountServiceImpl accountService;
 
+    private final OperationServiceImpl operationService;
 
-    private  final AccountRepository accountRepository;
+    private final ThirdPartyServiceImpl thirdPartyService;
 
-    public AdminServiceImpl(AccountHolderRepository accountHolderRepository, AdminRepository adminRepository, AccountHolderServiceImpl accountHolderService, CheckingServiceImpl checkingService, StudentCheckingServiceImpl studentCheckingService, CreditServiceImpl creditService, SavingServiceImpl savingService, AccountServiceImpl accountService, AccountRepository accountRepository) {
+    public AdminServiceImpl(AccountHolderRepository accountHolderRepository, AdminRepository adminRepository, AccountHolderServiceImpl accountHolderService, CheckingServiceImpl checkingService, StudentCheckingServiceImpl studentCheckingService, CreditServiceImpl creditService, SavingServiceImpl savingService, AccountServiceImpl accountService, AccountRepository accountRepository, OperationServiceImpl operationService, ThirdPartyServiceImpl thirdPartyService) {
         this.accountHolderRepository = accountHolderRepository;
         this.adminRepository = adminRepository;
         this.accountHolderService = accountHolderService;
@@ -53,6 +58,8 @@ public class AdminServiceImpl implements AdminService {
         this.savingService = savingService;
         this.accountService = accountService;
         this.accountRepository = accountRepository;
+        this.operationService = operationService;
+        this.thirdPartyService = thirdPartyService;
     }
 
 
@@ -67,7 +74,27 @@ public class AdminServiceImpl implements AdminService {
         return null;
     }
 
+    @Override
+    public AdminDTO getByUserName(String name) {
+        var username = adminRepository.findByUserName(name);
+
+        return AdminDTO.byObject(username);
+    }
+
+    @Override
+    public List<AdminDTO> getByName(String name) {
+        var names = adminRepository.findByName(name);
+        List <AdminDTO> namespace = new ArrayList<>();
+
+        for(var i : names){
+            namespace.add(AdminDTO.byObject(i));
+        }
+
+        return namespace;
+    }
+
     //****************************************************************************************
+    @Override
     public List <Object> getTotal(String typus){
 
         AccountsType type = AccountsType.valueOf(typus.toUpperCase());
@@ -143,7 +170,7 @@ public class AdminServiceImpl implements AdminService {
 
         accountHolderService.save(accountHolderDTO);
 
-        var primaryOwner = accountHolderRepository.findById(accountHolderRepository.count() - 1).orElseThrow();
+        var primaryOwner = accountHolderRepository.findById(accountHolderRepository.count()).orElseThrow();
 
         System.out.println(primaryOwner);
 
@@ -222,6 +249,7 @@ public class AdminServiceImpl implements AdminService {
     //  THIS METHOD SEARCH THE BALANCE IN A SPECIFIC ACCOUNT
     //************************************************************
 
+    @Override
     public Money getBalanceByAccount(Long id) throws Exception {
 
         if (accountService.getById(id) == null){
@@ -237,7 +265,7 @@ public class AdminServiceImpl implements AdminService {
     //  THIS METHOD SEARCH THE BALANCE FOR A SPECIFIC USER, THIS USER COULD HAVE MANY ACCOUNTS
 
     //************************************************************
-
+    @Override
     public List <Money> getBalanceByUser(Long id) throws Exception {
 
         List <Money> balance = new ArrayList<>();
@@ -256,6 +284,7 @@ public class AdminServiceImpl implements AdminService {
 
     //************************************************************
 
+    @Override
     public Account modifyBalance(Long id, BigDecimal balance){
 
         var newVal = accountRepository.findById(id).orElseThrow();
@@ -271,7 +300,7 @@ public class AdminServiceImpl implements AdminService {
     //  THIS METHOD DELETE ACCOUNTS BY ID
 
     //************************************************************
-
+    @Override
     public void deleteAccount(Long id) throws Exception {
         if(accountService.getById(id) == null){
             throw new Exception("Nonexistent account with that id");
@@ -287,6 +316,7 @@ public class AdminServiceImpl implements AdminService {
 
     //************************************************************
 
+    @Override
     public void deleteUser(Long id) throws Exception {
         if(accountHolderService.byId(id) == null){
             throw new Exception("Nonexistent account with that id");
@@ -294,6 +324,16 @@ public class AdminServiceImpl implements AdminService {
         System.out.println("Delete OK");
         accountHolderService.deleteUser(id);
 
+    }
+
+    @Override
+    public List<ThirdPartyDTO> total() {
+        return thirdPartyService.total();
+    }
+
+    @Override
+    public List<Operations> getTotal() {
+        return operationService.getTotal();
     }
 
 }

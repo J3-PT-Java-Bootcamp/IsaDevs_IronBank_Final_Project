@@ -1,9 +1,11 @@
 package com.ironhack.ironbank_monolit.controller.user;
 
+import com.ironhack.ironbank_monolit.dto.registerDTO.NewRegisterDTO;
 import com.ironhack.ironbank_monolit.model.account.Account;
 import com.ironhack.ironbank_monolit.model.account.Money;
 import com.ironhack.ironbank_monolit.serviceImpl.user.AccountHolderServiceImpl;
 import com.ironhack.ironbank_monolit.validation.OperationServiceImpl;
+import com.ironhack.ironbank_monolit.validation.Operations;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,9 +34,17 @@ public class AccountHolderController {
         return accountHolderService.getBalanceByUser(id);
     }
 
-    /*@PatchMapping("/id-user/{idUser}/id-account/{id}/name/{name}/ammount/{ammount}")
-    public Account makeAtransfer(@PathVariable("idUser") long idUser, @PathVariable("id") long id, @PathVariable("name") String name, @PathVariable("ammount") BigDecimal ammount) throws Exception {
-        return operationService.transfer(idUser, id, name, ammount);
-    }*/
+    @PatchMapping("/make-a-transfer")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Account makeAtransfer(@RequestBody NewRegisterDTO newRegisterDTO) throws Exception {
+
+        return operationService.transfer(newRegisterDTO.getPrimary(), newRegisterDTO.getId(), newRegisterDTO.getName(), newRegisterDTO.getBalance(), newRegisterDTO.getRol(), newRegisterDTO.getSecretId());
+    }
+
+    @GetMapping("/operations")
+    @ResponseStatus(HttpStatus.OK)
+    public List <Operations> gettotal(){
+        return accountHolderService.getTotal();
+    }
 
 }

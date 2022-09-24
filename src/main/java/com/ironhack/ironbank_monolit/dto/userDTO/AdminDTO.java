@@ -14,10 +14,12 @@ import lombok.Setter;
 public class AdminDTO {
 
     private String name;
+    private String secret;
+    private String userName;
 
     public static AdminDTO byObject(Admin admin){
 
-        return new AdminDTO(admin.getName());
+        return new AdminDTO(admin.getName(), admin.getSecret(), admin.getUserName());
     }
 
 }
